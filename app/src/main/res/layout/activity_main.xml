@@ -16,7 +16,7 @@
         app:menu="@menu/bottom_nav_menu" />
 
     <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/fragmentContainerView"
+        android:id="@+id/mainFragmentContainer"
         android:name="com.KKDev.kosmat.listkamarFragment"
         android:layout_width="0dp"
         android:layout_height="0dp"
