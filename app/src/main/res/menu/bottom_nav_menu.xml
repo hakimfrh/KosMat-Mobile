@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:id="kamar"
+    <item android:id="@+id/dashboard"
+        android:title="Dashboard"
+        android:icon="@drawable/round_home_24"
+        />
+    <item android:id="@+id/kamar"
         android:title="Kamar"
         android:icon="@drawable/round_bedroom_parent_24"
         />
