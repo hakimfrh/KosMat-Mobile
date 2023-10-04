@@ -23,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
-        loadFragment(new DashboardFragment());
+        loadFragment(new loginFragment());
 
         bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override
