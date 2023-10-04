@@ -16,10 +16,10 @@ public class listkamarFragment extends Fragment {
     private RecyclerView recyclerView;
 
     Object[][] data = {
-            {R.drawable.kamar1, "Kamar 1", "Penghuni: Angga","Kamar Mandi: Dalam","Fasilitas: AC"},
-            {R.drawable.kamar2, "Kamar 2", "Penghuni: Rama", "Kamar Mandi: Dalam","Fasilitas: AC"},
-            {R.drawable.kamar3, "Kamar 3", "Penghuni: Tahur", "Kamar Mandi: Luar","Fasilitas: AC"},
-            {R.drawable.kamar4, "Kamar 4", "Penghuni: Bayu", "Kamar Mandi: Luar","Fasilitas: AC"}
+            {R.drawable.kamar1, "Kamar 1", "Penghuni: Angga","Kamar Mandi: Dalam\nFasilitas: AC"},
+            {R.drawable.kamar2, "Kamar 2", "Penghuni: Rama", "Kamar Mandi: Dalam\nFasilitas: Kipas"},
+            {R.drawable.kamar3, "Kamar 3", "Penghuni: Tahur", "Kamar Mandi: Luar\nFasilitas: Blower"},
+            {R.drawable.kamar4, "Kamar 4", "Penghuni: Bayu", "Kamar Mandi: Luar\nFasilitas: Frezer daging"}
             // Add more rows as needed...
     };
     @Override
