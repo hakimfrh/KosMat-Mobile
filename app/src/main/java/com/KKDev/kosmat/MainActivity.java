@@ -34,6 +34,9 @@ public class MainActivity extends AppCompatActivity {
                 } else if (item.getItemId() == R.id.kamar) {
                     loadFragment(new listkamarFragment());
                     return true;
+                }else if (item.getItemId() == R.id.User) {
+                    loadFragment(new userFragment());
+                    return true;
                 }
                 return false;
             }

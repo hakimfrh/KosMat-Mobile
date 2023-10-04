@@ -16,10 +16,10 @@ public class listkamarFragment extends Fragment {
     private RecyclerView recyclerView;
 
     Object[][] data = {
-            {R.drawable.kamar1, "Kamar 1", "Kamar Mandi: Luar"},
-            {R.drawable.kamar2, "Kamar 2", "Kamar Mandi: Luar"},
-            {R.drawable.kamar3, "Kamar 3", "Kamar Mandi: Luar"},
-            {R.drawable.kamar4, "Kamar 4", "Kamar Mandi: Luar"}
+            {R.drawable.kamar1, "Kamar 1", "Penghuni: Angga","Kamar Mandi: Dalam","Fasilitas: AC"},
+            {R.drawable.kamar2, "Kamar 2", "Penghuni: Rama", "Kamar Mandi: Dalam","Fasilitas: AC"},
+            {R.drawable.kamar3, "Kamar 3", "Penghuni: Tahur", "Kamar Mandi: Luar","Fasilitas: AC"},
+            {R.drawable.kamar4, "Kamar 4", "Penghuni: Bayu", "Kamar Mandi: Luar","Fasilitas: AC"}
             // Add more rows as needed...
     };
     @Override
@@ -32,7 +32,7 @@ public class listkamarFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
 
-        cardAdapter adapter = new cardAdapter(data);
+        cardAdapter adapter = new cardAdapter(getContext(),data);
         recyclerView.setAdapter(adapter);
 
         return view;
