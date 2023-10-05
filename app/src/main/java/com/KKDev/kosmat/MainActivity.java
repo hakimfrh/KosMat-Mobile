@@ -1,11 +1,13 @@
 package com.KKDev.kosmat;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.MenuItem;
 
@@ -39,6 +41,29 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+        public void onBackPressed() {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+            builder.setTitle("Exit")
+                    .setMessage("mau keluar?")
+                    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            // Close the app
+                            finishAffinity();
+                        }
+                    })
+                    .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            // Dismiss the dialog
+                            dialog.dismiss();
+                        }
+                    });
+
+            AlertDialog dialog = builder.create();
+            dialog.show();
+        }
 
     private void loadFragment(Fragment fragment){
         FragmentManager fm = getSupportFragmentManager();

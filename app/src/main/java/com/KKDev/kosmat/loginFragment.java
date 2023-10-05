@@ -1,9 +1,11 @@
 package com.KKDev.kosmat;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
@@ -21,7 +23,7 @@ public class loginFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_login, container, false);
 
         TextView buttonTextView = view.findViewById(R.id.btn_GotoRegister);
-
+        Button btn_login = view.findViewById(R.id.btn_Login);
         buttonTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -29,7 +31,13 @@ public class loginFragment extends Fragment {
                 openDestinationFragmentWithTransitions(view, new registerFragment());
             }
         });
-
+        btn_login.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), MainActivity.class);
+                startActivity(intent);
+            }
+        });
         return view;
     }
     private void openDestinationFragmentWithTransitions(View view,Fragment destinationFragment) {
@@ -53,6 +61,7 @@ public class loginFragment extends Fragment {
         transaction.addSharedElement(view.findViewById(R.id.btn_Login), "shared_button");
         transaction.addSharedElement(view.findViewById(R.id.btn_GotoRegister), "shared_button2");
         transaction.addSharedElement(view.findViewById(R.id.tv_belumPunyaAkun), "shared_textView");
+        transaction.addSharedElement(view.findViewById(R.id.cardView), "shared_card");
         transaction.commit();
     }
 }

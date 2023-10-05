@@ -43,6 +43,7 @@
         android:layout_marginTop="30dp"
         android:layout_marginBottom="9dp"
         android:backgroundTint="@color/primary"
+        android:transitionName="shared_card"
         app:cardCornerRadius="20dp"
         app:cardElevation="5dp"
         app:layout_constraintBottom_toTopOf="@+id/sudahpunyaakun"
@@ -66,8 +67,8 @@
                     android:layout_height="wrap_content"
                     android:text="Nama"
                     android:transitionName="shared_txtUsername"
-                    app:layout_constraintBottom_toTopOf="@+id/editTextText2"
-                    app:layout_constraintStart_toStartOf="@+id/editTextText2"
+                    app:layout_constraintBottom_toTopOf="@+id/txt_namaLengkap"
+                    app:layout_constraintStart_toStartOf="@+id/txt_namaLengkap"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
@@ -76,50 +77,63 @@
                     android:layout_height="wrap_content"
                     android:text="E-mail"
 
-                    app:layout_constraintBottom_toTopOf="@+id/editTextText2ada"
-                    app:layout_constraintStart_toStartOf="@+id/editTextText2ada" />
+                    app:layout_constraintBottom_toTopOf="@+id/txt_email"
+                    app:layout_constraintStart_toStartOf="@+id/txt_email" />
 
-                <EditText
-                    android:id="@+id/editTextText2"
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/txt_namaLengkap"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="24dp"
                     android:layout_marginEnd="24dp"
-                    android:ems="10"
                     android:hint="Masukkan Nama Lengkap"
-                    android:inputType="text"
-                    android:text=""
-                    android:transitionName="shared_username"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/textView4" />
+                    app:layout_constraintTop_toBottomOf="@+id/textView4" >
 
-                <EditText
-                    android:id="@+id/editTextText2ada"
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ems="10"
+                        android:text=""
+                        android:inputType="text" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/txt_email"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="40dp"
-                    android:ems="10"
                     android:hint="Masukkan E-mail"
-                    android:inputType="text"
-                    android:text=""
-                    android:transitionName="shared_username"
-                    app:layout_constraintEnd_toEndOf="@+id/editTextText2"
-                    app:layout_constraintStart_toStartOf="@+id/editTextText2"
-                    app:layout_constraintTop_toBottomOf="@+id/editTextText2" />
+                    app:layout_constraintEnd_toEndOf="@+id/txt_namaLengkap"
+                    app:layout_constraintStart_toStartOf="@+id/txt_namaLengkap"
+                    app:layout_constraintTop_toBottomOf="@+id/txt_namaLengkap">
 
-                <EditText
-                    android:id="@+id/editTextText3"
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ems="10"
+                        android:inputType="text"
+                        android:text="" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/txt_regUsername"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="40dp"
                     android:ems="10"
                     android:hint="Masukkan Username"
-                    android:inputType="text"
-                    android:text=""
                     app:layout_constraintEnd_toEndOf="@+id/datepick"
-                    app:layout_constraintStart_toStartOf="@+id/tanggalLahir"
-                    app:layout_constraintTop_toBottomOf="@+id/agama" />
+                    app:layout_constraintStart_toStartOf="@+id/txt_tglLahir"
+                    app:layout_constraintTop_toBottomOf="@+id/agama" >
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text=""
+                        android:inputType="text" />
+                </com.google.android.material.textfield.TextInputLayout>
 
                 <TextView
                     android:id="@+id/textVieww"
@@ -135,9 +149,9 @@
                     android:layout_height="40dp"
                     android:layout_marginTop="40dp"
                     android:orientation="horizontal"
-                    app:layout_constraintEnd_toEndOf="@+id/editTextText2ada"
-                    app:layout_constraintStart_toStartOf="@+id/editTextText2ada"
-                    app:layout_constraintTop_toBottomOf="@+id/editTextText2ada">
+                    app:layout_constraintEnd_toEndOf="@+id/txt_email"
+                    app:layout_constraintStart_toStartOf="@+id/txt_email"
+                    app:layout_constraintTop_toBottomOf="@+id/txt_email">
 
                     <RadioButton
                         android:id="@+id/radio_laki"
@@ -153,7 +167,7 @@
                 </RadioGroup>
 
                 <EditText
-                    android:id="@+id/tanggalLahir"
+                    android:id="@+id/txt_tglLahir"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="40dp"
@@ -171,9 +185,9 @@
                     android:layout_height="0dp"
                     android:padding="6dp"
                     android:src="@drawable/baseline_date_range_24"
-                    app:layout_constraintBottom_toBottomOf="@+id/tanggalLahir"
+                    app:layout_constraintBottom_toBottomOf="@+id/txt_tglLahir"
                     app:layout_constraintEnd_toEndOf="@+id/radioGroup"
-                    app:layout_constraintTop_toTopOf="@+id/tanggalLahir"
+                    app:layout_constraintTop_toTopOf="@+id/txt_tglLahir"
                     app:layout_constraintVertical_bias="1.0" />
 
                 <TextView
@@ -181,45 +195,40 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Tanggal Lahir"
-                    app:layout_constraintBottom_toTopOf="@+id/tanggalLahir"
-                    app:layout_constraintStart_toStartOf="@+id/tanggalLahir" />
+                    app:layout_constraintBottom_toTopOf="@+id/txt_tglLahir"
+                    app:layout_constraintStart_toStartOf="@+id/txt_tglLahir" />
 
-                <EditText
-                    android:id="@+id/editTextTextPassword2"
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/txt_regPassword"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="40dp"
                     android:ems="10"
                     android:hint="Masukkan Password"
-                    android:inputType="textPassword"
-                    android:transitionName="shared_password"
-                    app:layout_constraintEnd_toEndOf="@+id/editTextText3"
-                    app:layout_constraintStart_toStartOf="@+id/editTextText3"
-                    app:layout_constraintTop_toBottomOf="@+id/editTextText3" />
+                    app:passwordToggleEnabled="true"
+                    app:layout_constraintEnd_toEndOf="@+id/txt_regUsername"
+                    app:layout_constraintStart_toStartOf="@+id/txt_regUsername"
+                    app:layout_constraintTop_toBottomOf="@+id/txt_regUsername" >
 
-                <LinearLayout
-                    android:id="@+id/linearLayout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="24dp"
-                    android:orientation="horizontal"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/editTextTextPassword2">
-
-                    <ImageView
-                        android:id="@+id/camera"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:src="@drawable/baseline_camera_alt_24" />
-
-                    <ImageView
-                        android:id="@+id/hasilfoto"
-                        android:layout_width="wrap_content"
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp" />
+                        android:inputType="textPassword" />
+                </com.google.android.material.textfield.TextInputLayout>
 
-                </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/btn_camera"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginTop="40dp"
+                    android:src="@drawable/baseline_camera_alt_24"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="@+id/txt_regPassword"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="@+id/txt_regPassword"
+                    app:layout_constraintTop_toBottomOf="@+id/txt_regPassword"
+                    app:layout_constraintVertical_bias="0.0" />/>
 
 
                 <TextView
@@ -227,8 +236,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Username"
-                    app:layout_constraintBottom_toTopOf="@+id/editTextText3"
-                    app:layout_constraintStart_toStartOf="@+id/editTextText3" />
+                    app:layout_constraintBottom_toTopOf="@+id/txt_regUsername"
+                    app:layout_constraintStart_toStartOf="@+id/txt_regUsername" />
 
                 <TextView
                     android:id="@+id/textView8"
@@ -236,8 +245,8 @@
                     android:layout_height="wrap_content"
                     android:text="Password"
                     android:transitionName="shared_txtPassword"
-                    app:layout_constraintBottom_toTopOf="@+id/editTextTextPassword2"
-                    app:layout_constraintStart_toStartOf="@+id/editTextTextPassword2" />
+                    app:layout_constraintBottom_toTopOf="@+id/txt_regPassword"
+                    app:layout_constraintStart_toStartOf="@+id/txt_regPassword" />
 
                 <TextView
                     android:id="@+id/textView2"
@@ -253,8 +262,17 @@
                     android:layout_height="40dp"
                     android:layout_marginTop="40dp"
                     app:layout_constraintEnd_toEndOf="@+id/datepick"
-                    app:layout_constraintStart_toStartOf="@+id/tanggalLahir"
-                    app:layout_constraintTop_toBottomOf="@+id/tanggalLahir" />
+                    app:layout_constraintStart_toStartOf="@+id/txt_tglLahir"
+                    app:layout_constraintTop_toBottomOf="@+id/txt_tglLahir" />
+
+                <TextView
+                    android:id="@+id/tx_emailNotValid"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Masukkan E-Mail yang valid"
+                    android:textColor="#A11414"
+                    app:layout_constraintBottom_toTopOf="@+id/txt_email"
+                    app:layout_constraintEnd_toEndOf="@+id/txt_email" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>
