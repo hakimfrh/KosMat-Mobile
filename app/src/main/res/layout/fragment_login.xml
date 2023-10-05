@@ -16,23 +16,26 @@
         android:id="@+id/logo"
         android:layout_width="180dp"
         android:layout_height="180dp"
+        android:src="@drawable/logokosmat"
         android:transitionName="shared_logo"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/cardView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.1"
-        tools:src="@tools:sample/avatars"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.cardview.widget.CardView
+
+        android:id="@+id/cardView"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/logo"
+        android:layout_height="wrap_content"
         android:layout_margin="20dp"
+        android:backgroundTint="@color/primary"
         app:cardCornerRadius="20dp"
         app:cardElevation="6dp"
-        android:backgroundTint="@color/primary">
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -41,10 +44,11 @@
                 android:id="@+id/btn_Login"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
+                android:layout_marginTop="50dp"
+                android:layout_marginBottom="10dp"
                 android:backgroundTint="@color/primaryDark"
-                android:text="Login"
                 android:fontFamily="@font/archivo"
+                android:text="Login"
                 android:textColor="@color/white"
                 android:textSize="17sp"
                 android:transitionName="shared_button"
@@ -80,8 +84,8 @@
                 android:layout_marginTop="40dp"
                 android:layout_marginEnd="24dp"
                 android:ems="10"
-                android:inputType="text"
                 android:hint="Masukkan Username"
+                android:inputType="text"
                 android:transitionName="shared_username"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -120,8 +124,8 @@
                 android:layout_marginTop="30dp"
                 android:layout_marginEnd="11dp"
                 android:fontFamily="@font/archivo_bold"
-                android:text="LOGIN"
-                android:textColor="@color/white"
+                android:text="Login"
+                android:textColor="@color/black"
                 android:textSize="28dp"
                 android:textStyle="bold"
                 android:transitionName="shared_text"
@@ -150,18 +154,8 @@
                 android:text="Belum Punya Akun ?"
                 android:transitionName="shared_textView"
                 app:layout_constraintStart_toStartOf="@+id/txt_password"
-                tools:layout_editor_absoluteY="282dp" />
-
-            <ImageView
-                android:id="@+id/camera"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:src="@drawable/baseline_camera_alt_24"
-                app:layout_constraintBottom_toTopOf="@+id/tv_belumPunyaAkun"
-                app:layout_constraintEnd_toEndOf="@+id/tv_belumPunyaAkun"
-                app:layout_constraintHorizontal_bias="0.2"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/txt_password" />
+
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

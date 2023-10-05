@@ -4,14 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".loginFragment"
-    tools:layout_editor_absoluteX="-2dp"
-    tools:layout_editor_absoluteY="45dp"
-    >
-
-
-    <!-- TODO: Update blank fragment layout -->
-
+    tools:context=".loginFragment">
 
     <ImageView
         android:id="@+id/logo"
@@ -33,134 +26,280 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
+        android:fontFamily="@font/archivo_bold"
         android:text="Register"
         android:textSize="28dp"
         android:textStyle="bold"
         android:transitionName="shared_text"
         app:layout_constraintBottom_toBottomOf="@+id/logo"
-        app:layout_constraintStart_toEndOf="@+id/logo"/>
+        app:layout_constraintStart_toEndOf="@+id/logo" />
 
-    <EditText
-        android:id="@+id/editTextText2"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="40dp"
-        android:layout_marginEnd="24dp"
-        android:ems="10"
-        android:inputType="text"
-        android:text=""
-        android:hint="Masukkan Nama Lengkap"
-        android:transitionName="shared_username"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/logo" />
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardview"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginBottom="9dp"
+        android:backgroundTint="@color/primary"
+        app:cardCornerRadius="20dp"
+        app:cardElevation="5dp"
+        app:layout_constraintBottom_toTopOf="@+id/sudahpunyaakun"
+        app:layout_constraintTop_toBottomOf="@+id/logo">
 
-    <EditText
-        android:id="@+id/editTextText3"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
-        android:ems="10"
-        android:inputType="text"
-        android:text=""
-        android:hint="Masukkan Username"
-        app:layout_constraintEnd_toEndOf="@+id/editTextText2"
-        app:layout_constraintStart_toStartOf="@+id/editTextText2"
-        app:layout_constraintTop_toBottomOf="@+id/editTextText2" />
+        <ScrollView
+            android:id="@+id/scrollview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-    <EditText
-        android:id="@+id/editTextPhone"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
-        android:ems="10"
-        android:inputType="phone"
-        android:hint="Masukan Nomor WhatsApp"
-        app:layout_constraintEnd_toEndOf="@+id/editTextText3"
-        app:layout_constraintStart_toStartOf="@+id/editTextText3"
-        app:layout_constraintTop_toBottomOf="@+id/editTextText3" />
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="30dp"
+                android:paddingBottom="30dp">
 
-    <EditText
-        android:id="@+id/editTextTextPassword2"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
-        android:ems="10"
-        android:hint="Masukkan Password"
-        android:inputType="textPassword"
-        android:transitionName="shared_password"
-        app:layout_constraintEnd_toEndOf="@+id/editTextPhone"
-        app:layout_constraintStart_toStartOf="@+id/editTextPhone"
-        app:layout_constraintTop_toBottomOf="@+id/editTextPhone" />
+
+                <TextView
+                    android:id="@+id/textView4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Nama"
+                    android:transitionName="shared_txtUsername"
+                    app:layout_constraintBottom_toTopOf="@+id/editTextText2"
+                    app:layout_constraintStart_toStartOf="@+id/editTextText2"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/textView4dafa"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="E-mail"
+
+                    app:layout_constraintBottom_toTopOf="@+id/editTextText2ada"
+                    app:layout_constraintStart_toStartOf="@+id/editTextText2ada" />
+
+                <EditText
+                    android:id="@+id/editTextText2"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginEnd="24dp"
+                    android:ems="10"
+                    android:hint="Masukkan Nama Lengkap"
+                    android:inputType="text"
+                    android:text=""
+                    android:transitionName="shared_username"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/textView4" />
+
+                <EditText
+                    android:id="@+id/editTextText2ada"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="40dp"
+                    android:ems="10"
+                    android:hint="Masukkan E-mail"
+                    android:inputType="text"
+                    android:text=""
+                    android:transitionName="shared_username"
+                    app:layout_constraintEnd_toEndOf="@+id/editTextText2"
+                    app:layout_constraintStart_toStartOf="@+id/editTextText2"
+                    app:layout_constraintTop_toBottomOf="@+id/editTextText2" />
+
+                <EditText
+                    android:id="@+id/editTextText3"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="40dp"
+                    android:ems="10"
+                    android:hint="Masukkan Username"
+                    android:inputType="text"
+                    android:text=""
+                    app:layout_constraintEnd_toEndOf="@+id/datepick"
+                    app:layout_constraintStart_toStartOf="@+id/tanggalLahir"
+                    app:layout_constraintTop_toBottomOf="@+id/agama" />
+
+                <TextView
+                    android:id="@+id/textVieww"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Jenis Kelamin"
+                    app:layout_constraintBottom_toTopOf="@+id/radioGroup"
+                    app:layout_constraintStart_toStartOf="@+id/radioGroup" />
+
+                <RadioGroup
+                    android:id="@+id/radioGroup"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="40dp"
+                    android:orientation="horizontal"
+                    app:layout_constraintEnd_toEndOf="@+id/editTextText2ada"
+                    app:layout_constraintStart_toStartOf="@+id/editTextText2ada"
+                    app:layout_constraintTop_toBottomOf="@+id/editTextText2ada">
+
+                    <RadioButton
+                        android:id="@+id/radio_laki"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Laki Laki" />
+
+                    <RadioButton
+                        android:id="@+id/radio_perempuan"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Perempuan" />
+                </RadioGroup>
+
+                <EditText
+                    android:id="@+id/tanggalLahir"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="40dp"
+                    android:clickable="false"
+                    android:ems="10"
+                    android:hint="Masukkan Tanggal Lahir"
+                    android:inputType="phone"
+                    app:layout_constraintEnd_toStartOf="@+id/datepick"
+                    app:layout_constraintStart_toStartOf="@+id/radioGroup"
+                    app:layout_constraintTop_toBottomOf="@+id/radioGroup" />
+
+                <ImageView
+                    android:id="@+id/datepick"
+                    android:layout_width="50dp"
+                    android:layout_height="0dp"
+                    android:padding="6dp"
+                    android:src="@drawable/baseline_date_range_24"
+                    app:layout_constraintBottom_toBottomOf="@+id/tanggalLahir"
+                    app:layout_constraintEnd_toEndOf="@+id/radioGroup"
+                    app:layout_constraintTop_toTopOf="@+id/tanggalLahir"
+                    app:layout_constraintVertical_bias="1.0" />
+
+                <TextView
+                    android:id="@+id/textView7"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Tanggal Lahir"
+                    app:layout_constraintBottom_toTopOf="@+id/tanggalLahir"
+                    app:layout_constraintStart_toStartOf="@+id/tanggalLahir" />
+
+                <EditText
+                    android:id="@+id/editTextTextPassword2"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="40dp"
+                    android:ems="10"
+                    android:hint="Masukkan Password"
+                    android:inputType="textPassword"
+                    android:transitionName="shared_password"
+                    app:layout_constraintEnd_toEndOf="@+id/editTextText3"
+                    app:layout_constraintStart_toStartOf="@+id/editTextText3"
+                    app:layout_constraintTop_toBottomOf="@+id/editTextText3" />
+
+                <LinearLayout
+                    android:id="@+id/linearLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="24dp"
+                    android:orientation="horizontal"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/editTextTextPassword2">
+
+                    <ImageView
+                        android:id="@+id/camera"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:src="@drawable/baseline_camera_alt_24" />
+
+                    <ImageView
+                        android:id="@+id/hasilfoto"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp" />
+
+                </LinearLayout>
+
+
+                <TextView
+                    android:id="@+id/textView6"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Username"
+                    app:layout_constraintBottom_toTopOf="@+id/editTextText3"
+                    app:layout_constraintStart_toStartOf="@+id/editTextText3" />
+
+                <TextView
+                    android:id="@+id/textView8"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Password"
+                    android:transitionName="shared_txtPassword"
+                    app:layout_constraintBottom_toTopOf="@+id/editTextTextPassword2"
+                    app:layout_constraintStart_toStartOf="@+id/editTextTextPassword2" />
+
+                <TextView
+                    android:id="@+id/textView2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Agama"
+                    app:layout_constraintBottom_toTopOf="@+id/agama"
+                    app:layout_constraintStart_toStartOf="@+id/agama" />
+
+                <Spinner
+                    android:id="@+id/agama"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="40dp"
+                    app:layout_constraintEnd_toEndOf="@+id/datepick"
+                    app:layout_constraintStart_toStartOf="@+id/tanggalLahir"
+                    app:layout_constraintTop_toBottomOf="@+id/tanggalLahir" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </ScrollView>
+    </androidx.cardview.widget.CardView>
 
     <TextView
-        android:id="@+id/textView4"
+        android:id="@+id/sudahpunyaakun"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Nama"
-        android:transitionName="shared_txtUsername"
-        app:layout_constraintBottom_toTopOf="@+id/editTextText2"
-        app:layout_constraintStart_toStartOf="@+id/editTextText2" />
-
-    <TextView
-        android:id="@+id/textView6"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Username"
-        app:layout_constraintBottom_toTopOf="@+id/editTextText3"
-        app:layout_constraintStart_toStartOf="@+id/editTextText3" />
-
-    <TextView
-        android:id="@+id/textView7"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="No Whatsapp"
-        app:layout_constraintBottom_toTopOf="@+id/editTextPhone"
-        app:layout_constraintStart_toStartOf="@+id/editTextPhone" />
-
-    <TextView
-        android:id="@+id/textView8"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Password"
-        android:transitionName="shared_txtPassword"
-        app:layout_constraintBottom_toTopOf="@+id/editTextTextPassword2"
-        app:layout_constraintStart_toStartOf="@+id/editTextTextPassword2" />
-
-    <TextView
-        android:id="@+id/textView9"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginLeft="24dp"
+        android:layout_marginBottom="20dp"
         android:text="Sudah Memiliki Akun ?"
         android:textSize="14sp"
         android:transitionName="shared_textView"
-        app:layout_constraintStart_toStartOf="@+id/editTextTextPassword2"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextPassword2" />
+        app:layout_constraintBottom_toTopOf="@+id/btn_Register"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/btn_GotoLogin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:clickable="true"
+        android:paddingLeft="4dp"
+        android:focusable="true"
         android:text="Login"
         android:textColor="#3F51B5"
         android:textSize="14sp"
-        android:clickable="true"
-        android:focusable="true"
         android:transitionName="shared_button2"
-        app:layout_constraintEnd_toEndOf="@+id/editTextTextPassword2"
-        app:layout_constraintTop_toTopOf="@+id/textView9" />
+        app:layout_constraintBottom_toBottomOf="@+id/sudahpunyaakun"
+        app:layout_constraintStart_toEndOf="@+id/sudahpunyaakun"
+        app:layout_constraintTop_toTopOf="@+id/sudahpunyaakun" />
 
     <Button
         android:id="@+id/btn_Register"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="100dp"
+        android:layout_marginBottom="10dp"
+        android:backgroundTint="@color/primaryDark"
+        android:fontFamily="@font/archivo_bold"
         android:text="Daftar"
+        android:textColor="@color/white"
         android:transitionName="shared_button"
-        app:layout_constraintEnd_toEndOf="@+id/editTextTextPassword2"
-        app:layout_constraintStart_toStartOf="@+id/editTextTextPassword2"
-        app:layout_constraintTop_toBottomOf="@+id/textView9" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/cardview"
+        app:layout_constraintStart_toStartOf="@+id/cardview" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

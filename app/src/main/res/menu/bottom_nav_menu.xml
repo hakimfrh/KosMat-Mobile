@@ -4,10 +4,6 @@
         android:title="Dashboard"
         android:icon="@drawable/round_home_24"
         />
-    <item android:id="@+id/User"
-        android:title="User"
-        android:icon="@drawable/baseline_supervisor_account_24"
-        />
     <item android:id="@+id/kamar"
         android:title="Kamar"
         android:icon="@drawable/round_bedroom_parent_24"

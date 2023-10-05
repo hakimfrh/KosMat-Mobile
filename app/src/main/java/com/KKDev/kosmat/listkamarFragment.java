@@ -31,7 +31,6 @@ public class listkamarFragment extends Fragment {
         recyclerView = view.findViewById(R.id.kamarRecycleView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-
         cardAdapter adapter = new cardAdapter(getContext(),data);
         recyclerView.setAdapter(adapter);
 

@@ -42,7 +42,7 @@ public class loginFragment extends Fragment {
         destinationFragment.setSharedElementEnterTransition(transitionSet);
 
         FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
-        transaction.replace(R.id.mainFragmentContainer, destinationFragment); // Replace with the correct container ID
+        transaction.replace(R.id.logRegFragment, destinationFragment); // Replace with the correct container ID
         transaction.addToBackStack(null);
         transaction.addSharedElement(view.findViewById(R.id.logo), "shared_logo");
         transaction.addSharedElement(view.findViewById(R.id.textView3), "shared_text");

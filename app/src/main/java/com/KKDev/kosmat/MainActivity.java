@@ -23,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
-        loadFragment(new loginFragment());
+        loadFragment(new DashboardFragment());
 
         bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override
@@ -33,9 +33,6 @@ public class MainActivity extends AppCompatActivity {
                     return true;
                 } else if (item.getItemId() == R.id.kamar) {
                     loadFragment(new listkamarFragment());
-                    return true;
-                }else if (item.getItemId() == R.id.User) {
-                    loadFragment(new userFragment());
                     return true;
                 }
                 return false;
