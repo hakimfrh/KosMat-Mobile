@@ -149,10 +149,17 @@ public class registerFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getContext(), DescRegisterActivity.class);
-                RadioButton selectedButton = view.findViewById(rg_gender.getCheckedRadioButtonId());
+                int selectedRadioButtonId = rg_gender.getCheckedRadioButtonId();
+                String selectedValue;
+                if (selectedRadioButtonId != -1) {
+                    RadioButton selectedRadioButton = view.findViewById(selectedRadioButtonId);
+                    selectedValue = selectedRadioButton.getText().toString();
+                } else {
+                    selectedValue = "null";
+                }
                 intent.putExtra("nama", txt_nama.getText().toString());
                 intent.putExtra("email", txt_email.getText().toString());
-                intent.putExtra("gender", selectedButton.getText().toString());
+                intent.putExtra("gender", selectedValue);
                 intent.putExtra("tanggal", txt_tanggal.getText().toString());
                 intent.putExtra("agama", sp_agama.getSelectedItem().toString());
                 intent.putExtra("username", txt_username.getText().toString());
