@@ -80,15 +80,13 @@ public class registerFragment extends Fragment {
         TextInputEditText txt_username = (TextInputEditText) txtx_username.getEditText();
         TextInputEditText txt_password = (TextInputEditText) txtx_password.getEditText();
         txt_tanggal = view.findViewById(R.id.txt_tglLahir);
-        RadioGroup rg_gender = view.findViewById(R.id.radioGroup);
-        RadioButton rb_lakiLaki = view.findViewById(R.id.radio_laki);
-        RadioButton rb_perempuan = view.findViewById(R.id.radio_perempuan);
         Spinner sp_agama = view.findViewById(R.id.agama);
         TextView buttonTextView = view.findViewById(R.id.btn_GotoLogin);
         TextView tx_emailNotValid = view.findViewById(R.id.tx_emailNotValid);
         date = view.findViewById(R.id.datepick);
         btn_camera = view.findViewById(R.id.btn_camera);
         Button btn_register = view.findViewById(R.id.btn_Register);
+        RadioGroup rg_gender = view.findViewById(R.id.radioGroup);
         SimpleDateFormat dateFormatter = new SimpleDateFormat("dd-MM-yyyy");
 
         tx_emailNotValid.setVisibility(View.INVISIBLE);
@@ -151,9 +149,10 @@ public class registerFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getContext(), DescRegisterActivity.class);
+                RadioButton selectedButton = view.findViewById(rg_gender.getCheckedRadioButtonId());
                 intent.putExtra("nama", txt_nama.getText().toString());
                 intent.putExtra("email", txt_email.getText().toString());
-                intent.putExtra("gender", rb_lakiLaki.isChecked()?"Laki-Laki":"Perempuan");
+                intent.putExtra("gender", selectedButton.getText().toString());
                 intent.putExtra("tanggal", txt_tanggal.getText().toString());
                 intent.putExtra("agama", sp_agama.getSelectedItem().toString());
                 intent.putExtra("username", txt_username.getText().toString());
@@ -184,7 +183,7 @@ public class registerFragment extends Fragment {
 
             ConstraintLayout.LayoutParams params = (ConstraintLayout.LayoutParams) btn_camera.getLayoutParams();
             params.width = ConstraintLayout.LayoutParams.MATCH_CONSTRAINT;
-            params.height = ViewGroup.LayoutParams.WRAP_CONTENT;
+            params.height = 500;
             btn_camera.setLayoutParams(params);
         }
     }
