@@ -48,6 +48,7 @@ public class registerFragment extends Fragment {
     EditText txt_tanggal;
     ImageView btn_camera;
     Bitmap bitmap;
+    TextView tx_umurNotValid;
 
 
     @Override
@@ -83,6 +84,7 @@ public class registerFragment extends Fragment {
         Spinner sp_agama = view.findViewById(R.id.agama);
         TextView buttonTextView = view.findViewById(R.id.btn_GotoLogin);
         TextView tx_emailNotValid = view.findViewById(R.id.tx_emailNotValid);
+        tx_umurNotValid = view.findViewById(R.id.tx_umurNotValid);
         date = view.findViewById(R.id.datepick);
         btn_camera = view.findViewById(R.id.btn_camera);
         Button btn_register = view.findViewById(R.id.btn_Register);
@@ -90,6 +92,7 @@ public class registerFragment extends Fragment {
         SimpleDateFormat dateFormatter = new SimpleDateFormat("dd-MM-yyyy");
 
         tx_emailNotValid.setVisibility(View.INVISIBLE);
+        tx_umurNotValid.setVisibility(View.INVISIBLE);
 
         ArrayAdapter<String> adapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_spinner_item, dataAgama);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -206,6 +209,21 @@ public class registerFragment extends Fragment {
                     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                         // Update the EditText with the selected date
                         txt_tanggal.setText(dayOfMonth + "-" + (monthOfYear + 1) + "-" + year);
+
+                        // Calculate age
+                        Calendar dob = Calendar.getInstance();
+                        dob.set(year, monthOfYear, dayOfMonth);
+                        Calendar today = Calendar.getInstance();
+                        int age = today.get(Calendar.YEAR) - dob.get(Calendar.YEAR);
+
+                        // Check if age is not 18
+                        if (age <= 18) {
+                            // Show the "age not accepted" message
+                            tx_umurNotValid.setVisibility(View.VISIBLE);
+                        } else {
+                            // Hide the "age not accepted" message
+                            tx_umurNotValid.setVisibility(View.INVISIBLE);
+                        }
                     }
                 }, year, month, day);
 
