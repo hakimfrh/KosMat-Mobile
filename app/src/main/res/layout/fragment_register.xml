@@ -61,24 +61,24 @@
                 android:paddingBottom="30dp">
 
 
-                <TextView
-                    android:id="@+id/textView4"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Nama"
-                    android:transitionName="shared_txtUsername"
-                    app:layout_constraintBottom_toTopOf="@+id/txt_namaLengkap"
-                    app:layout_constraintStart_toStartOf="@+id/txt_namaLengkap"
-                    app:layout_constraintTop_toTopOf="parent" />
+<!--                <TextView-->
+<!--                    android:id="@+id/textView4"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:text="Nama"-->
+<!--                    android:transitionName="shared_txtUsername"-->
+<!--                    app:layout_constraintBottom_toTopOf="@+id/txt_namaLengkap"-->
+<!--                    app:layout_constraintStart_toStartOf="@+id/txt_namaLengkap"-->
+<!--                    app:layout_constraintTop_toTopOf="parent" />-->
 
-                <TextView
-                    android:id="@+id/textView4dafa"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="E-mail"
+<!--                <TextView-->
+<!--                    android:id="@+id/textView4dafa"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:text="E-mail"-->
 
-                    app:layout_constraintBottom_toTopOf="@+id/txt_email"
-                    app:layout_constraintStart_toStartOf="@+id/txt_email" />
+<!--                    app:layout_constraintBottom_toTopOf="@+id/txt_email"-->
+<!--                    app:layout_constraintStart_toStartOf="@+id/txt_email" />-->
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/txt_namaLengkap"
@@ -86,14 +86,19 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="24dp"
                     android:layout_marginEnd="24dp"
-                    android:hint="Masukkan Nama Lengkap"
+                    android:hint="Nama Lengkap"
+                    app:boxCornerRadiusBottomEnd="10dp"
+                    app:boxCornerRadiusBottomStart="10dp"
+                    app:boxCornerRadiusTopEnd="10dp"
+                    app:boxCornerRadiusTopStart="10dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView4" >
+                    app:layout_constraintTop_toTopOf="parent" >
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:fontFamily="@font/archivo"
                         android:ems="10"
                         android:text=""
                         android:inputType="text" />
@@ -103,8 +108,12 @@
                     android:id="@+id/txt_email"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="40dp"
-                    android:hint="Masukkan E-mail"
+                    android:layout_marginTop="20dp"
+                    android:hint="E-mail"
+                    app:boxCornerRadiusBottomEnd="10dp"
+                    app:boxCornerRadiusBottomStart="10dp"
+                    app:boxCornerRadiusTopEnd="10dp"
+                    app:boxCornerRadiusTopStart="10dp"
                     app:layout_constraintEnd_toEndOf="@+id/txt_namaLengkap"
                     app:layout_constraintStart_toStartOf="@+id/txt_namaLengkap"
                     app:layout_constraintTop_toBottomOf="@+id/txt_namaLengkap">
@@ -113,6 +122,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:ems="10"
+                        android:fontFamily="@font/archivo"
                         android:inputType="text"
                         android:text="" />
                 </com.google.android.material.textfield.TextInputLayout>
@@ -121,8 +131,12 @@
                     android:id="@+id/txt_regUsername"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="40dp"
+                    android:layout_marginTop="20dp"
                     android:ems="10"
+                    app:boxCornerRadiusBottomEnd="10dp"
+                    app:boxCornerRadiusBottomStart="10dp"
+                    app:boxCornerRadiusTopEnd="10dp"
+                    app:boxCornerRadiusTopStart="10dp"
                     android:hint="Masukkan Username"
                     app:layout_constraintEnd_toEndOf="@+id/datepick"
                     app:layout_constraintStart_toStartOf="@+id/txt_tglLahir"
@@ -131,7 +145,7 @@
                     <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text=""
+                        android:fontFamily="@font/archivo"
                         android:inputType="text" />
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -140,6 +154,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Jenis Kelamin"
+                    android:fontFamily="@font/archivo"
                     app:layout_constraintBottom_toTopOf="@+id/radioGroup"
                     app:layout_constraintStart_toStartOf="@+id/radioGroup" />
 
@@ -156,11 +171,13 @@
                     <RadioButton
                         android:id="@+id/radio_laki"
                         android:layout_width="wrap_content"
+                        android:fontFamily="@font/archivo"
                         android:layout_height="wrap_content"
                         android:text="Laki Laki" />
 
                     <RadioButton
                         android:id="@+id/radio_perempuan"
+                        android:fontFamily="@font/archivo"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Perempuan" />
@@ -168,13 +185,14 @@
 
                 <EditText
                     android:id="@+id/txt_tglLahir"
+                    android:fontFamily="@font/archivo"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="40dp"
+                    android:layout_marginTop="30dp"
                     android:clickable="false"
                     android:ems="10"
-                    android:hint="Masukkan Tanggal Lahir"
-                    android:inputType="phone"
+                    android:hint="Pilih Tanggal Lahir"
+                    android:inputType="none"
                     app:layout_constraintEnd_toStartOf="@+id/datepick"
                     app:layout_constraintStart_toStartOf="@+id/radioGroup"
                     app:layout_constraintTop_toBottomOf="@+id/radioGroup" />
@@ -202,8 +220,12 @@
                     android:id="@+id/txt_regPassword"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="40dp"
+                    android:layout_marginTop="20dp"
                     android:ems="10"
+                    app:boxCornerRadiusBottomEnd="10dp"
+                    app:boxCornerRadiusBottomStart="10dp"
+                    app:boxCornerRadiusTopEnd="10dp"
+                    app:boxCornerRadiusTopStart="10dp"
                     android:hint="Masukkan Password"
                     app:passwordToggleEnabled="true"
                     app:layout_constraintEnd_toEndOf="@+id/txt_regUsername"
@@ -213,15 +235,16 @@
                     <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:fontFamily="@font/archivo"
                         android:inputType="textPassword" />
                 </com.google.android.material.textfield.TextInputLayout>
 
 
                 <ImageView
                     android:id="@+id/btn_camera"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_marginTop="40dp"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_marginTop="20dp"
                     android:src="@drawable/baseline_camera_alt_24"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="@+id/txt_regPassword"
@@ -231,28 +254,29 @@
                     app:layout_constraintVertical_bias="0.0" />/>
 
 
-                <TextView
-                    android:id="@+id/textView6"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Username"
-                    app:layout_constraintBottom_toTopOf="@+id/txt_regUsername"
-                    app:layout_constraintStart_toStartOf="@+id/txt_regUsername" />
+<!--                <TextView-->
+<!--                    android:id="@+id/textView6"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:text="Username"-->
+<!--                    app:layout_constraintBottom_toTopOf="@+id/txt_regUsername"-->
+<!--                    app:layout_constraintStart_toStartOf="@+id/txt_regUsername" />-->
 
-                <TextView
-                    android:id="@+id/textView8"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Password"
-                    android:transitionName="shared_txtPassword"
-                    app:layout_constraintBottom_toTopOf="@+id/txt_regPassword"
-                    app:layout_constraintStart_toStartOf="@+id/txt_regPassword" />
+<!--                <TextView-->
+<!--                    android:id="@+id/textView8"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:text="Password"-->
+<!--                    android:transitionName="shared_txtPassword"-->
+<!--                    app:layout_constraintBottom_toTopOf="@+id/txt_regPassword"-->
+<!--                    app:layout_constraintStart_toStartOf="@+id/txt_regPassword" />-->
 
                 <TextView
                     android:id="@+id/textView2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Agama"
+                    android:fontFamily="@font/archivo"
                     app:layout_constraintBottom_toTopOf="@+id/agama"
                     app:layout_constraintStart_toStartOf="@+id/agama" />
 
@@ -260,7 +284,7 @@
                     android:id="@+id/agama"
                     android:layout_width="0dp"
                     android:layout_height="40dp"
-                    android:layout_marginTop="40dp"
+                    android:layout_marginTop="30dp"
                     app:layout_constraintEnd_toEndOf="@+id/datepick"
                     app:layout_constraintStart_toStartOf="@+id/txt_tglLahir"
                     app:layout_constraintTop_toBottomOf="@+id/txt_tglLahir" />
@@ -270,9 +294,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Masukkan E-Mail yang valid"
+                    android:fontFamily="@font/archivo"
                     android:textColor="#A11414"
-                    app:layout_constraintBottom_toTopOf="@+id/txt_email"
-                    app:layout_constraintEnd_toEndOf="@+id/txt_email" />
+                    app:layout_constraintEnd_toEndOf="@+id/txt_email"
+                    app:layout_constraintTop_toBottomOf="@+id/txt_email" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>

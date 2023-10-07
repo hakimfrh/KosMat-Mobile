@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
@@ -36,6 +37,7 @@ public class loginFragment extends Fragment {
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), MainActivity.class);
                 startActivity(intent);
+                Toast.makeText(getContext(), "Beralih ke menu utama", Toast.LENGTH_SHORT).show();
             }
         });
         return view;
@@ -56,8 +58,6 @@ public class loginFragment extends Fragment {
         transaction.addSharedElement(view.findViewById(R.id.textView3), "shared_text");
         transaction.addSharedElement(view.findViewById(R.id.txt_username), "shared_username");
         transaction.addSharedElement(view.findViewById(R.id.txt_password), "shared_password");
-        transaction.addSharedElement(view.findViewById(R.id.tv_username), "shared_txtUsername");
-        transaction.addSharedElement(view.findViewById(R.id.tv_password), "shared_txtPassword");
         transaction.addSharedElement(view.findViewById(R.id.btn_Login), "shared_button");
         transaction.addSharedElement(view.findViewById(R.id.btn_GotoRegister), "shared_button2");
         transaction.addSharedElement(view.findViewById(R.id.tv_belumPunyaAkun), "shared_textView");
