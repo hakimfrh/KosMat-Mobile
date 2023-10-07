@@ -299,6 +299,15 @@
                     app:layout_constraintEnd_toEndOf="@+id/txt_email"
                     app:layout_constraintTop_toBottomOf="@+id/txt_email" />
 
+                <TextView
+                    android:id="@+id/tx_umurNotValid"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Umur anda harus diatas 18 tahun"
+                    android:textColor="#A11414"
+                    app:layout_constraintBottom_toTopOf="@+id/txt_tglLahir"
+                    app:layout_constraintEnd_toEndOf="@+id/datepick" />
+
             </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>
     </androidx.cardview.widget.CardView>

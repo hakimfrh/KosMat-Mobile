@@ -48,12 +48,13 @@ public class registerFragment extends Fragment {
     EditText txt_tanggal;
     ImageView btn_camera;
     Bitmap bitmap;
+    TextView tx_umurNotValid;
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
+        // Inflate the layout for this fragment
         if (ContextCompat.checkSelfPermission(requireActivity(), android.Manifest.permission.CAMERA)
                 != PackageManager.PERMISSION_GRANTED){
             ActivityCompat.requestPermissions(requireActivity(), new String[]{
@@ -80,29 +81,27 @@ public class registerFragment extends Fragment {
         TextInputEditText txt_username = (TextInputEditText) txtx_username.getEditText();
         TextInputEditText txt_password = (TextInputEditText) txtx_password.getEditText();
         txt_tanggal = view.findViewById(R.id.txt_tglLahir);
-        RadioGroup rg_gender = view.findViewById(R.id.radioGroup);
-        RadioButton rb_lakiLaki = view.findViewById(R.id.radio_laki);
-        RadioButton rb_perempuan = view.findViewById(R.id.radio_perempuan);
         Spinner sp_agama = view.findViewById(R.id.agama);
         TextView buttonTextView = view.findViewById(R.id.btn_GotoLogin);
         TextView tx_emailNotValid = view.findViewById(R.id.tx_emailNotValid);
-        tx_emailNotValid.setVisibility(View.INVISIBLE);
+        tx_umurNotValid = view.findViewById(R.id.tx_umurNotValid);
         date = view.findViewById(R.id.datepick);
         btn_camera = view.findViewById(R.id.btn_camera);
         Button btn_register = view.findViewById(R.id.btn_Register);
-
+        RadioGroup rg_gender = view.findViewById(R.id.radioGroup);
         SimpleDateFormat dateFormatter = new SimpleDateFormat("dd-MM-yyyy");
 
+        tx_emailNotValid.setVisibility(View.INVISIBLE);
+        tx_umurNotValid.setVisibility(View.INVISIBLE);
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(requireContext(),
-                android.R.layout.simple_spinner_item, dataAgama);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_spinner_item, dataAgama);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         sp_agama.setAdapter(adapter);
 
         txt_email.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
+             //tidak digunakan
             }
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -153,9 +152,17 @@ public class registerFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getContext(), DescRegisterActivity.class);
+                int selectedRadioButtonId = rg_gender.getCheckedRadioButtonId();
+                String selectedValue;
+                if (selectedRadioButtonId != -1) {
+                    RadioButton selectedRadioButton = view.findViewById(selectedRadioButtonId);
+                    selectedValue = selectedRadioButton.getText().toString();
+                } else {
+                    selectedValue = "null";
+                }
                 intent.putExtra("nama", txt_nama.getText().toString());
                 intent.putExtra("email", txt_email.getText().toString());
-                intent.putExtra("gender", rb_lakiLaki.isChecked()?"Laki-Laki":"Perempuan");
+                intent.putExtra("gender", selectedValue);
                 intent.putExtra("tanggal", txt_tanggal.getText().toString());
                 intent.putExtra("agama", sp_agama.getSelectedItem().toString());
                 intent.putExtra("username", txt_username.getText().toString());
@@ -183,9 +190,10 @@ public class registerFragment extends Fragment {
             bitmap = (Bitmap) data.getExtras().get("data");
 
             btn_camera.setImageBitmap(bitmap);
+
             ConstraintLayout.LayoutParams params = (ConstraintLayout.LayoutParams) btn_camera.getLayoutParams();
             params.width = ConstraintLayout.LayoutParams.MATCH_CONSTRAINT;
-            params.height = ViewGroup.LayoutParams.WRAP_CONTENT;
+            params.height = 500;
             btn_camera.setLayoutParams(params);
         }
     }
@@ -201,6 +209,21 @@ public class registerFragment extends Fragment {
                     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                         // Update the EditText with the selected date
                         txt_tanggal.setText(dayOfMonth + "-" + (monthOfYear + 1) + "-" + year);
+
+                        // Calculate age
+                        Calendar dob = Calendar.getInstance();
+                        dob.set(year, monthOfYear, dayOfMonth);
+                        Calendar today = Calendar.getInstance();
+                        int age = today.get(Calendar.YEAR) - dob.get(Calendar.YEAR);
+
+                        // Check if age is not 18
+                        if (age <= 18) {
+                            // Show the "age not accepted" message
+                            tx_umurNotValid.setVisibility(View.VISIBLE);
+                        } else {
+                            // Hide the "age not accepted" message
+                            tx_umurNotValid.setVisibility(View.INVISIBLE);
+                        }
                     }
                 }, year, month, day);
 
