@@ -89,7 +89,6 @@ public class registerFragment extends Fragment {
         btn_camera = view.findViewById(R.id.btn_camera);
         Button btn_register = view.findViewById(R.id.btn_Register);
         RadioGroup rg_gender = view.findViewById(R.id.radioGroup);
-        SimpleDateFormat dateFormatter = new SimpleDateFormat("dd-MM-yyyy");
 
         tx_emailNotValid.setVisibility(View.INVISIBLE);
         tx_umurNotValid.setVisibility(View.INVISIBLE);
@@ -190,10 +189,9 @@ public class registerFragment extends Fragment {
             bitmap = (Bitmap) data.getExtras().get("data");
 
             btn_camera.setImageBitmap(bitmap);
-
             ConstraintLayout.LayoutParams params = (ConstraintLayout.LayoutParams) btn_camera.getLayoutParams();
             params.width = ConstraintLayout.LayoutParams.MATCH_CONSTRAINT;
-            params.height = 500;
+            params.height = 1200;
             btn_camera.setLayoutParams(params);
         }
     }
