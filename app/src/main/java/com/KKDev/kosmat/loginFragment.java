@@ -8,12 +8,17 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.transition.ChangeBounds;
 import androidx.transition.ChangeImageTransform;
 import androidx.transition.TransitionSet;
+
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 
 public class loginFragment extends Fragment {
 
@@ -23,6 +28,11 @@ public class loginFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_login, container, false);
 
+
+        TextInputLayout txtx_password = view.findViewById(R.id.txt_password);
+        TextInputLayout txtx_username = view.findViewById(R.id.txt_username);
+        TextInputEditText txt_username = (TextInputEditText) txtx_username.getEditText();
+        TextInputEditText txt_password = (TextInputEditText) txtx_password.getEditText();
         TextView buttonTextView = view.findViewById(R.id.btn_GotoRegister);
         Button btn_login = view.findViewById(R.id.btn_Login);
         buttonTextView.setOnClickListener(new View.OnClickListener() {
@@ -35,9 +45,26 @@ public class loginFragment extends Fragment {
         btn_login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), MainActivity.class);
-                startActivity(intent);
-                Toast.makeText(getContext(), "Beralih ke menu utama", Toast.LENGTH_SHORT).show();
+                String username = "user1";
+                String password = "123";
+                if(txt_username.getText().equals(username) && txt_password.getText().equals(password)) {
+                    Intent intent = new Intent(getActivity(), MainActivity.class);
+                    startActivity(intent);
+                    Toast.makeText(getContext(), "Berhasil Login sebagai "+username, Toast.LENGTH_SHORT).show();
+                }else{
+                    // Show an alert dialog for incorrect login
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                    builder.setTitle("Gagal Login")
+                            .setMessage("Username atau Password salah")
+                            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    // Dismiss the dialog
+                                    dialog.dismiss();
+                                }
+                            })
+                            .show();
+                }
             }
         });
         return view;
