@@ -47,7 +47,7 @@ public class loginFragment extends Fragment {
             public void onClick(View v) {
                 String username = "user1";
                 String password = "123";
-                if(txt_username.getText().equals(username) && txt_password.getText().equals(password)) {
+                if((txt_username.getText().toString().equals(username)) && (txt_password.getText().toString().equals(password))) {
                     Intent intent = new Intent(getActivity(), MainActivity.class);
                     startActivity(intent);
                     Toast.makeText(getContext(), "Berhasil Login sebagai "+username, Toast.LENGTH_SHORT).show();
