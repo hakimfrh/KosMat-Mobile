@@ -36,131 +36,131 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btn_Login"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="30dp"
-                    android:layout_marginBottom="10dp"
-                    android:backgroundTint="#0B3617"
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_Login"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="10dp"
+                android:backgroundTint="#0B3617"
+                android:drawableEnd="@drawable/icon_arrowright"
+                android:fontFamily="@font/archivo"
+                android:text="    Login"
+                android:textColor="@color/white"
+                android:textSize="17sp"
+                android:transitionName="shared_button"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/txt_password"
+                app:layout_constraintStart_toStartOf="@+id/txt_password"
+                app:layout_constraintTop_toBottomOf="@+id/tv_belumPunyaAkun" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/txt_username"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginEnd="20dp"
+                android:hint="Masukkan Username"
+                android:transitionName="shared_username"
+                app:boxCornerRadiusBottomEnd="10dp"
+                app:boxCornerRadiusBottomStart="10dp"
+                app:boxCornerRadiusTopEnd="10dp"
+                app:boxCornerRadiusTopStart="10dp"
+                app:boxStrokeColor="#0B3617"
+                app:hintTextColor="#0B3617"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView3"
+                app:startIconDrawable="@drawable/icon_person">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:ems="10"
                     android:fontFamily="@font/archivo"
-                    android:text="    Login"
-                    android:textColor="@color/white"
-                    android:textSize="17sp"
-                    android:transitionName="shared_button"
-                    android:drawableEnd="@drawable/icon_arrowright"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="@+id/txt_password"
-                    app:layout_constraintStart_toStartOf="@+id/txt_password"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_belumPunyaAkun" />
+                    android:inputType="text" />
 
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/txt_username"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginTop="30dp"
-                    android:layout_marginEnd="20dp"
-                    android:hint="Masukkan Username"
-                    android:transitionName="shared_username"
-                    app:boxStrokeColor="#0B3617"
-                    app:hintTextColor="#0B3617"
-                    app:startIconDrawable="@drawable/icon_person"
-                    app:boxCornerRadiusBottomEnd="10dp"
-                    app:boxCornerRadiusBottomStart="10dp"
-                    app:boxCornerRadiusTopEnd="10dp"
-                    app:boxCornerRadiusTopStart="10dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView3">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:ems="10"
-                        android:fontFamily="@font/archivo"
-                        android:inputType="text" />
-
-                </com.google.android.material.textfield.TextInputLayout>
+            </com.google.android.material.textfield.TextInputLayout>
 
 
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/txt_password"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:hint="Masukkan Password"
-                    android:transitionName="shared_password"
-                    app:boxStrokeColor="#0B3617"
-                    app:hintTextColor="#0B3617"
-                    app:startIconDrawable="@drawable/icon_lock"
-                    app:boxCornerRadiusBottomEnd="10dp"
-                    app:boxCornerRadiusBottomStart="10dp"
-                    app:boxCornerRadiusTopEnd="10dp"
-                    app:boxCornerRadiusTopStart="10dp"
-                    app:layout_constraintEnd_toEndOf="@+id/txt_username"
-                    app:layout_constraintStart_toStartOf="@+id/txt_username"
-                    app:layout_constraintTop_toBottomOf="@+id/txt_username"
-                    app:passwordToggleEnabled="true">
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/txt_password"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:hint="Masukkan Password"
+                android:transitionName="shared_password"
+                app:boxCornerRadiusBottomEnd="10dp"
+                app:boxCornerRadiusBottomStart="10dp"
+                app:boxCornerRadiusTopEnd="10dp"
+                app:boxCornerRadiusTopStart="10dp"
+                app:boxStrokeColor="#0B3617"
+                app:hintTextColor="#0B3617"
+                app:layout_constraintEnd_toEndOf="@+id/txt_username"
+                app:layout_constraintStart_toStartOf="@+id/txt_username"
+                app:layout_constraintTop_toBottomOf="@+id/txt_username"
+                app:passwordToggleEnabled="true"
+                app:startIconDrawable="@drawable/icon_lock">
 
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:ems="10"
-                        android:fontFamily="@font/archivo"
-                        android:inputType="textPassword" />
-
-                </com.google.android.material.textfield.TextInputLayout>
-
-
-                <TextView
-                    android:id="@+id/textView3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="30dp"
-                    android:layout_marginEnd="11dp"
-                    android:fontFamily="@font/archivo_bold"
-                    android:text="Login"
-                    android:textColor="@color/black"
-                    android:textSize="28dp"
-                    android:textStyle="bold"
-                    android:transitionName="shared_text"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/btn_GotoRegister"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:clickable="true"
-                    android:focusable="true"
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:ems="10"
                     android:fontFamily="@font/archivo"
-                    android:text="Daftar"
-                    android:textColor="#3F51B5"
-                    android:textSize="14sp"
-                    android:transitionName="shared_button2"
-                    app:layout_constraintBottom_toBottomOf="@+id/tv_belumPunyaAkun"
-                    app:layout_constraintEnd_toEndOf="@+id/txt_password"
-                    app:layout_constraintTop_toTopOf="@+id/tv_belumPunyaAkun" />
+                    android:inputType="textPassword" />
 
-                <TextView
-                    android:id="@+id/tv_belumPunyaAkun"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:fontFamily="@font/archivo"
-                    android:text="Belum Punya Akun ?"
-                    android:transitionName="shared_textView"
-                    app:layout_constraintStart_toStartOf="@+id/txt_password"
-                    app:layout_constraintTop_toBottomOf="@+id/txt_password" />
+            </com.google.android.material.textfield.TextInputLayout>
 
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:layout_marginEnd="11dp"
+                android:fontFamily="@font/archivo_bold"
+                android:text="Login"
+                android:textColor="@color/black"
+                android:textSize="28dp"
+                android:textStyle="bold"
+                android:transitionName="shared_text"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/btn_GotoRegister"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:focusable="true"
+                android:fontFamily="@font/archivo"
+                android:text="Daftar"
+                android:textColor="#3F51B5"
+                android:textSize="14sp"
+                android:transitionName="shared_button2"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_belumPunyaAkun"
+                app:layout_constraintEnd_toEndOf="@+id/txt_password"
+                app:layout_constraintTop_toTopOf="@+id/tv_belumPunyaAkun" />
+
+            <TextView
+                android:id="@+id/tv_belumPunyaAkun"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:fontFamily="@font/archivo"
+                android:text="Belum Punya Akun ?"
+                android:transitionName="shared_textView"
+                app:layout_constraintStart_toStartOf="@+id/txt_password"
+                app:layout_constraintTop_toBottomOf="@+id/txt_password" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.cardview.widget.CardView>
 
