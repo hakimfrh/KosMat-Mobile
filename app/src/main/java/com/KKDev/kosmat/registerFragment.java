@@ -1,7 +1,9 @@
 package com.KKDev.kosmat;
 
 import android.Manifest;
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -34,14 +36,14 @@ import com.google.android.material.textfield.TextInputEditText;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+
 import com.KKDev.kosmat.adapter.sqliteHelper;
 import com.KKDev.kosmat.adapter.User;
 
 public class registerFragment extends Fragment {
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_register, container, false);
 
@@ -95,12 +97,13 @@ public class registerFragment extends Fragment {
         txt_email.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-             //tidak digunakan
+                //tidak digunakan
             }
+
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 String email = s.toString();
-                if (!email.contains("@")||!email.contains(".")) {
+                if (!email.contains("@") || !email.contains(".")) {
                     txt_email.setError("masukkan email yang valid");
                 } else {
                     txt_email.setError(null);
@@ -109,7 +112,35 @@ public class registerFragment extends Fragment {
 
             @Override
             public void afterTextChanged(Editable s) {
-            //tidak digunakan
+                //tidak digunakan
+            }
+        });
+
+        txt_whatsapp.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (txt_whatsapp.length() > 13) {
+                    txt_whatsapp.setError("Nomormu kepanjangan bro");
+                } else if
+                (txt_whatsapp.length() > 2) {
+                    if (!txt_whatsapp.getText().toString().substring(0, 2).equals("08")) {
+                        txt_whatsapp.setError("Masukkan nomor yang valid");
+                    } else {
+                        txt_whatsapp.setError(null);
+                    }
+                } else {
+                    txt_whatsapp.setError(null);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
             }
         });
 
@@ -131,11 +162,11 @@ public class registerFragment extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(txt_username.getText().length()<4){
+                if (txt_username.getText().length() < 4) {
                     txt_username.setError("Kependekan bro");
-                } else if (txt_username.getText().length()>16) {
+                } else if (txt_username.getText().length() > 16) {
                     txt_username.setError("Kepankangan bro");
-                }else{
+                } else {
                     txt_username.setError(null);
                 }
             }
@@ -154,11 +185,11 @@ public class registerFragment extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(txt_password.getText().length()<4){
+                if (txt_password.getText().length() < 4) {
                     txt_password.setError("Kependekan bro");
-                } else if (txt_password.getText().length()>16) {
+                } else if (txt_password.getText().length() > 16) {
                     txt_password.setError("Kepankangan bro");
-                }else{
+                } else {
                     txt_password.setError(null);
                 }
             }
@@ -188,35 +219,74 @@ public class registerFragment extends Fragment {
                 String noWhatsapp = txt_whatsapp.getText().toString();
                 String privilege = "0";
                 String tglLahir = txt_tanggal.getText().toString();
-                String gender =sp_gender.getSelectedItem().toString();
+                String gender = sp_gender.getSelectedItem().toString();
 
                 boolean isValid = true;
-                if(TextUtils.isEmpty(nama)){
+                if (TextUtils.isEmpty(nama)) {
                     txt_nama.setError("Tidak boleh kosong");
                     isValid = false;
-                }if(TextUtils.isEmpty(nik)){
+                }
+                if (TextUtils.isEmpty(nik)) {
                     txt_email.setError("Tidak boleh kosong");
                     isValid = false;
-                }if(TextUtils.isEmpty(noWhatsapp)){
+                }
+                if (TextUtils.isEmpty(noWhatsapp)) {
                     txt_whatsapp.setError("Tidak boleh kosong");
                     isValid = false;
-                }if(TextUtils.isEmpty(tglLahir)){
+                }
+                if (TextUtils.isEmpty(tglLahir)) {
                     txt_tanggal.setError("Tidak boleh kosong");
                     isValid = false;
-                }if(TextUtils.isEmpty(username)){
+                }
+                if (TextUtils.isEmpty(username)) {
                     txt_username.setError("Tidak boleh kosong");
                     isValid = false;
-                }if(TextUtils.isEmpty(password)){
+                }
+                if (TextUtils.isEmpty(password)) {
                     txt_password.setError("Tidak boleh kosong");
                     isValid = false;
-                }if(gender.equals("Jenis Kelamin")){
+                }
+                if (gender.equals("Jenis Kelamin")) {
                     isValid = false;
                 }
+                if (!(txt_nama.getError()==null) || !(txt_email.getError()==null) || !(txt_whatsapp.getError()==null) ||
+                        !(txt_tanggal.getError()==null) || !(txt_username.getError()==null) || !(txt_password.getError()==null)) {
+                    isValid = false;
+                }
+                if (isValid) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                    builder.setTitle("Konfirmasi")
+                            .setMessage("Apakah data yang dimasukkan sudah benar?")
+                            .setPositiveButton("YA", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                    sqliteHelper db = new sqliteHelper(container.getContext());
+                                    User user = new User(nik, username, password, nama, noWhatsapp, privilege, tglLahir, gender);
+                                    db.register(user);
 
-                if(isValid){
-                    sqliteHelper db = new sqliteHelper(container.getContext());
-                    User user = new User(nik,username,password,nama,noWhatsapp,privilege,tglLahir,gender);
-                    db.register(user);
+                                    AlertDialog.Builder success = new AlertDialog.Builder(getActivity());
+                                    success.setTitle("Register berhasil")
+                                            .setMessage("Silahkan login kembali")
+                                            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog, int which) {
+                                                    // Dismiss the dialog
+                                                    dialog.dismiss();
+                                                    requireActivity().onBackPressed();
+                                                }
+                                            })
+                                            .show();
+                                }
+                            })
+                            .setNegativeButton("Tidak", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            })
+                            .show();
+
                 }
             }
         });
@@ -231,38 +301,39 @@ public class registerFragment extends Fragment {
 
         return view;
     }
+
     private void showDatePickerDialog(TextInputEditText textField) {
         final Calendar c = Calendar.getInstance();
         int year = c.get(Calendar.YEAR);
         int month = c.get(Calendar.MONTH);
         int day = c.get(Calendar.DAY_OF_MONTH);
 
-        DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(),
-                new DatePickerDialog.OnDateSetListener() {
-                    @Override
-                    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                        // Update the EditText with the selected date
-                        String tanggal = dayOfMonth + "-" + (monthOfYear + 1) + "-" + year;
-                        textField.setText(tanggal);
+        DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(), new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                // Update the EditText with the selected date
+                String tanggal = dayOfMonth + "-" + (monthOfYear + 1) + "-" + year;
+                textField.setText(tanggal);
 
-                        // Calculate age
-                        Calendar dob = Calendar.getInstance();
-                        dob.set(year, monthOfYear, dayOfMonth);
-                        Calendar today = Calendar.getInstance();
-                        int age = today.get(Calendar.YEAR) - dob.get(Calendar.YEAR);
+                // Calculate age
+                Calendar dob = Calendar.getInstance();
+                dob.set(year, monthOfYear, dayOfMonth);
+                Calendar today = Calendar.getInstance();
+                int age = today.get(Calendar.YEAR) - dob.get(Calendar.YEAR);
 
-                        // Check if age is not 18
-                        if (age <= 18) {
-                            // Show the "age not accepted" message]
-                        } else {
-                            // Hide the "age not accepted" message
-                        }
-                    }
-                }, year, month, day);
+                // Check if age is not 18
+                if (age <= 18) {
+                    // Show the "age not accepted" message]
+                } else {
+                    // Hide the "age not accepted" message
+                }
+            }
+        }, year, month, day);
 
         datePickerDialog.show();
     }
-    private void openDestinationFragmentWithoutTransitions(View view,Fragment destinationFragment) {
+
+    private void openDestinationFragmentWithoutTransitions(View view, Fragment destinationFragment) {
 
         FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
         transaction.replace(R.id.logRegFragment, destinationFragment); // Replace with the correct container ID
