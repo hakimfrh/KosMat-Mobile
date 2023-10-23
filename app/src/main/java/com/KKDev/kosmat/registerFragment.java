@@ -1,14 +1,12 @@
 package com.KKDev.kosmat;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.transition.ChangeBounds;
 import android.transition.ChangeImageTransform;
@@ -16,18 +14,14 @@ import android.transition.TransitionSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import androidx.annotation.Nullable;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
@@ -37,65 +31,66 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.google.android.material.textfield.TextInputEditText;
 
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import com.KKDev.kosmat.adapter.sqliteHelper;
+import com.KKDev.kosmat.adapter.User;
 
 public class registerFragment extends Fragment {
-
-    ImageView date;
-    EditText txt_tanggal;
-    ImageView btn_camera;
-    Bitmap bitmap;
-    TextView tx_umurNotValid;
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        if (ContextCompat.checkSelfPermission(requireActivity(), android.Manifest.permission.CAMERA)
-                != PackageManager.PERMISSION_GRANTED){
-            ActivityCompat.requestPermissions(requireActivity(), new String[]{
-                    Manifest.permission.CAMERA
-            },100);
-        }
 
         View view = inflater.inflate(R.layout.fragment_register, container, false);
 
-        List<String> dataAgama = new ArrayList<>();
-        dataAgama.add("Islam");
-        dataAgama.add("Kristen");
-        dataAgama.add("Katolik");
-        dataAgama.add("Hindu");
-        dataAgama.add("Budha");
-        dataAgama.add("Khonghucu");
+        List<String> genderList = new ArrayList<>();
+        genderList.add("Jenis Kelamin");
+        genderList.add("Laki-Laki");
+        genderList.add("Perempuan");
 
         TextInputLayout txtx_Nama = view.findViewById(R.id.txt_namaLengkap);
         TextInputLayout txtx_email = view.findViewById(R.id.txt_email);
+        TextInputLayout txtx_whatsapp = view.findViewById(R.id.txt_whatsapp);
         TextInputLayout txtx_username = view.findViewById(R.id.txt_regUsername);
         TextInputLayout txtx_password = view.findViewById(R.id.txt_regPassword);
+        TextInputLayout txtx_tanggal = view.findViewById(R.id.txt_tglLahir);
         TextInputEditText txt_nama = (TextInputEditText) txtx_Nama.getEditText();
         TextInputEditText txt_email = (TextInputEditText) txtx_email.getEditText();
+        TextInputEditText txt_whatsapp = (TextInputEditText) txtx_whatsapp.getEditText();
         TextInputEditText txt_username = (TextInputEditText) txtx_username.getEditText();
         TextInputEditText txt_password = (TextInputEditText) txtx_password.getEditText();
-        txt_tanggal = view.findViewById(R.id.txt_tglLahir);
-        Spinner sp_agama = view.findViewById(R.id.agama);
+        TextInputEditText txt_tanggal = (TextInputEditText) txtx_tanggal.getEditText();
+        Spinner sp_gender = view.findViewById(R.id.sp_gender);
         TextView buttonTextView = view.findViewById(R.id.btn_GotoLogin);
-        TextView tx_emailNotValid = view.findViewById(R.id.tx_emailNotValid);
-        tx_umurNotValid = view.findViewById(R.id.tx_umurNotValid);
-        date = view.findViewById(R.id.datepick);
-        btn_camera = view.findViewById(R.id.btn_camera);
         Button btn_register = view.findViewById(R.id.btn_Register);
-        RadioGroup rg_gender = view.findViewById(R.id.radioGroup);
 
-        tx_emailNotValid.setVisibility(View.INVISIBLE);
-        tx_umurNotValid.setVisibility(View.INVISIBLE);
-
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_spinner_item, dataAgama);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_spinner_item, genderList);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        sp_agama.setAdapter(adapter);
+        sp_gender.setAdapter(adapter);
+
+        txt_nama.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                String input = s.toString();
+                if (!input.matches("^[a-zA-Z\\s]*$")) {
+                    txt_nama.setError("Namamu aneh");
+                } else {
+                    txt_nama.setError(null);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
 
         txt_email.addTextChangedListener(new TextWatcher() {
             @Override
@@ -106,9 +101,9 @@ public class registerFragment extends Fragment {
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 String email = s.toString();
                 if (!email.contains("@")||!email.contains(".")) {
-                    tx_emailNotValid.setVisibility(TextView.VISIBLE);
+                    txt_email.setError("masukkan email yang valid");
                 } else {
-                    tx_emailNotValid.setVisibility(TextView.INVISIBLE);
+                    txt_email.setError(null);
                 }
             }
 
@@ -122,23 +117,58 @@ public class registerFragment extends Fragment {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (hasFocus) {
-                    showDatePickerDialog();
+                    showDatePickerDialog(txt_tanggal);
+                    txt_tanggal.clearFocus();
                 }
             }
         });
-        date.setOnClickListener(new View.OnClickListener() {
+
+        txt_username.addTextChangedListener(new TextWatcher() {
             @Override
-            public void onClick(View view) {
-                showDatePickerDialog();
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if(txt_username.getText().length()<4){
+                    txt_username.setError("Kependekan bro");
+                } else if (txt_username.getText().length()>16) {
+                    txt_username.setError("Kepankangan bro");
+                }else{
+                    txt_username.setError(null);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
             }
         });
-        btn_camera.setOnClickListener(new View.OnClickListener() {
+
+        txt_password.addTextChangedListener(new TextWatcher() {
             @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                startActivityForResult(intent, 100);
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if(txt_password.getText().length()<4){
+                    txt_password.setError("Kependekan bro");
+                } else if (txt_password.getText().length()>16) {
+                    txt_password.setError("Kepankangan bro");
+                }else{
+                    txt_password.setError(null);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
             }
         });
+
         buttonTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -150,24 +180,44 @@ public class registerFragment extends Fragment {
         btn_register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getContext(), DescRegisterActivity.class);
-                int selectedRadioButtonId = rg_gender.getCheckedRadioButtonId();
-                String selectedValue;
-                if (selectedRadioButtonId != -1) {
-                    RadioButton selectedRadioButton = view.findViewById(selectedRadioButtonId);
-                    selectedValue = selectedRadioButton.getText().toString();
-                } else {
-                    selectedValue = "null";
+
+                String nik = txt_email.getText().toString();
+                String username = txt_username.getText().toString();
+                String password = txt_password.getText().toString();
+                String nama = txt_nama.getText().toString();
+                String noWhatsapp = txt_whatsapp.getText().toString();
+                String privilege = "0";
+                String tglLahir = txt_tanggal.getText().toString();
+                String gender =sp_gender.getSelectedItem().toString();
+
+                boolean isValid = true;
+                if(TextUtils.isEmpty(nama)){
+                    txt_nama.setError("Tidak boleh kosong");
+                    isValid = false;
+                }if(TextUtils.isEmpty(nik)){
+                    txt_email.setError("Tidak boleh kosong");
+                    isValid = false;
+                }if(TextUtils.isEmpty(noWhatsapp)){
+                    txt_whatsapp.setError("Tidak boleh kosong");
+                    isValid = false;
+                }if(TextUtils.isEmpty(tglLahir)){
+                    txt_tanggal.setError("Tidak boleh kosong");
+                    isValid = false;
+                }if(TextUtils.isEmpty(username)){
+                    txt_username.setError("Tidak boleh kosong");
+                    isValid = false;
+                }if(TextUtils.isEmpty(password)){
+                    txt_password.setError("Tidak boleh kosong");
+                    isValid = false;
+                }if(gender.equals("Jenis Kelamin")){
+                    isValid = false;
                 }
-                intent.putExtra("nama", txt_nama.getText().toString());
-                intent.putExtra("email", txt_email.getText().toString());
-                intent.putExtra("gender", selectedValue);
-                intent.putExtra("tanggal", txt_tanggal.getText().toString());
-                intent.putExtra("agama", sp_agama.getSelectedItem().toString());
-                intent.putExtra("username", txt_username.getText().toString());
-                intent.putExtra("password", txt_password.getText().toString());
-                intent.putExtra("image",bitmap);
-                getContext().startActivity(intent);
+
+                if(isValid){
+                    sqliteHelper db = new sqliteHelper(container.getContext());
+                    User user = new User(nik,username,password,nama,noWhatsapp,privilege,tglLahir,gender);
+                    db.register(user);
+                }
             }
         });
 
@@ -181,21 +231,7 @@ public class registerFragment extends Fragment {
 
         return view;
     }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 100){
-            bitmap = (Bitmap) data.getExtras().get("data");
-
-            btn_camera.setImageBitmap(bitmap);
-            ConstraintLayout.LayoutParams params = (ConstraintLayout.LayoutParams) btn_camera.getLayoutParams();
-            params.width = ConstraintLayout.LayoutParams.MATCH_CONSTRAINT;
-            params.height = 1200;
-            btn_camera.setLayoutParams(params);
-        }
-    }
-    private void showDatePickerDialog() {
+    private void showDatePickerDialog(TextInputEditText textField) {
         final Calendar c = Calendar.getInstance();
         int year = c.get(Calendar.YEAR);
         int month = c.get(Calendar.MONTH);
@@ -206,7 +242,8 @@ public class registerFragment extends Fragment {
                     @Override
                     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                         // Update the EditText with the selected date
-                        txt_tanggal.setText(dayOfMonth + "-" + (monthOfYear + 1) + "-" + year);
+                        String tanggal = dayOfMonth + "-" + (monthOfYear + 1) + "-" + year;
+                        textField.setText(tanggal);
 
                         // Calculate age
                         Calendar dob = Calendar.getInstance();
@@ -216,11 +253,9 @@ public class registerFragment extends Fragment {
 
                         // Check if age is not 18
                         if (age <= 18) {
-                            // Show the "age not accepted" message
-                            tx_umurNotValid.setVisibility(View.VISIBLE);
+                            // Show the "age not accepted" message]
                         } else {
                             // Hide the "age not accepted" message
-                            tx_umurNotValid.setVisibility(View.INVISIBLE);
                         }
                     }
                 }, year, month, day);

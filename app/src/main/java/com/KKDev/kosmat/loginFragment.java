@@ -17,6 +17,8 @@ import androidx.transition.ChangeBounds;
 import androidx.transition.ChangeImageTransform;
 import androidx.transition.TransitionSet;
 
+import com.KKDev.kosmat.adapter.User;
+import com.KKDev.kosmat.adapter.sqliteHelper;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
@@ -45,13 +47,15 @@ public class loginFragment extends Fragment {
         btn_login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String username = "user1";
-                String password = "123";
-                if((txt_username.getText().toString().equals(username)) && (txt_password.getText().toString().equals(password))) {
+                String username = txt_username.getText().toString();
+                String password = txt_password.getText().toString();
+                sqliteHelper db = new sqliteHelper(container.getContext());
+                User user = db.login(username, password);
+                if (user != null) {
                     Intent intent = new Intent(getActivity(), MainActivity.class);
                     startActivity(intent);
-                    Toast.makeText(getContext(), "Berhasil Login sebagai "+username, Toast.LENGTH_SHORT).show();
-                }else{
+                    Toast.makeText(getContext(), "Berhasil Login sebagai " + username, Toast.LENGTH_SHORT).show();
+                } else {
                     // Show an alert dialog for incorrect login
                     AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                     builder.setTitle("Gagal Login")
@@ -69,7 +73,8 @@ public class loginFragment extends Fragment {
         });
         return view;
     }
-    private void openDestinationFragmentWithTransitions(View view,Fragment destinationFragment) {
+
+    private void openDestinationFragmentWithTransitions(View view, Fragment destinationFragment) {
 
         // Set up shared element transition
         TransitionSet transitionSet = new TransitionSet();
