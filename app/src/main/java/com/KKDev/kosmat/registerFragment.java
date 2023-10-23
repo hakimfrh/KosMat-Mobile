@@ -249,8 +249,8 @@ public class registerFragment extends Fragment {
                 if (gender.equals("Jenis Kelamin")) {
                     isValid = false;
                 }
-                if (!(txt_nama.getError()==null) || !(txt_email.getError()==null) || !(txt_whatsapp.getError()==null) ||
-                        !(txt_tanggal.getError()==null) || !(txt_username.getError()==null) || !(txt_password.getError()==null)) {
+                if (!(txt_nama.getError() == null) || !(txt_email.getError() == null) || !(txt_whatsapp.getError() == null) ||
+                        !(txt_tanggal.getError() == null) || !(txt_username.getError() == null) || !(txt_password.getError() == null)) {
                     isValid = false;
                 }
                 if (isValid) {
