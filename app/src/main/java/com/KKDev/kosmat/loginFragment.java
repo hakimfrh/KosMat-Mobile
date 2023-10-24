@@ -1,6 +1,7 @@
 package com.KKDev.kosmat;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,6 +30,7 @@ public class loginFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_login, container, false);
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("login", getContext().MODE_PRIVATE);
 
 
         TextInputLayout txtx_password = view.findViewById(R.id.txt_password);
@@ -37,6 +39,11 @@ public class loginFragment extends Fragment {
         TextInputEditText txt_password = (TextInputEditText) txtx_password.getEditText();
         TextView buttonTextView = view.findViewById(R.id.btn_GotoRegister);
         Button btn_login = view.findViewById(R.id.btn_Login);
+
+        txt_username.setText(sharedPreferences.getString("username", "")); // "" is the default value if username is not found
+        txt_password.setText(sharedPreferences.getString("password", "")); // "" is the default value if password is not found
+
+
         buttonTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -52,9 +59,15 @@ public class loginFragment extends Fragment {
                 sqliteHelper db = new sqliteHelper(container.getContext());
                 User user = db.login(username, password);
                 if (user != null) {
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putString("username", username);
+                    editor.putString("password", password);
+                    editor.apply();
+
                     Intent intent = new Intent(getActivity(), MainActivity.class);
-                    intent.putExtra("user",user);
+                    intent.putExtra("user", user);
                     startActivity(intent);
+
                     Toast.makeText(getContext(), "Berhasil Login sebagai " + username, Toast.LENGTH_SHORT).show();
                 } else {
                     // Show an alert dialog for incorrect login
