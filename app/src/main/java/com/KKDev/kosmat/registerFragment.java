@@ -255,8 +255,14 @@ public class registerFragment extends Fragment {
                 }
                 if (isValid) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                    String data = "username \t: " + username +"\n"
+                            +"password \t: " + password +"\n"
+                            +"nik \t\t\t\t\t\t\t: " + nik +"\n"
+                            +"whatsapp \t: " + noWhatsapp +"\n"
+                            +"tgl-lahir \t\t\t: " + tglLahir +"\n"
+                            +"gender \t\t\t\t: " + gender +"\n";
                     builder.setTitle("Konfirmasi")
-                            .setMessage("Apakah data yang dimasukkan sudah benar?")
+                            .setMessage("Apakah data yang dimasukkan sudah benar?\n\n" + data)
                             .setPositiveButton("YA", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {

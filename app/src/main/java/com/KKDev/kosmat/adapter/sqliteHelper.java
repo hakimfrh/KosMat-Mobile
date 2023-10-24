@@ -55,7 +55,7 @@ public class sqliteHelper extends SQLiteOpenHelper {
         contentValues.put("username", user.getUsername());
         contentValues.put("password", user.getPassword());
         contentValues.put("nama", user.getNama());
-        contentValues.put("no_whatsapp", user.getNama());
+        contentValues.put("no_whatsapp", user.getNoWhatsapp());
         contentValues.put("privilege", user.getPrivilege());
         contentValues.put("tgl_lahir", user.getTglLahir());
         contentValues.put("gender", user.getGender());
