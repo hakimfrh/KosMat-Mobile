@@ -53,6 +53,7 @@ public class loginFragment extends Fragment {
                 User user = db.login(username, password);
                 if (user != null) {
                     Intent intent = new Intent(getActivity(), MainActivity.class);
+                    intent.putExtra("user",user);
                     startActivity(intent);
                     Toast.makeText(getContext(), "Berhasil Login sebagai " + username, Toast.LENGTH_SHORT).show();
                 } else {

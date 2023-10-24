@@ -5,7 +5,9 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-public class User {
+import java.io.Serializable;
+
+public class User implements Serializable {
     private String nik;
     private String username;
     private String password;

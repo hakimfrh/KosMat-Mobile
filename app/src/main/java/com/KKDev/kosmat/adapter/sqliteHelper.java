@@ -48,7 +48,7 @@ public class sqliteHelper extends SQLiteOpenHelper {
         // Handle database upgrades here
     }
 
-    public boolean register(User user){
+    public boolean register(User user) {
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put("nik", user.getNik());
@@ -59,7 +59,7 @@ public class sqliteHelper extends SQLiteOpenHelper {
         contentValues.put("privilege", user.getPrivilege());
         contentValues.put("tgl_lahir", user.getTglLahir());
         contentValues.put("gender", user.getGender());
-        long result = sqLiteDatabase.insert("akun",null,contentValues);
+        long result = sqLiteDatabase.insert("akun", null, contentValues);
         if (result == -1) {
             return false;
         } else {
@@ -67,10 +67,10 @@ public class sqliteHelper extends SQLiteOpenHelper {
         }
     }
 
-    public User login(String inputUsername, String inputPassword){
+    public User login(String inputUsername, String inputPassword) {
         SQLiteDatabase db = this.getReadableDatabase();
         String query = "SELECT * FROM akun WHERE username = ? AND password = ?";
-        String[] selectionArgs = {inputUsername,inputPassword};
+        String[] selectionArgs = {inputUsername, inputPassword};
         Cursor cursor = db.rawQuery(query, selectionArgs);
         User result = null;
 
@@ -85,8 +85,8 @@ public class sqliteHelper extends SQLiteOpenHelper {
                 @SuppressLint("Range") String tgl_lahir = cursor.getString(cursor.getColumnIndex("tgl_lahir"));
                 @SuppressLint("Range") String gender = cursor.getString(cursor.getColumnIndex("gender"));
 
-                if((inputUsername.equals(username)&&(inputPassword.equals(password)))){
-                    User user = new User(nik,username,password,nama,no_whatsapp,privilege,tgl_lahir,gender);
+                if ((inputUsername.equals(username) && (inputPassword.equals(password)))) {
+                    User user = new User(nik, username, password, nama, no_whatsapp, privilege, tgl_lahir, gender);
                     result = user;
                 }
             }
@@ -96,4 +96,36 @@ public class sqliteHelper extends SQLiteOpenHelper {
         db.close();
         return result;
     }
+
+    public User[] getAllUser() {
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "SELECT * FROM akun ORDER BY nama ASC";
+        Cursor cursor = db.rawQuery(query, null);
+        User[] result = null;
+        if (cursor != null) {
+            int count = cursor.getCount();
+            result = new User[count]; // Initialize the array with the count of users
+            int i = 0;
+            while (cursor.moveToNext()) {
+                @SuppressLint("Range") String nik = cursor.getString(cursor.getColumnIndex("nik"));
+                @SuppressLint("Range") String username = cursor.getString(cursor.getColumnIndex("username"));
+                @SuppressLint("Range") String password = cursor.getString(cursor.getColumnIndex("password"));
+                @SuppressLint("Range") String nama = cursor.getString(cursor.getColumnIndex("nama"));
+                @SuppressLint("Range") String no_whatsapp = cursor.getString(cursor.getColumnIndex("no_whatsapp"));
+                @SuppressLint("Range") String privilege = cursor.getString(cursor.getColumnIndex("privilege"));
+                @SuppressLint("Range") String tgl_lahir = cursor.getString(cursor.getColumnIndex("tgl_lahir"));
+                @SuppressLint("Range") String gender = cursor.getString(cursor.getColumnIndex("gender"));
+
+                User user = new User(nik, username, password, nama, no_whatsapp, privilege, tgl_lahir, gender);
+                result[i] = user;
+                i++;
+            }
+            cursor.close(); // Remember to close the cursor when you're done with it
+        }
+
+        db.close();
+        return result;
+    }
+
 }
