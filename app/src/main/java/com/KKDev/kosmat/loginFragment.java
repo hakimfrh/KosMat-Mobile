@@ -1,5 +1,6 @@
 package com.KKDev.kosmat;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -25,6 +26,7 @@ import com.google.android.material.textfield.TextInputLayout;
 
 public class loginFragment extends Fragment {
 
+    @SuppressLint("NewApi")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -40,9 +42,16 @@ public class loginFragment extends Fragment {
         TextView buttonTextView = view.findViewById(R.id.btn_GotoRegister);
         Button btn_login = view.findViewById(R.id.btn_Login);
 
-        txt_username.setText(sharedPreferences.getString("username", "")); // "" is the default value if username is not found
-        txt_password.setText(sharedPreferences.getString("password", "")); // "" is the default value if password is not found
+        String savedUsername = sharedPreferences.getString("username", "");
+        String savedPassword = sharedPreferences.getString("password", "");
+        txt_username.setText(savedUsername); // "" is the default value if username is not found
+        txt_password.setText(savedPassword); // "" is the default value if password is not found
 
+        if(!savedUsername.isEmpty() && !savedPassword.isEmpty()){
+            sqliteHelper db = new sqliteHelper(container.getContext());
+            User user = db.login(savedUsername, savedPassword);
+            login(user);
+        }
 
         buttonTextView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -64,11 +73,7 @@ public class loginFragment extends Fragment {
                     editor.putString("password", password);
                     editor.apply();
 
-                    Intent intent = new Intent(getActivity(), MainActivity.class);
-                    intent.putExtra("user", user);
-                    startActivity(intent);
-
-                    Toast.makeText(getContext(), "Berhasil Login sebagai " + user.getNama(), Toast.LENGTH_SHORT).show();
+                    login(user);
                 } else {
                     // Show an alert dialog for incorrect login
                     AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
@@ -88,6 +93,14 @@ public class loginFragment extends Fragment {
         return view;
     }
 
+    private void login(User user){
+
+        Intent intent = new Intent(getActivity(), MainActivity.class);
+        intent.putExtra("user", user);
+        startActivity(intent);
+
+        Toast.makeText(getContext(), "Berhasil Login sebagai " + user.getNama(), Toast.LENGTH_SHORT).show();
+    }
     private void openDestinationFragmentWithTransitions(View view, Fragment destinationFragment) {
 
         // Set up shared element transition
