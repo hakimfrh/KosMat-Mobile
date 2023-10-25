@@ -68,7 +68,7 @@ public class loginFragment extends Fragment {
                     intent.putExtra("user", user);
                     startActivity(intent);
 
-                    Toast.makeText(getContext(), "Berhasil Login sebagai " + username, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "Berhasil Login sebagai " + user.getNama(), Toast.LENGTH_SHORT).show();
                 } else {
                     // Show an alert dialog for incorrect login
                     AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());

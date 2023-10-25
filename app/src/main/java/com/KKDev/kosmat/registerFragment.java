@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -149,7 +150,6 @@ public class registerFragment extends Fragment {
             public void onFocusChange(View v, boolean hasFocus) {
                 if (hasFocus) {
                     showDatePickerDialog(txt_tanggal);
-                    txt_tanggal.clearFocus();
                 }
             }
         });
@@ -255,12 +255,12 @@ public class registerFragment extends Fragment {
                 }
                 if (isValid) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                    String data = "username \t: " + username +"\n"
-                            +"password \t: " + password +"\n"
-                            +"nik \t\t\t\t\t\t\t: " + nik +"\n"
-                            +"whatsapp \t: " + noWhatsapp +"\n"
-                            +"tgl-lahir \t\t\t: " + tglLahir +"\n"
-                            +"gender \t\t\t\t: " + gender +"\n";
+                    String data = "username \t: " + username + "\n"
+                            + "password \t: " + password + "\n"
+                            + "nik \t\t\t\t\t\t\t: " + nik + "\n"
+                            + "whatsapp \t: " + noWhatsapp + "\n"
+                            + "tgl-lahir \t\t\t: " + tglLahir + "\n"
+                            + "gender \t\t\t\t: " + gender + "\n";
                     builder.setTitle("Konfirmasi")
                             .setMessage("Apakah data yang dimasukkan sudah benar?\n\n" + data)
                             .setPositiveButton("YA", new DialogInterface.OnClickListener() {
@@ -278,6 +278,12 @@ public class registerFragment extends Fragment {
                                                 @Override
                                                 public void onClick(DialogInterface dialog, int which) {
                                                     // Dismiss the dialog
+
+                                                    SharedPreferences sharedPreferences = getActivity().getSharedPreferences("login", getContext().MODE_PRIVATE);
+                                                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                                                    editor.putString("username", username);
+                                                    editor.putString("password", password);
+                                                    editor.apply();
                                                     dialog.dismiss();
                                                     requireActivity().onBackPressed();
                                                 }
@@ -320,7 +326,8 @@ public class registerFragment extends Fragment {
                 // Update the EditText with the selected date
                 String tanggal = dayOfMonth + "-" + (monthOfYear + 1) + "-" + year;
                 textField.setText(tanggal);
-
+                textField.clearFocus();
+                textField.setError(null);
                 // Calculate age
                 Calendar dob = Calendar.getInstance();
                 dob.set(year, monthOfYear, dayOfMonth);
