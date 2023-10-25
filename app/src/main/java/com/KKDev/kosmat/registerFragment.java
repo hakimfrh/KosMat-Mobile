@@ -165,7 +165,7 @@ public class registerFragment extends Fragment {
                 if (txt_username.getText().length() < 4) {
                     txt_username.setError("Kependekan bro");
                 } else if (txt_username.getText().length() > 16) {
-                    txt_username.setError("Kepankangan bro");
+                    txt_username.setError("Kepanjangan bro");
                 } else {
                     txt_username.setError(null);
                 }
@@ -188,7 +188,7 @@ public class registerFragment extends Fragment {
                 if (txt_password.getText().length() < 4) {
                     txt_password.setError("Kependekan bro");
                 } else if (txt_password.getText().length() > 16) {
-                    txt_password.setError("Kepankangan bro");
+                    txt_password.setError("Kepanjangan bro");
                 } else {
                     txt_password.setError(null);
                 }
