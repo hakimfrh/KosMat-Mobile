@@ -7,6 +7,9 @@ import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -34,6 +37,7 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.google.android.material.textfield.TextInputEditText;
 
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -211,6 +215,19 @@ public class registerFragment extends Fragment {
         btn_register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // Assuming you have an XML drawable named "my_drawable"
+                Drawable drawable = getResources().getDrawable(R.drawable.icon_person2);
+
+                // Convert the drawable to a bitmap
+                Bitmap bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+                Canvas canvas = new Canvas(bitmap);
+                drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
+                drawable.draw(canvas);
+
+                // Convert the bitmap to a byte array
+                ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                byte[] byteArray = stream.toByteArray();
 
                 String nik = txt_email.getText().toString();
                 String username = txt_username.getText().toString();
@@ -220,7 +237,6 @@ public class registerFragment extends Fragment {
                 String privilege = "0";
                 String tglLahir = txt_tanggal.getText().toString();
                 String gender = sp_gender.getSelectedItem().toString();
-
                 boolean isValid = true;
                 if (TextUtils.isEmpty(nama)) {
                     txt_nama.setError("Tidak boleh kosong");
@@ -268,7 +284,7 @@ public class registerFragment extends Fragment {
                                 public void onClick(DialogInterface dialog, int which) {
                                     dialog.dismiss();
                                     sqliteHelper db = new sqliteHelper(container.getContext());
-                                    User user = new User(nik, username, password, nama, noWhatsapp, privilege, tglLahir, gender);
+                                    User user = new User(nik, username, password, nama, noWhatsapp, privilege, tglLahir, gender, byteArray);
                                     db.register(user);
 
                                     AlertDialog.Builder success = new AlertDialog.Builder(getActivity());

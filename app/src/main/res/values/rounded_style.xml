@@ -3,4 +3,7 @@
     <style name="rounded">
         <item name="cornerSize">7dp</item>
     </style>
+    <style name="Circle">
+        <item name="cornerSize">50%</item> <!-- This sets the corner radius to 50% of the view size, making it fully round -->
+    </style>
 </resources>

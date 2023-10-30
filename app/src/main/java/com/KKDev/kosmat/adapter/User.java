@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.graphics.Bitmap;
 
 import java.io.Serializable;
 
@@ -16,8 +17,9 @@ public class User implements Serializable {
     private String privilege;
     private String tglLahir;
     private String gender;
+    private byte[] image;
 
-    public User(String nik, String username, String password, String nama, String noWhatsapp, String privilege, String tglLahir, String gender) {
+    public User(String nik, String username, String password, String nama, String noWhatsapp, String privilege, String tglLahir, String gender, byte[] image) {
         this.nik = nik;
         this.username = username;
         this.password = password;
@@ -26,8 +28,12 @@ public class User implements Serializable {
         this.privilege = privilege;
         this.tglLahir = tglLahir;
         this.gender = gender;
+        this.image = image;
     }
 
+    public void setNik(String nik) {
+        this.nik = nik;
+    }
     public String getNik() {
         return nik;
     }
@@ -58,5 +64,8 @@ public class User implements Serializable {
 
     public String getGender() {
         return gender;
+    }
+    public byte[] getImage() {
+        return image;
     }
 }

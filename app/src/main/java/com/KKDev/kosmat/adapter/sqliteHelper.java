@@ -6,6 +6,12 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+
+import com.KKDev.kosmat.R;
+
+import java.io.ByteArrayOutputStream;
 
 public class sqliteHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "kosmat_mobile.db";
@@ -21,6 +27,7 @@ public class sqliteHelper extends SQLiteOpenHelper {
     public static final String COLUMN_PRIVILEGE = "privilege";
     public static final String COLUMN_TGL_LAHIR = "tgl_lahir";
     public static final String COLUMN_GENDER = "gender";
+    public static final String COLUMN_IMAGE = "image";
 
 
     private static final String CREATE_TABLE_QUERY = "CREATE TABLE " + TABLE_NAME + " (" +
@@ -31,7 +38,9 @@ public class sqliteHelper extends SQLiteOpenHelper {
             COLUMN_NO_WHATSAPP + " CHAR(16) NOT NULL, " +
             COLUMN_PRIVILEGE + " TINYINT(1) NOT NULL DEFAULT 0, " +
             COLUMN_TGL_LAHIR + " DATE NOT NULL, " +
-            COLUMN_GENDER + " TEXT NOT NULL);";
+            COLUMN_GENDER + " TEXT NOT NULL, " +
+            COLUMN_IMAGE + " BLOB);";
+
 
 
     public sqliteHelper(Context context) {
@@ -45,7 +54,7 @@ public class sqliteHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        // Handle database upgrades here
+        db.execSQL("drop table if exists akun");
     }
 
     public boolean register(User user) {
@@ -59,6 +68,7 @@ public class sqliteHelper extends SQLiteOpenHelper {
         contentValues.put("privilege", user.getPrivilege());
         contentValues.put("tgl_lahir", user.getTglLahir());
         contentValues.put("gender", user.getGender());
+        contentValues.put("image", user.getImage());
         long result = sqLiteDatabase.insert("akun", null, contentValues);
         if (result == -1) {
             return false;
@@ -84,9 +94,9 @@ public class sqliteHelper extends SQLiteOpenHelper {
                 @SuppressLint("Range") String privilege = cursor.getString(cursor.getColumnIndex("privilege"));
                 @SuppressLint("Range") String tgl_lahir = cursor.getString(cursor.getColumnIndex("tgl_lahir"));
                 @SuppressLint("Range") String gender = cursor.getString(cursor.getColumnIndex("gender"));
-
+                @SuppressLint("Range") byte[] image = cursor.getBlob(cursor.getColumnIndex("image"));
                 if ((inputUsername.equals(username) && (inputPassword.equals(password)))) {
-                    User user = new User(nik, username, password, nama, no_whatsapp, privilege, tgl_lahir, gender);
+                    User user = new User(nik, username, password, nama, no_whatsapp, privilege, tgl_lahir, gender, image);
                     result = user;
                 }
             }
@@ -116,8 +126,9 @@ public class sqliteHelper extends SQLiteOpenHelper {
                 @SuppressLint("Range") String privilege = cursor.getString(cursor.getColumnIndex("privilege"));
                 @SuppressLint("Range") String tgl_lahir = cursor.getString(cursor.getColumnIndex("tgl_lahir"));
                 @SuppressLint("Range") String gender = cursor.getString(cursor.getColumnIndex("gender"));
+                @SuppressLint("Range") byte[] image = cursor.getBlob(cursor.getColumnIndex("image"));
 
-                User user = new User(nik, username, password, nama, no_whatsapp, privilege, tgl_lahir, gender);
+                User user = new User(nik, username, password, nama, no_whatsapp, privilege, tgl_lahir, gender,image);
                 result[i] = user;
                 i++;
             }

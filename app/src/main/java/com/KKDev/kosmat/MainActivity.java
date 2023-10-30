@@ -16,7 +16,6 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 
 
-
 public class MainActivity extends AppCompatActivity {
     BottomNavigationView bottomNavigationView;
 
@@ -33,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
         bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                if (item.getItemId() == R.id.dashboard){
+                if (item.getItemId() == R.id.dashboard) {
                     loadFragment(new DashboardFragment());
                     return true;
                 } else if (item.getItemId() == R.id.kamar) {
@@ -44,7 +43,10 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-        public void onBackPressed() {
+
+    public void onBackPressed() {
+        DashboardFragment dashboardFragment = (DashboardFragment) getSupportFragmentManager().findFragmentByTag("DashboardFragment");
+        if (dashboardFragment != null && dashboardFragment.isDashboardVisible()) {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
             builder.setTitle("Exit")
@@ -66,9 +68,12 @@ public class MainActivity extends AppCompatActivity {
 
             AlertDialog dialog = builder.create();
             dialog.show();
+        }else {
+            super.onBackPressed(); // Perform default back behavior for other fragments
         }
+    }
 
-    private void loadFragment(Fragment fragment){
+    private void loadFragment(Fragment fragment) {
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
         ft.replace(R.id.mainFragmentContainer, fragment);

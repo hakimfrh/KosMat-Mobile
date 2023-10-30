@@ -1,0 +1,332 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".editprofileFragment">
+
+    <AbsoluteLayout
+        android:id="@+id/edit_absoluteLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@color/primary"
+        android:transitionName="background"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/edit_circle1"
+            android:layout_width="717dp"
+            android:layout_height="717dp"
+            android:layout_x="-155dp"
+            android:layout_y="-550dp"
+            android:alpha="0.4"
+            android:src="@drawable/circle"
+            android:transitionName="circle1" />
+
+        <ImageView
+            android:id="@+id/edit_circle2"
+            android:layout_width="639dp"
+            android:layout_height="639dp"
+            android:layout_x="-114dp"
+            android:layout_y="-550dp"
+            android:src="@drawable/circle"
+            android:transitionName="circle2" />
+    </AbsoluteLayout>
+
+    <ImageView
+        android:id="@+id/btn_logout"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:src="@drawable/icon_logout"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="24dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/edit_imgprofile"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:transitionName="img_profile"
+        app:layout_constraintBottom_toBottomOf="@+id/edit_absoluteLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edit_absoluteLayout"
+        app:shapeAppearanceOverlay="@style/Circle"
+        tools:src="@tools:sample/avatars" />
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/edit_img_editprofile"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:paddingBottom="8dp"
+        android:src="@drawable/icon_editprofile"
+        android:transitionName="img_editProfile"
+        app:layout_constraintBottom_toBottomOf="@+id/edit_imgprofile"
+        app:layout_constraintEnd_toEndOf="@+id/edit_imgprofile"
+        app:layout_constraintStart_toStartOf="@+id/edit_imgprofile"
+        app:layout_constraintTop_toBottomOf="@+id/edit_imgprofile" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/edit_cardview"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="20dp"
+        android:transitionName="shared_card"
+        app:cardBackgroundColor="@color/invisible"
+        app:cardCornerRadius="20dp"
+        app:cardElevation="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edit_imgprofile">
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+            <ScrollView
+                android:id="@+id/edit_scrollview"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginBottom="18dp"
+                app:layout_constraintBottom_toTopOf="@id/btn_edit"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    tools:ignore="ExtraText">
+
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/edit_txt_namaLengkap"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="24dp"
+                        android:layout_marginTop="24dp"
+                        android:layout_marginEnd="24dp"
+                        android:hint="Nama Lengkap"
+                        android:transitionName="shared_username"
+                        app:boxCornerRadiusBottomEnd="10dp"
+                        app:boxCornerRadiusBottomStart="10dp"
+                        app:boxCornerRadiusTopEnd="10dp"
+                        app:boxCornerRadiusTopStart="10dp"
+                        app:boxStrokeColor="@color/primaryDark"
+                        app:errorEnabled="true"
+                        app:hintTextColor="@color/primaryDark"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:startIconDrawable="@drawable/icon_person">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:ems="10"
+                            android:fontFamily="@font/archivo"
+                            android:inputType="textPersonName"
+                            android:text="" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/edit_txt_email"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:hint="E-mail"
+                        app:boxCornerRadiusBottomEnd="10dp"
+                        app:boxCornerRadiusBottomStart="10dp"
+                        app:boxCornerRadiusTopEnd="10dp"
+                        app:boxCornerRadiusTopStart="10dp"
+                        app:boxStrokeColor="@color/primaryDark"
+                        app:errorEnabled="true"
+                        app:hintTextColor="@color/primaryDark"
+                        app:layout_constraintEnd_toEndOf="@+id/edit_txt_namaLengkap"
+                        app:layout_constraintStart_toStartOf="@+id/edit_txt_namaLengkap"
+                        app:layout_constraintTop_toBottomOf="@+id/edit_txt_namaLengkap"
+                        app:startIconDrawable="@drawable/icon_mail">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:ems="10"
+                            android:fontFamily="@font/archivo"
+                            android:inputType="text"
+                            android:text="" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/edit_txt_whatsapp"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:hint="Nomor Whatsapp"
+                        app:boxCornerRadiusBottomEnd="10dp"
+                        app:boxCornerRadiusBottomStart="10dp"
+                        app:boxCornerRadiusTopEnd="10dp"
+                        app:boxCornerRadiusTopStart="10dp"
+                        app:boxStrokeColor="@color/primaryDark"
+                        app:errorEnabled="true"
+                        app:hintTextColor="@color/primaryDark"
+                        app:layout_constraintEnd_toEndOf="@+id/edit_txt_email"
+                        app:layout_constraintStart_toStartOf="@+id/edit_txt_email"
+                        app:layout_constraintTop_toBottomOf="@+id/edit_txt_email"
+                        app:startIconDrawable="@drawable/icon_whatsapp">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:digits="0123456789"
+                            android:ems="10"
+                            android:fontFamily="@font/archivo"
+                            android:inputType="number" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/edit_txt_tglLahir"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:hint="Tanggal Lahir"
+                        app:boxCornerRadiusBottomEnd="10dp"
+                        app:boxCornerRadiusBottomStart="10dp"
+                        app:boxCornerRadiusTopEnd="10dp"
+                        app:boxCornerRadiusTopStart="10dp"
+                        app:boxStrokeColor="@color/primaryDark"
+                        app:errorEnabled="true"
+                        app:hintTextColor="@color/primaryDark"
+                        app:layout_constraintEnd_toEndOf="@+id/edit_txt_email"
+                        app:layout_constraintStart_toStartOf="@+id/edit_txt_email"
+                        app:layout_constraintTop_toBottomOf="@+id/edit_txt_whatsapp"
+                        app:startIconDrawable="@drawable/icon_date">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:ems="10"
+                            android:fontFamily="@font/archivo"
+                            android:inputType="text"
+                            android:text="" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/edit_spinner_layout"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        app:cardBackgroundColor="#00FFFFFF"
+                        app:cardCornerRadius="10dp"
+                        app:layout_constraintEnd_toEndOf="@+id/edit_txt_tglLahir"
+                        app:layout_constraintStart_toStartOf="@+id/edit_txt_tglLahir"
+                        app:layout_constraintTop_toBottomOf="@+id/edit_txt_tglLahir"
+                        app:strokeColor="#849d90"
+                        app:strokeWidth="1dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <!-- Add your icon here -->
+                            <ImageView
+                                android:layout_width="44dp"
+                                android:layout_height="24dp"
+                                android:layout_gravity="center_vertical"
+                                android:paddingLeft="8dp"
+                                android:src="@drawable/icon_gender" />
+
+                            <!-- Add your spinner here -->
+                            <androidx.appcompat.widget.AppCompatSpinner
+                                android:id="@+id/edit_sp_gender"
+                                android:layout_width="0dp"
+                                android:layout_height="60dp"
+                                android:layout_weight="1" />
+
+                        </LinearLayout>
+
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/edit_txt_regUsername"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:hint="Username"
+                        android:paddingTop="20dp"
+                        app:boxCornerRadiusBottomEnd="10dp"
+                        app:boxCornerRadiusBottomStart="10dp"
+                        app:boxCornerRadiusTopEnd="10dp"
+                        app:boxCornerRadiusTopStart="10dp"
+                        app:boxStrokeColor="@color/primaryDark"
+                        app:errorEnabled="true"
+                        app:hintTextColor="@color/primaryDark"
+                        app:layout_constraintEnd_toEndOf="@+id/edit_spinner_layout"
+                        app:layout_constraintStart_toStartOf="@+id/edit_spinner_layout"
+                        app:layout_constraintTop_toBottomOf="@+id/edit_spinner_layout"
+                        app:startIconDrawable="@drawable/icon_person">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:ems="10"
+                            android:fontFamily="@font/archivo"
+                            android:inputType="text"
+                            android:text="" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/edit_txt_regPassword"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:hint="Password"
+                        android:transitionName="shared_password"
+                        app:boxCornerRadiusBottomEnd="10dp"
+                        app:boxCornerRadiusBottomStart="10dp"
+                        app:boxCornerRadiusTopEnd="10dp"
+                        app:boxCornerRadiusTopStart="10dp"
+                        app:boxStrokeColor="@color/primaryDark"
+                        app:errorEnabled="true"
+                        app:hintTextColor="@color/primaryDark"
+                        app:layout_constraintEnd_toEndOf="@+id/edit_txt_regUsername"
+                        app:layout_constraintStart_toStartOf="@+id/edit_txt_regUsername"
+                        app:layout_constraintTop_toBottomOf="@+id/edit_txt_regUsername"
+                        app:passwordToggleEnabled="true"
+                        app:startIconDrawable="@drawable/icon_lock">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:ems="10"
+                            android:fontFamily="@font/archivo"
+                            android:inputType="text"
+                            android:text="" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </ScrollView>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_edit"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginEnd="24dp"
+                android:layout_marginBottom="0dp"
+                android:backgroundTint="@color/primaryDark"
+                android:drawableEnd="@drawable/icon_arrowright"
+                android:fontFamily="@font/archivo_bold"
+                android:text="      simpan"
+                android:textColor="@color/white"
+                android:transitionName="shared_button"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/edit_scrollview"
+                app:layout_constraintStart_toStartOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+</androidx.constraintlayout.widget.ConstraintLayout>

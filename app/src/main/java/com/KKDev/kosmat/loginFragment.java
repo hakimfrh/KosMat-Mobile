@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.app.AlertDialog;
@@ -26,7 +27,7 @@ import com.google.android.material.textfield.TextInputLayout;
 
 public class loginFragment extends Fragment {
 
-    @SuppressLint("NewApi")
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -40,14 +41,17 @@ public class loginFragment extends Fragment {
         TextInputEditText txt_username = (TextInputEditText) txtx_username.getEditText();
         TextInputEditText txt_password = (TextInputEditText) txtx_password.getEditText();
         TextView buttonTextView = view.findViewById(R.id.btn_GotoRegister);
+        CheckBox cb_ingatSaya = view.findViewById(R.id.cb_ingatSaya);
         Button btn_login = view.findViewById(R.id.btn_Login);
 
         String savedUsername = sharedPreferences.getString("username", "");
         String savedPassword = sharedPreferences.getString("password", "");
-        txt_username.setText(savedUsername); // "" is the default value if username is not found
-        txt_password.setText(savedPassword); // "" is the default value if password is not found
+        boolean savedCheckbox = sharedPreferences.getBoolean("checkBox",false);
 
-        if(!savedUsername.isEmpty() && !savedPassword.isEmpty()){
+        txt_username.setText(savedUsername);
+        //txt_password.setText(savedPassword);
+
+        if(savedCheckbox){
             sqliteHelper db = new sqliteHelper(container.getContext());
             User user = db.login(savedUsername, savedPassword);
             login(user);
@@ -71,6 +75,7 @@ public class loginFragment extends Fragment {
                     SharedPreferences.Editor editor = sharedPreferences.edit();
                     editor.putString("username", username);
                     editor.putString("password", password);
+                    editor.putBoolean("checkBox", cb_ingatSaya.isChecked());
                     editor.apply();
 
                     login(user);
@@ -94,7 +99,6 @@ public class loginFragment extends Fragment {
     }
 
     private void login(User user){
-
         Intent intent = new Intent(getActivity(), MainActivity.class);
         intent.putExtra("user", user);
         startActivity(intent);
