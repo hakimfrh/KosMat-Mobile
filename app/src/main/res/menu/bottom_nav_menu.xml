@@ -2,10 +2,18 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:id="@+id/dashboard"
         android:title="Dashboard"
-        android:icon="@drawable/round_home_24"
+        android:icon="@drawable/nav_icon_home"
         />
     <item android:id="@+id/kamar"
         android:title="Kamar"
-        android:icon="@drawable/round_bedroom_parent_24"
+        android:icon="@drawable/nav_icon_kamar"
+        />
+    <item android:id="@+id/laporan"
+        android:title="Laporan"
+        android:icon="@drawable/nav_icon_laporan"
+        />
+    <item android:id="@+id/pesan"
+        android:title="Pesan"
+        android:icon="@drawable/nav_icon_pesan"
         />
 </menu>

@@ -9,7 +9,7 @@
     <AbsoluteLayout
         android:id="@+id/edit_absoluteLayout"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="200dp"
         android:background="@color/primary"
         android:transitionName="background"
         app:layout_constraintEnd_toEndOf="parent"

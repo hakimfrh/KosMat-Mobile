@@ -38,6 +38,12 @@ public class MainActivity extends AppCompatActivity {
                 } else if (item.getItemId() == R.id.kamar) {
                     loadFragment(new listkamarFragment());
                     return true;
+                } else if (item.getItemId() == R.id.laporan) {
+                    loadFragment(new LaporanFragment());
+                    return true;
+                } else if (item.getItemId() == R.id.pesan) {
+                    loadFragment(new PesanFragment());
+                    return true;
                 }
                 return false;
             }
@@ -68,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
 
             AlertDialog dialog = builder.create();
             dialog.show();
-        }else {
+        } else {
             super.onBackPressed(); // Perform default back behavior for other fragments
         }
     }

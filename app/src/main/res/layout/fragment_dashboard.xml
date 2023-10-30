@@ -9,7 +9,7 @@
     <AbsoluteLayout
         android:id="@+id/absoluteLayout"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="400dp"
         android:background="@color/primary"
         android:transitionName="background"
         app:layout_constraintEnd_toEndOf="parent"
@@ -24,7 +24,7 @@
             android:layout_y="-400dp"
             android:alpha="0.4"
             android:src="@drawable/circle"
-            android:transitionName="circle1"/>
+            android:transitionName="circle1" />
 
         <ImageView
             android:id="@+id/circle2"
@@ -33,7 +33,9 @@
             android:layout_x="150dp"
             android:layout_y="-400dp"
             android:src="@drawable/circle"
-            android:transitionName="circle2"/>
+            android:transitionName="circle2" />
+
+
 
 
     </AbsoluteLayout>
@@ -95,23 +97,75 @@
         app:layout_constraintVertical_bias="0.0" />
 
     <View
+        android:id="@+id/view"
         android:layout_width="0dp"
         android:layout_height="1dp"
-        android:background="@color/white"
         android:layout_marginTop="4dp"
-        app:layout_constraintTop_toBottomOf="@id/tx_dsNama"
+        android:background="@color/white"
         app:layout_constraintEnd_toEndOf="@+id/img_profile"
-        app:layout_constraintStart_toStartOf="@+id/tx_dsDesc" />
+        app:layout_constraintStart_toStartOf="@+id/tx_dsDesc"
+        app:layout_constraintTop_toBottomOf="@id/tx_dsNama" />
     <TextView
         android:id="@+id/tx_dsDesc"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:textSize="16sp"
-        android:text="TextView"
+        android:textSize="12sp"
+        android:text="Keuntungan bulan "
         android:textColor="@color/white"
-        app:layout_constraintEnd_toEndOf="@+id/tx_dsNama"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/tx_dsNama"
         app:layout_constraintTop_toBottomOf="@+id/tx_dsNama" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Januari"
+        android:textColor="@color/white"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/tx_dsDesc"
+        app:layout_constraintStart_toEndOf="@+id/tx_dsDesc"
+        app:layout_constraintTop_toTopOf="@+id/tx_dsDesc"/>
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:textSize="36sp"
+        android:textStyle="bold"
+        android:text="Rp. 1.200.000"
+        app:layout_constraintStart_toStartOf="@+id/tx_dsDesc"
+        app:layout_constraintTop_toBottomOf="@+id/tx_dsDesc" />
+
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Tagigan Kos"
+        android:textColor="@color/white"
+        android:textSize="12sp"
+        app:layout_constraintStart_toStartOf="@+id/textView4"
+        app:layout_constraintTop_toBottomOf="@+id/textView4" />
+
+    <HorizontalScrollView
+        android:layout_width="0dp"
+        android:layout_height="90dp"
+        android:orientation="horizontal"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView5">
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycletagihan"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            tools:listitem="@layout/cardtagihan"/>
+    </HorizontalScrollView>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
