@@ -1,13 +1,10 @@
 package com.KKDev.kosmat;
 
-import android.Manifest;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -20,16 +17,12 @@ import android.transition.TransitionSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
-import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -42,8 +35,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-import com.KKDev.kosmat.adapter.sqliteHelper;
-import com.KKDev.kosmat.adapter.User;
+import com.KKDev.kosmat.adapter.SqliteHelper;
+import com.KKDev.kosmat.model.User;
 
 public class registerFragment extends Fragment {
 
@@ -283,8 +276,9 @@ public class registerFragment extends Fragment {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     dialog.dismiss();
-                                    sqliteHelper db = new sqliteHelper(container.getContext());
-                                    User user = new User(nik, username, password, nama, noWhatsapp, privilege, tglLahir, gender, byteArray);
+                                    SqliteHelper db = new SqliteHelper(container.getContext());
+                                    //User user = new User(nik, username, password, nama, noWhatsapp, privilege, tglLahir, gender, byteArray);
+                                    User user =null;
                                     db.register(user);
 
                                     AlertDialog.Builder success = new AlertDialog.Builder(getActivity());

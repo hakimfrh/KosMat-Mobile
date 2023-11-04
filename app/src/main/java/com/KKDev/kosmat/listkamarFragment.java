@@ -1,5 +1,7 @@
 package com.KKDev.kosmat;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -10,9 +12,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.KKDev.kosmat.adapter.User;
+import com.KKDev.kosmat.model.User;
 import com.KKDev.kosmat.adapter.cardAdapter;
-import com.KKDev.kosmat.adapter.sqliteHelper;
+import com.KKDev.kosmat.adapter.SqliteHelper;
+import com.KKDev.kosmat.retrofit.DatabaseCallback;
+import com.KKDev.kosmat.retrofit.DatabaseConnection;
+import com.KKDev.kosmat.retrofit.UserResponse;
+
+import java.util.List;
 
 public class listkamarFragment extends Fragment {
 
@@ -32,29 +39,58 @@ public class listkamarFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_listkamar, container, false);
-        sqliteHelper db = new sqliteHelper(getContext());
-        User user[] = db.getAllUser();
-        data = new Object[user.length][4];
-        for (int i = 0; i < user.length; i++) {
-            data[i][0] = R.drawable.kamar1;
-            data[i][1] = user[i].getNama();
-            data[i][2] = user[i].getUsername();
-            String desc = "username \t: " + user[i].getUsername() + "\n"
-                    + "password \t: " + user[i].getPassword() + "\n"
-                    + "nik \t\t\t\t\t\t\t: " + user[i].getNik() + "\n"
-                    + "whatsapp \t: " + user[i].getNoWhatsapp() + "\n"
-                    + "tgl-lahir \t\t\t: " + user[i].getTglLahir() + "\n"
-                    + "gender \t\t\t: " + user[i].getGender() + "\n";
-            data[i][3] = desc;
+        //SqliteHelper db = new SqliteHelper(getContext());
+        DatabaseConnection db = new DatabaseConnection();
+        db.getAllUser(new DatabaseCallback<UserResponse>() {
 
-        }
+            @Override
+            public void onSuccess(UserResponse userResponse) {
 
+                if (userResponse.getCode() == 200) {
+                    List<User> userList = userResponse.getUserlist();
+                }
+            }
 
-        recyclerView = view.findViewById(R.id.kamarRecycleView);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+            @Override
+            public void onError(Throwable t) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                builder.setTitle("Error")
+                        .setMessage(t.toString())
+                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                // Dismiss the dialog
+                                dialog.dismiss();
+                            }
+                        })
+                        .show();
+            }
+        });
 
-        cardAdapter adapter = new cardAdapter(getContext(), data);
-        recyclerView.setAdapter(adapter);
+//
+//        data = new Object[user.length][4];
+//        for (
+//                int i = 0;
+//                i < user.length; i++) {
+//            data[i][0] = R.drawable.kamar1;
+//            data[i][1] = user[i].getNama();
+//            data[i][2] = user[i].getUsername();
+//            String desc = "username \t: " + user[i].getUsername() + "\n"
+//                    + "password \t: " + user[i].getPassword() + "\n"
+//                    + "nik \t\t\t\t\t\t\t: " + user[i].getNik() + "\n"
+//                    + "whatsapp \t: " + user[i].getNoWhatsapp() + "\n"
+//                    + "tgl-lahir \t\t\t: " + user[i].getTglLahir() + "\n"
+//                    + "gender \t\t\t: " + user[i].getGender() + "\n";
+//            data[i][3] = desc;
+//
+//        }
+//
+//
+//        recyclerView = view.findViewById(R.id.kamarRecycleView);
+//        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+//
+//        cardAdapter adapter = new cardAdapter(getContext(), data);
+//        recyclerView.setAdapter(adapter);
 
         return view;
     }

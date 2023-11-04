@@ -6,14 +6,10 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 
-import com.KKDev.kosmat.R;
+import com.KKDev.kosmat.model.User;
 
-import java.io.ByteArrayOutputStream;
-
-public class sqliteHelper extends SQLiteOpenHelper {
+public class SqliteHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "kosmat_mobile.db";
     private static final int DATABASE_VERSION = 1;
 
@@ -43,7 +39,7 @@ public class sqliteHelper extends SQLiteOpenHelper {
 
 
 
-    public sqliteHelper(Context context) {
+    public SqliteHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
@@ -64,9 +60,9 @@ public class sqliteHelper extends SQLiteOpenHelper {
         contentValues.put("username", user.getUsername());
         contentValues.put("password", user.getPassword());
         contentValues.put("nama", user.getNama());
-        contentValues.put("no_whatsapp", user.getNoWhatsapp());
+        contentValues.put("no_whatsapp", user.getNo_whatsapp());
         contentValues.put("privilege", user.getPrivilege());
-        contentValues.put("tgl_lahir", user.getTglLahir());
+        contentValues.put("tgl_lahir", user.getTgl_lahir());
         contentValues.put("gender", user.getGender());
         contentValues.put("image", user.getImage());
         long result = sqLiteDatabase.insert("akun", null, contentValues);
@@ -91,15 +87,18 @@ public class sqliteHelper extends SQLiteOpenHelper {
                 @SuppressLint("Range") String password = cursor.getString(cursor.getColumnIndex("password"));
                 @SuppressLint("Range") String nama = cursor.getString(cursor.getColumnIndex("nama"));
                 @SuppressLint("Range") String no_whatsapp = cursor.getString(cursor.getColumnIndex("no_whatsapp"));
+                @SuppressLint("Range") String no_whatsapp_wali = cursor.getString(cursor.getColumnIndex("no_whatsapp_wali"));
                 @SuppressLint("Range") String privilege = cursor.getString(cursor.getColumnIndex("privilege"));
                 @SuppressLint("Range") String tgl_lahir = cursor.getString(cursor.getColumnIndex("tgl_lahir"));
                 @SuppressLint("Range") String gender = cursor.getString(cursor.getColumnIndex("gender"));
                 @SuppressLint("Range") byte[] image = cursor.getBlob(cursor.getColumnIndex("image"));
+
                 if ((inputUsername.equals(username) && (inputPassword.equals(password)))) {
-                    User user = new User(nik, username, password, nama, no_whatsapp, privilege, tgl_lahir, gender, image);
+                    User user = new User(nik, username, password, nama, no_whatsapp, no_whatsapp_wali, privilege, tgl_lahir, gender, image);
                     result = user;
                 }
             }
+
             cursor.close(); // Remember to close the cursor when you're done with it
         }
 
@@ -123,12 +122,13 @@ public class sqliteHelper extends SQLiteOpenHelper {
                 @SuppressLint("Range") String password = cursor.getString(cursor.getColumnIndex("password"));
                 @SuppressLint("Range") String nama = cursor.getString(cursor.getColumnIndex("nama"));
                 @SuppressLint("Range") String no_whatsapp = cursor.getString(cursor.getColumnIndex("no_whatsapp"));
+                @SuppressLint("Range") String no_whatsapp_wali = cursor.getString(cursor.getColumnIndex("no_whatsapp_wali"));
                 @SuppressLint("Range") String privilege = cursor.getString(cursor.getColumnIndex("privilege"));
                 @SuppressLint("Range") String tgl_lahir = cursor.getString(cursor.getColumnIndex("tgl_lahir"));
                 @SuppressLint("Range") String gender = cursor.getString(cursor.getColumnIndex("gender"));
                 @SuppressLint("Range") byte[] image = cursor.getBlob(cursor.getColumnIndex("image"));
 
-                User user = new User(nik, username, password, nama, no_whatsapp, privilege, tgl_lahir, gender,image);
+                User user = new User(nik, username, password, nama, no_whatsapp, no_whatsapp_wali, privilege, tgl_lahir, gender, image);
                 result[i] = user;
                 i++;
             }

@@ -3,8 +3,10 @@ package com.KKDev.kosmat;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Build;
 import android.os.Bundle;
 
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.transition.ChangeBounds;
@@ -17,7 +19,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.KKDev.kosmat.adapter.User;
+import com.KKDev.kosmat.model.User;
 
 public class DashboardFragment extends Fragment {
     private boolean isDashboardVisible = false;
@@ -38,6 +40,7 @@ public class DashboardFragment extends Fragment {
         return isDashboardVisible;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -54,13 +57,13 @@ public class DashboardFragment extends Fragment {
         String desc = "username \t: " + user.getUsername() + "\n"
                 + "password \t: " + user.getPassword() + "\n"
                 + "nik \t\t\t\t\t\t\t: " + user.getNik() + "\n"
-                + "whatsapp \t: " + user.getNoWhatsapp() + "\n"
-                + "tgl-lahir \t\t\t: " + user.getTglLahir() + "\n"
+                + "whatsapp \t: " + user.getNo_whatsapp() + "\n"
+                + "tgl-lahir \t\t\t: " + user.getTgl_lahir() + "\n"
                 + "gender \t\t\t\t: " + user.getGender() + "\n";
 
         tx_namaUser.setText(nama);
         tx_description.setText(desc);
-        byte[] byteArray = user.getImage();
+        byte[] byteArray = user.getImageByte();
         Bitmap bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
 
 // Assuming 'imageView' is your ImageView

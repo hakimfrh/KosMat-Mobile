@@ -5,8 +5,10 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Build;
 import android.os.Bundle;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
@@ -20,10 +22,9 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.KKDev.kosmat.adapter.User;
+import com.KKDev.kosmat.model.User;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
@@ -31,6 +32,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class editprofileFragment extends Fragment {
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -40,7 +42,7 @@ public class editprofileFragment extends Fragment {
         User user = (User) bundle.getSerializable("user");
         ImageView img_editProfile = view.findViewById(R.id.edit_imgprofile);
 
-        byte[] byteArray = user.getImage();
+        byte[] byteArray = user.getImageByte();
         Bitmap bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
         img_editProfile.setImageBitmap(bitmap);
 
@@ -71,7 +73,7 @@ public class editprofileFragment extends Fragment {
 
         edit_txt_nama.setText(user.getNama());
         edit_txt_email.setText(user.getNik());
-        edit_txt_whatsapp.setText(user.getNoWhatsapp());
+        edit_txt_whatsapp.setText(user.getNo_whatsapp());
         edit_txt_username.setText(user.getUsername());
         edit_txt_password.setText(user.getPassword());
 

@@ -1,4 +1,4 @@
-package com.KKDev.kosmat.adapter;
+package com.KKDev.kosmat.model;
 
 import java.io.Serializable;
 
