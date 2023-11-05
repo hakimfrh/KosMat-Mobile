@@ -29,7 +29,7 @@ import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.List;
 
-public class loginFragment extends Fragment {
+public class LoginFragment extends Fragment {
 
 
     @Override
@@ -65,7 +65,7 @@ public class loginFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 // Open the destination fragment
-                openDestinationFragmentWithTransitions(view, new registerFragment());
+                openDestinationFragmentWithTransitions(view, new RegisterFragment());
             }
         });
         btn_login.setOnClickListener(new View.OnClickListener() {

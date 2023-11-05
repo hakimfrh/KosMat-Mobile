@@ -30,7 +30,6 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.KKDev.kosmat.retrofit.DatabaseCallback;
 import com.KKDev.kosmat.retrofit.DatabaseConnection;
-import com.KKDev.kosmat.retrofit.RegisterResponse;
 import com.KKDev.kosmat.retrofit.UserResponse;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.android.material.textfield.TextInputEditText;
@@ -41,12 +40,11 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-import com.KKDev.kosmat.adapter.SqliteHelper;
 import com.KKDev.kosmat.model.User;
 
 import org.json.JSONException;
 
-public class registerFragment extends Fragment {
+public class RegisterFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

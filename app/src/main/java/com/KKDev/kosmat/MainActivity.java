@@ -11,6 +11,7 @@ import androidx.fragment.app.FragmentTransaction;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
@@ -36,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
                     loadFragment(new DashboardFragment());
                     return true;
                 } else if (item.getItemId() == R.id.kamar) {
-                    loadFragment(new listkamarFragment());
+                    loadFragment(new ListKamarFragment());
                     return true;
                 } else if (item.getItemId() == R.id.laporan) {
                     loadFragment(new LaporanFragment());
@@ -51,8 +52,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onBackPressed() {
-        DashboardFragment dashboardFragment = (DashboardFragment) getSupportFragmentManager().findFragmentByTag("DashboardFragment");
-        if (dashboardFragment != null && dashboardFragment.isDashboardVisible()) {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        int backStackEntryCount = fragmentManager.getBackStackEntryCount();
+        Toast.makeText(this, Integer.toString(backStackEntryCount), Toast.LENGTH_SHORT).show();
+
+        //DashboardFragment dashboardFragment = (DashboardFragment) getSupportFragmentManager().findFragmentByTag("DashboardFragment");
+
+        if (backStackEntryCount < 1) {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
             builder.setTitle("Exit")

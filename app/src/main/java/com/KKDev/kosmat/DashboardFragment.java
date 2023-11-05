@@ -79,7 +79,7 @@ public class DashboardFragment extends Fragment {
             public void onClick(View v) {
 
 
-                openDestinationFragmentWithTransitions(view, new editprofileFragment(),user);
+                openDestinationFragmentWithTransitions(view, new EditProfileFragment(),user);
             }
         });
         return view;

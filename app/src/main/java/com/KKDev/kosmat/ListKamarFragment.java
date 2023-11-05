@@ -5,7 +5,6 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
@@ -13,15 +12,13 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.KKDev.kosmat.model.User;
-import com.KKDev.kosmat.adapter.cardAdapter;
-import com.KKDev.kosmat.adapter.SqliteHelper;
 import com.KKDev.kosmat.retrofit.DatabaseCallback;
 import com.KKDev.kosmat.retrofit.DatabaseConnection;
 import com.KKDev.kosmat.retrofit.UserResponse;
 
 import java.util.List;
 
-public class listkamarFragment extends Fragment {
+public class ListKamarFragment extends Fragment {
 
     private RecyclerView recyclerView;
 
