@@ -1,7 +1,6 @@
 package com.KKDev.kosmat.adapter;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,17 +8,17 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.KKDev.kosmat.DescActivity;
 import com.KKDev.kosmat.R;
 
-public class tagihanAdapter extends RecyclerView.Adapter<tagihanAdapter.ViewHolder>{
+public class TagihanAdapter extends RecyclerView.Adapter<TagihanAdapter.ViewHolder>{
 
     private Object[][] data;
     private Context context;
 
-    public tagihanAdapter(Context context, Object[][] data) {
+    public TagihanAdapter(Context context, Object[][] data) {
         this.context = context;
         this.data = data;
     }
@@ -33,14 +32,9 @@ public class tagihanAdapter extends RecyclerView.Adapter<tagihanAdapter.ViewHold
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Object[] row = data[position];
-
-        // Assuming row[0] is an integer representing the resource ID of the image
         holder.imageView.setImageResource((Integer) row[0]);
-
-        // Assuming row[1] and row[2] are Strings for the title and description
         holder.textViewTitle.setText((String) row[1]);
-        holder.textViewTotal.setText((String) row[2]);
-
+        holder.textViewTotal.setText("Rp. "+(String) row[2]);
     }
 
     // Tambahkan method untuk mendapatkan deskripsi dari posisi tertentu

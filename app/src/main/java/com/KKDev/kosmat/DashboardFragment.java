@@ -9,6 +9,8 @@ import android.os.Bundle;
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.transition.ChangeBounds;
 import androidx.transition.ChangeImageTransform;
 import androidx.transition.TransitionSet;
@@ -19,6 +21,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.KKDev.kosmat.adapter.TagihanAdapter;
 import com.KKDev.kosmat.model.User;
 
 public class DashboardFragment extends Fragment {
@@ -51,23 +54,25 @@ public class DashboardFragment extends Fragment {
 
         ImageView img_profile = view.findViewById(R.id.img_profile);
         TextView tx_namaUser = view.findViewById(R.id.tx_dsNama);
-        TextView tx_description = view.findViewById(R.id.tx_dsDesc);
 
         String nama = user.getNama();
-        String desc = "username \t: " + user.getUsername() + "\n"
-                + "password \t: " + user.getPassword() + "\n"
-                + "nik \t\t\t\t\t\t\t: " + user.getNik() + "\n"
-                + "whatsapp \t: " + user.getNo_whatsapp() + "\n"
-                + "tgl-lahir \t\t\t: " + user.getTgl_lahir() + "\n"
-                + "gender \t\t\t\t: " + user.getGender() + "\n";
-
         tx_namaUser.setText(nama);
-        tx_description.setText(desc);
         byte[] byteArray = user.getImageByte();
         Bitmap bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
-
-// Assuming 'imageView' is your ImageView
         img_profile.setImageBitmap(bitmap);
+
+        Object[][] data = {
+                {R.drawable.kamar1, "Kamar 1", "800.000"},
+                {R.drawable.kamar2, "Kamar 2", "400.000"},
+                {R.drawable.kamar3, "Kamar 3", "200.000"},
+                {R.drawable.kamar4, "Kamar 4", "1.200.000"}
+        };
+
+        RecyclerView recyclerTagihan = view.findViewById(R.id.recycletagihan);
+        recyclerTagihan.setLayoutManager(new LinearLayoutManager(getActivity(),LinearLayoutManager.HORIZONTAL,false));
+        TagihanAdapter adapterTagihan = new TagihanAdapter(getContext(), data);
+        recyclerTagihan.setAdapter(adapterTagihan);
+
 
         img_profile.setOnClickListener(new View.OnClickListener() {
             @Override
