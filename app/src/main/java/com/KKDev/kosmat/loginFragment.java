@@ -79,7 +79,7 @@ public class loginFragment extends Fragment {
                 db.login(username, password, new DatabaseCallback<UserResponse>() {
                     @Override
                     public void onSuccess(UserResponse userResponse) {
-                        if (userResponse.getCode() == 200) {
+                        if (userResponse.getStatus().equals("ok")) {
                             List<User> userList = userResponse.getUserlist();
                             User user = userList.get(0);
                             if (user != null) {

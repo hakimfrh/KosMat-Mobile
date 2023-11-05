@@ -3,6 +3,10 @@
     <style name="Base.Theme.KosMat" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="android:textViewStyle">@style/PoppinsTextViewStyle</item>
+    </style>
+    <style name="PoppinsTextViewStyle" parent="android:Widget.TextView">
+        <item name="android:fontFamily">@font/poppins</item>
     </style>
 
     <style name="Theme.KosMat" parent="Base.Theme.KosMat" />
