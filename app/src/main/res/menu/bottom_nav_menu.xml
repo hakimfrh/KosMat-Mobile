@@ -13,7 +13,7 @@
         android:icon="@drawable/nav_icon_laporan"
         />
     <item android:id="@+id/pesan"
-        android:title="Pesan"
+        android:title="Penyewa"
         android:icon="@drawable/nav_icon_pesan"
         />
 </menu>

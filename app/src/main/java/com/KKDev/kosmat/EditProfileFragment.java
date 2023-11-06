@@ -21,6 +21,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -51,6 +52,7 @@ public class EditProfileFragment extends Fragment {
         genderList.add("Laki-Laki");
         genderList.add("Perempuan");
 
+        LinearLayout tx_editprofile = view.findViewById(R.id.tx_editprofile);
         TextInputLayout edit_txtx_Nama = view.findViewById(R.id.edit_txt_namaLengkap);
         TextInputLayout edit_txtx_email = view.findViewById(R.id.edit_txt_email);
         TextInputLayout edit_txtx_whatsapp = view.findViewById(R.id.edit_txt_whatsapp);
@@ -115,7 +117,12 @@ public class EditProfileFragment extends Fragment {
 
             }
         });
-
+        tx_editprofile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().onBackPressed();
+            }
+        });
         TransitionSet transitionSet = new TransitionSet();
         transitionSet.addTransition(new ChangeImageTransform());
         transitionSet.addTransition(new ChangeBounds());

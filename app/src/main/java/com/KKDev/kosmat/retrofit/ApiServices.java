@@ -16,6 +16,10 @@ public interface ApiServices {
             @Query("username") String username,
             @Query("password") String password
     );
+    @GET("kosmat-api/user.php")
+    Call<UserResponse> getAllUser(
+            @Query("method") String method
+    );
     @POST("kosmat-api/user.php")
     Call<UserResponse> registerUser(
             @Body RequestBody requestBody

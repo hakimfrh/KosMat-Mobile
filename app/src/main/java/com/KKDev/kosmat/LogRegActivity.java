@@ -19,8 +19,19 @@ public class LogRegActivity extends AppCompatActivity {
 
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
-        ft.replace(R.id.logRegFragment, new LoginFragment());
+        ft.replace(R.id.logRegFragment, new LoginFragment(),"LoginFragment");
         ft.commit();
-    }
 
+    }
+    public void onBackPressed() {
+
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        LoginFragment loginFragment = (LoginFragment) fragmentManager.findFragmentByTag("LoginFragment");
+        if (loginFragment != null && loginFragment.isVisible()) {
+            finishAffinity();
+        }else{
+            super.onBackPressed();
+        }
+
+    }
 }

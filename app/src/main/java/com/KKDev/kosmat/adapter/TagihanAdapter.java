@@ -8,7 +8,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.KKDev.kosmat.R;
@@ -25,7 +24,7 @@ public class TagihanAdapter extends RecyclerView.Adapter<TagihanAdapter.ViewHold
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.cardtagihan, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_tagihan, parent, false);
         return new ViewHolder(view);
     }
 

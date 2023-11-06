@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
                     loadFragment(new LaporanFragment());
                     return true;
                 } else if (item.getItemId() == R.id.pesan) {
-                    loadFragment(new PesanFragment());
+                    loadFragment(new PenyewaFragment());
                     return true;
                 }
                 return false;

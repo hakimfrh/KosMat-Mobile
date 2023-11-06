@@ -36,6 +36,29 @@
             android:transitionName="circle2" />
     </AbsoluteLayout>
 
+    <LinearLayout
+        android:id="@+id/tx_editprofile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        app:layout_constraintBottom_toBottomOf="@+id/btn_logout"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/btn_logout">
+
+        <ImageView
+            android:layout_width="28dp"
+            android:layout_height="match_parent"
+            android:src="@drawable/icon_arrow_left" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="34sp"
+            android:layout_marginStart="8dp"
+            android:text="Edit Profil"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            android:textSize="24sp"
+            android:layout_gravity="center"/>
+    </LinearLayout>
     <ImageView
         android:id="@+id/btn_logout"
         android:layout_width="36dp"

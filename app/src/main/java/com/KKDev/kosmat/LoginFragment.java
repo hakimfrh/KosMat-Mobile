@@ -127,8 +127,11 @@ public class LoginFragment extends Fragment {
             }
 
         });
+
+
         return view;
     }
+
 
     private void login(User user) {
         Intent intent = new Intent(getActivity(), MainActivity.class);

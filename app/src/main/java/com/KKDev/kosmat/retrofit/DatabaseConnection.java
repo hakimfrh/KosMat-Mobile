@@ -17,7 +17,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 public class DatabaseConnection {
-    private String server = "http://192.168.1.4/";
+    private String server = "http://192.168.1.20/";
     Retrofit retrofit = new Retrofit.Builder().baseUrl(server).addConverterFactory(GsonConverterFactory.create()).build();
     ApiServices services = retrofit.create(ApiServices.class);
 
@@ -40,7 +40,7 @@ public class DatabaseConnection {
         });
     }
     public void getAllUser(DatabaseCallback<UserResponse> callback) {
-        services.getUser("getAllUser", "", "").enqueue(new Callback<UserResponse>() {
+        services.getAllUser("getAllUser").enqueue(new Callback<UserResponse>() {
             @Override
             public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
                 if (response.isSuccessful()) {
