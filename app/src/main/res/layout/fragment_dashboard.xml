@@ -36,8 +36,6 @@
             android:transitionName="circle2" />
 
 
-
-
     </AbsoluteLayout>
 
     <com.google.android.material.imageview.ShapeableImageView
@@ -46,8 +44,9 @@
         android:layout_height="80dp"
         android:layout_marginTop="24dp"
         android:layout_marginEnd="24dp"
-        android:transitionName="img_profile"
         android:background="@color/transparant"
+        android:scaleType="centerCrop"
+        android:transitionName="img_profile"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:shapeAppearanceOverlay="@style/Circle"
@@ -103,14 +102,15 @@
         app:layout_constraintEnd_toEndOf="@+id/img_profile"
         app:layout_constraintStart_toStartOf="@+id/tx_dsDesc"
         app:layout_constraintTop_toBottomOf="@id/tx_dsNama" />
+
     <TextView
         android:id="@+id/tx_dsDesc"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:textSize="12sp"
         android:text="Keuntungan bulan "
         android:textColor="@color/white"
+        android:textSize="12sp"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/tx_dsNama"
         app:layout_constraintTop_toBottomOf="@+id/view" />
@@ -125,16 +125,16 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/tx_dsDesc"
         app:layout_constraintStart_toEndOf="@+id/tx_dsDesc"
-        app:layout_constraintTop_toTopOf="@+id/tx_dsDesc"/>
+        app:layout_constraintTop_toTopOf="@+id/tx_dsDesc" />
 
     <TextView
         android:id="@+id/textView4"
         android:layout_width="wrap_content"
         android:layout_height="50dp"
+        android:text="Rp. 1.200.000"
         android:textColor="@color/white"
         android:textSize="36sp"
         android:textStyle="bold"
-        android:text="Rp. 1.200.000"
         app:layout_constraintStart_toStartOf="@+id/tx_dsDesc"
         app:layout_constraintTop_toBottomOf="@+id/tx_dsDesc" />
 
@@ -155,10 +155,10 @@
         android:layout_width="0dp"
         android:layout_height="90dp"
         android:layout_marginTop="4dp"
+        android:clipToPadding="false"
         android:orientation="horizontal"
         android:paddingLeft="20dp"
         android:paddingEnd="20dp"
-        android:clipToPadding="false"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView5"
