@@ -3,6 +3,7 @@ package com.KKDev.kosmat;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,12 +21,18 @@ import androidx.transition.ChangeImageTransform;
 import androidx.transition.TransitionSet;
 
 import com.KKDev.kosmat.model.User;
-import com.KKDev.kosmat.adapter.SqliteHelper;
 import com.KKDev.kosmat.retrofit.DatabaseCallback;
 import com.KKDev.kosmat.retrofit.DatabaseConnection;
-import com.KKDev.kosmat.retrofit.UserResponse;
+import com.KKDev.kosmat.model.UserResponse;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.gson.Gson;
 
 import java.util.List;
 
@@ -33,8 +40,7 @@ public class LoginFragment extends Fragment {
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_login, container, false);
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences("login", getContext().MODE_PRIVATE);
@@ -55,12 +61,6 @@ public class LoginFragment extends Fragment {
         txt_username.setText(savedUsername);
         //txt_password.setText(savedPassword);
 
-        if (savedCheckbox) {
-            SqliteHelper db = new SqliteHelper(container.getContext());
-            User user = db.login(savedUsername, savedPassword);
-            login(user);
-        }
-
         buttonTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -74,64 +74,60 @@ public class LoginFragment extends Fragment {
                 String username = txt_username.getText().toString();
                 String password = txt_password.getText().toString();
 
-                DatabaseConnection db = new DatabaseConnection();
+                if (TextUtils.isEmpty(username) || TextUtils.isEmpty(password)) {
 
-                db.login(username, password, new DatabaseCallback<UserResponse>() {
-                    @Override
-                    public void onSuccess(UserResponse userResponse) {
-                        if (userResponse.getStatus().equals("ok")) {
-                            List<User> userList = userResponse.getUserlist();
-                            User user = userList.get(0);
-                            if (user != null) {
-                                SharedPreferences.Editor editor = sharedPreferences.edit();
-                                editor.putString("username", username);
-                                editor.putString("password", password);
-                                editor.putBoolean("checkBox", cb_ingatSaya.isChecked());
-                                editor.apply();
+                } else {
 
-                                login(user);
-                            } else {
-                                // Show an alert dialog for incorrect login
-                                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                                builder.setTitle("Gagal Login")
-                                        .setMessage("Username atau Password salah")
-                                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                // Dismiss the dialog
-                                                dialog.dismiss();
-                                            }
-                                        })
-                                        .show();
+                    DatabaseConnection db = new DatabaseConnection();
+                    db.login(username, password, new DatabaseCallback<UserResponse>() {
+                        @Override
+                        public void onSuccess(UserResponse userResponse) {
+                            if (userResponse.getStatus().equals("ok")) {
+                                List<User> userList = userResponse.getUserlist();
+                                User user = userList.get(0);
+                                if (user != null) {
+                                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                                    editor.putString("username", username);
+                                    editor.putString("password", password);
+                                    editor.putBoolean("checkBox", cb_ingatSaya.isChecked());
+                                    editor.apply();
+
+                                    login(user);
+                                } else {
+                                    // Show an alert dialog for incorrect login
+                                    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                                    builder.setTitle("Gagal Login").setMessage("Username atau Password salah").setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            // Dismiss the dialog
+                                            dialog.dismiss();
+                                        }
+                                    }).show();
+                                }
                             }
                         }
-                    }
 
-                    @Override
-                    public void onError(Throwable t) {
-                        // Handle error
-                        // Show an alert dialog for error
-                        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                        builder.setTitle("Error")
-                                .setMessage(t.toString())
-                                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        // Dismiss the dialog
-                                        dialog.dismiss();
-                                    }
-                                })
-                                .show();
-                    }
-                });
+                        @Override
+                        public void onError(Throwable t) {
+                            // Handle error
+                            // Show an alert dialog for error
+                            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                            builder.setTitle("Error").setMessage(t.toString()).setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    // Dismiss the dialog
+                                    dialog.dismiss();
+                                }
+                            }).show();
+                        }
+                    });
+                }
             }
 
         });
 
-
         return view;
     }
-
 
     private void login(User user) {
         Intent intent = new Intent(getActivity(), MainActivity.class);

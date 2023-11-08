@@ -30,7 +30,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.KKDev.kosmat.retrofit.DatabaseCallback;
 import com.KKDev.kosmat.retrofit.DatabaseConnection;
-import com.KKDev.kosmat.retrofit.UserResponse;
+import com.KKDev.kosmat.model.UserResponse;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.android.material.textfield.TextInputEditText;
 
@@ -57,13 +57,13 @@ public class RegisterFragment extends Fragment {
         genderList.add("Perempuan");
 
         TextInputLayout txtx_Nama = view.findViewById(R.id.txt_namaLengkap);
-        TextInputLayout txtx_email = view.findViewById(R.id.txt_email);
+        TextInputLayout txtx_nik = view.findViewById(R.id.txt_nik);
         TextInputLayout txtx_whatsapp = view.findViewById(R.id.txt_whatsapp);
         TextInputLayout txtx_username = view.findViewById(R.id.txt_regUsername);
         TextInputLayout txtx_password = view.findViewById(R.id.txt_regPassword);
         TextInputLayout txtx_tanggal = view.findViewById(R.id.txt_tglLahir);
         TextInputEditText txt_nama = (TextInputEditText) txtx_Nama.getEditText();
-        TextInputEditText txt_email = (TextInputEditText) txtx_email.getEditText();
+        TextInputEditText txt_nik = (TextInputEditText) txtx_nik.getEditText();
         TextInputEditText txt_whatsapp = (TextInputEditText) txtx_whatsapp.getEditText();
         TextInputEditText txt_username = (TextInputEditText) txtx_username.getEditText();
         TextInputEditText txt_password = (TextInputEditText) txtx_password.getEditText();
@@ -98,7 +98,7 @@ public class RegisterFragment extends Fragment {
             }
         });
 
-        txt_email.addTextChangedListener(new TextWatcher() {
+        txt_nik.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
                 //tidak digunakan
@@ -106,12 +106,17 @@ public class RegisterFragment extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                String email = s.toString();
-                if (!email.contains("@") || !email.contains(".")) {
-                    txt_email.setError("masukkan email yang valid");
+                String nik = s.toString();
+                if (nik.length() > 16) {
+                    txt_nik.setError("NIK Tidak Valid");
                 } else {
-                    txt_email.setError(null);
+                    txt_nik.setError(null);
                 }
+           /* 
+                if (!email.contains("@") || !email.contains(".")) {
+                    txt_nik.setError("masukkan email yang valid");
+                }
+            */
             }
 
             @Override
@@ -227,7 +232,7 @@ public class RegisterFragment extends Fragment {
                 bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
                 byte[] image = stream.toByteArray();
 
-                String nik = txt_email.getText().toString();
+                String nik = txt_nik.getText().toString();
                 String username = txt_username.getText().toString();
                 String password = txt_password.getText().toString();
                 String nama = txt_nama.getText().toString();
@@ -242,7 +247,7 @@ public class RegisterFragment extends Fragment {
                     isValid = false;
                 }
                 if (TextUtils.isEmpty(nik)) {
-                    txt_email.setError("Tidak boleh kosong");
+                    txt_nik.setError("Tidak boleh kosong");
                     isValid = false;
                 }
                 if (TextUtils.isEmpty(noWhatsapp)) {
@@ -264,7 +269,7 @@ public class RegisterFragment extends Fragment {
                 if (gender.equals("Jenis Kelamin")) {
                     isValid = false;
                 }
-                if (!(txt_nama.getError() == null) || !(txt_email.getError() == null) || !(txt_whatsapp.getError() == null) || !(txt_tanggal.getError() == null) || !(txt_username.getError() == null) || !(txt_password.getError() == null)) {
+                if (!(txt_nama.getError() == null) || !(txt_nik.getError() == null) || !(txt_whatsapp.getError() == null) || !(txt_tanggal.getError() == null) || !(txt_username.getError() == null) || !(txt_password.getError() == null)) {
                     isValid = false;
                 }
                 if (isValid) {
@@ -283,67 +288,53 @@ public class RegisterFragment extends Fragment {
                                 db.registerUser(user, new DatabaseCallback<UserResponse>() {
                                     @Override
                                     public void onSuccess(UserResponse data) {
-                                        if (data.getCode() == 200) {
-                                            if (data.getStatus().equals("User Registered")) {
-                                                AlertDialog.Builder success = new AlertDialog.Builder(getActivity());
-                                                success.setTitle("Register berhasil").setMessage("Silahkan login kembali").setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                                    @Override
-                                                    public void onClick(DialogInterface dialog, int which) {
-                                                        // Dismiss the dialog
-
-                                                        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("login", getContext().MODE_PRIVATE);
-                                                        SharedPreferences.Editor editor = sharedPreferences.edit();
-                                                        editor.putString("username", username);
-                                                        editor.putString("password", password);
-                                                        editor.apply();
-                                                        dialog.dismiss();
-                                                        requireActivity().onBackPressed();
-                                                    }
-                                                }).show();
-                                            }else {
-                                                AlertDialog.Builder success = new AlertDialog.Builder(getActivity());
-                                                success.setTitle("Error").setMessage(data.getStatus())
-                                                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                                            @Override
-                                                            public void onClick(DialogInterface dialog, int which) {
-                                                                dialog.dismiss();
-                                                            }
-                                                        }).show();
-                                            }
-                                        }else {
+                                        //if (data.getCode() == 200) {
+                                        if (data.getStatus().equals("User Registered")) {
                                             AlertDialog.Builder success = new AlertDialog.Builder(getActivity());
-                                            success.setTitle("Error").setMessage("Koneksi Gagal")
-                                                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                                        @Override
-                                                        public void onClick(DialogInterface dialog, int which) {
-                                                            dialog.dismiss();
-                                                        }
-                                                    }).show();
-                                        }
+                                            success.setTitle("Register berhasil").setMessage("Silahkan login kembali").setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog, int which) {
+                                                    // Dismiss the dialog
 
+                                                    SharedPreferences sharedPreferences = getActivity().getSharedPreferences("login", getContext().MODE_PRIVATE);
+                                                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                                                    editor.putString("username", username);
+                                                    editor.putString("password", password);
+                                                    editor.apply();
+                                                    dialog.dismiss();
+                                                    requireActivity().onBackPressed();
+                                                }
+                                            }).show();
+                                        } else {
+                                            AlertDialog.Builder success = new AlertDialog.Builder(getActivity());
+                                            success.setTitle("Gagal").setMessage(data.getStatus()).setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog, int which) {
+                                                    dialog.dismiss();
+                                                }
+                                            }).show();
+                                        }
                                     }
 
                                     @Override
                                     public void onError(Throwable t) {
                                         AlertDialog.Builder success = new AlertDialog.Builder(getActivity());
-                                        success.setTitle("Error").setMessage(t.toString())
-                                                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                                    @Override
-                                                    public void onClick(DialogInterface dialog, int which) {
-                                                        dialog.dismiss();
-                                                    }
-                                                }).show();
-                                    }
-                                });
-                            } catch (JSONException e) {
-                                AlertDialog.Builder success = new AlertDialog.Builder(getActivity());
-                                success.setTitle("Error").setMessage(e.toString())
-                                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                        success.setTitle("Error").setMessage(t.toString()).setPositiveButton("OK", new DialogInterface.OnClickListener() {
                                             @Override
                                             public void onClick(DialogInterface dialog, int which) {
                                                 dialog.dismiss();
                                             }
                                         }).show();
+                                    }
+                                });
+                            } catch (JSONException e) {
+                                AlertDialog.Builder success = new AlertDialog.Builder(getActivity());
+                                success.setTitle("Error").setMessage(e.toString()).setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        dialog.dismiss();
+                                    }
+                                }).show();
                                 throw new RuntimeException(e);
                             }
 
@@ -380,7 +371,7 @@ public class RegisterFragment extends Fragment {
             @Override
             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                 // Update the EditText with the selected date
-                String tanggal = dayOfMonth + "-" + (monthOfYear + 1) + "-" + year;
+                String tanggal = year + "-" + (monthOfYear + 1) + "-" + dayOfMonth;
                 textField.setText(tanggal);
                 textField.clearFocus();
                 textField.setError(null);

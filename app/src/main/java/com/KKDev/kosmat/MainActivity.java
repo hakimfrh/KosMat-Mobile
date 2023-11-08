@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
     public void onBackPressed() {
         FragmentManager fragmentManager = getSupportFragmentManager();
         int backStackEntryCount = fragmentManager.getBackStackEntryCount();
-        Toast.makeText(this, Integer.toString(backStackEntryCount), Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, Integer.toString(backStackEntryCount), Toast.LENGTH_SHORT).show();
 
         //DashboardFragment dashboardFragment = (DashboardFragment) getSupportFragmentManager().findFragmentByTag("DashboardFragment");
 

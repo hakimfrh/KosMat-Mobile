@@ -14,7 +14,7 @@ import android.view.ViewGroup;
 import com.KKDev.kosmat.model.User;
 import com.KKDev.kosmat.retrofit.DatabaseCallback;
 import com.KKDev.kosmat.retrofit.DatabaseConnection;
-import com.KKDev.kosmat.retrofit.UserResponse;
+import com.KKDev.kosmat.model.UserResponse;
 
 import java.util.List;
 

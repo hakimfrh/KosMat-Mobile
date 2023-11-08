@@ -1,4 +1,4 @@
-package com.KKDev.kosmat.retrofit;
+package com.KKDev.kosmat.model;
 
 import com.KKDev.kosmat.model.User;
 import java.util.List;

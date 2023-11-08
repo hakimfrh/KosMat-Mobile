@@ -73,11 +73,12 @@
         android:id="@+id/edit_imgprofile"
         android:layout_width="200dp"
         android:layout_height="200dp"
+        android:layout_marginTop="24dp"
         android:transitionName="img_profile"
-        app:layout_constraintBottom_toBottomOf="@+id/edit_absoluteLayout"
+        android:background="@color/transparant"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edit_absoluteLayout"
+        app:layout_constraintTop_toBottomOf="@+id/tx_editprofile"
         app:shapeAppearanceOverlay="@style/Circle"
         tools:src="@tools:sample/avatars" />
 
@@ -158,12 +159,12 @@
                             android:layout_height="wrap_content"
                             android:ems="10"
                             android:fontFamily="@font/archivo"
-                            android:inputType="textPersonName"
+                            android:inputType="textCapCharacters"
                             android:text="" />
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/edit_txt_email"
+                        android:id="@+id/edit_txt_nik"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:hint="E-mail"
@@ -200,9 +201,9 @@
                         app:boxStrokeColor="@color/primaryDark"
                         app:errorEnabled="true"
                         app:hintTextColor="@color/primaryDark"
-                        app:layout_constraintEnd_toEndOf="@+id/edit_txt_email"
-                        app:layout_constraintStart_toStartOf="@+id/edit_txt_email"
-                        app:layout_constraintTop_toBottomOf="@+id/edit_txt_email"
+                        app:layout_constraintEnd_toEndOf="@+id/edit_txt_nik"
+                        app:layout_constraintStart_toStartOf="@+id/edit_txt_nik"
+                        app:layout_constraintTop_toBottomOf="@+id/edit_txt_nik"
                         app:startIconDrawable="@drawable/icon_whatsapp">
 
                         <com.google.android.material.textfield.TextInputEditText
@@ -226,8 +227,8 @@
                         app:boxStrokeColor="@color/primaryDark"
                         app:errorEnabled="true"
                         app:hintTextColor="@color/primaryDark"
-                        app:layout_constraintEnd_toEndOf="@+id/edit_txt_email"
-                        app:layout_constraintStart_toStartOf="@+id/edit_txt_email"
+                        app:layout_constraintEnd_toEndOf="@+id/edit_txt_nik"
+                        app:layout_constraintStart_toStartOf="@+id/edit_txt_nik"
                         app:layout_constraintTop_toBottomOf="@+id/edit_txt_whatsapp"
                         app:startIconDrawable="@drawable/icon_date">
 
@@ -319,7 +320,7 @@
                         app:layout_constraintEnd_toEndOf="@+id/edit_txt_regUsername"
                         app:layout_constraintStart_toStartOf="@+id/edit_txt_regUsername"
                         app:layout_constraintTop_toBottomOf="@+id/edit_txt_regUsername"
-                        app:passwordToggleEnabled="true"
+                        app:passwordToggleEnabled="false"
                         app:startIconDrawable="@drawable/icon_lock">
 
                         <com.google.android.material.textfield.TextInputEditText

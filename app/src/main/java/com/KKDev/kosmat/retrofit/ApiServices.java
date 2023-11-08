@@ -1,6 +1,6 @@
 package com.KKDev.kosmat.retrofit;
 
-import com.KKDev.kosmat.model.User;
+import com.KKDev.kosmat.model.UserResponse;
 
 import okhttp3.RequestBody;
 import retrofit2.Call;
@@ -22,6 +22,10 @@ public interface ApiServices {
     );
     @POST("kosmat-api/user.php")
     Call<UserResponse> registerUser(
+            @Body RequestBody requestBody
+    );
+    @POST("kosmat-api/user.php")
+    Call<UserResponse> updateUser(
             @Body RequestBody requestBody
     );
 }
