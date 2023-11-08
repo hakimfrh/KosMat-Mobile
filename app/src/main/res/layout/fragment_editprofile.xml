@@ -89,6 +89,7 @@
         android:paddingBottom="8dp"
         android:src="@drawable/icon_editprofile"
         android:transitionName="img_editProfile"
+        android:scaleType="centerCrop"
         app:layout_constraintBottom_toBottomOf="@+id/edit_imgprofile"
         app:layout_constraintEnd_toEndOf="@+id/edit_imgprofile"
         app:layout_constraintStart_toStartOf="@+id/edit_imgprofile"
