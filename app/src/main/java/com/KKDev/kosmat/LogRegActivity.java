@@ -1,26 +1,20 @@
 package com.KKDev.kosmat;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.AttributeSet;
-import android.view.View;
 import android.widget.Toast;
 
+import com.KKDev.kosmat.fragment.LoginFragment;
 import com.KKDev.kosmat.model.User;
 import com.KKDev.kosmat.model.UserResponse;
-import com.KKDev.kosmat.retrofit.DatabaseCallback;
-import com.KKDev.kosmat.retrofit.DatabaseConnection;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -29,7 +23,6 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 
-import java.io.Serializable;
 import java.util.List;
 
 public class LogRegActivity extends AppCompatActivity {

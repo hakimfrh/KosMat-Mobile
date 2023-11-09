@@ -11,8 +11,11 @@ import androidx.fragment.app.FragmentTransaction;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.widget.Toast;
 
+import com.KKDev.kosmat.fragment.DashboardFragment;
+import com.KKDev.kosmat.fragment.LaporanFragment;
+import com.KKDev.kosmat.fragment.ListKamarFragment;
+import com.KKDev.kosmat.fragment.PenyewaFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 

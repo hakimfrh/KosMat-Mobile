@@ -1,4 +1,4 @@
-package com.KKDev.kosmat;
+package com.KKDev.kosmat.fragment;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
@@ -35,6 +35,8 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.KKDev.kosmat.LogRegActivity;
+import com.KKDev.kosmat.R;
 import com.KKDev.kosmat.model.User;
 import com.KKDev.kosmat.model.UserResponse;
 import com.KKDev.kosmat.retrofit.DatabaseCallback;
@@ -78,7 +80,7 @@ public class EditProfileFragment extends Fragment {
 
         List<String> genderList = new ArrayList<>();
         genderList.add("Jenis Kelamin");
-        genderList.add("Laki-Laki");
+        genderList.add("Laki Laki");
         genderList.add("Perempuan");
 
         LinearLayout tx_editprofile = view.findViewById(R.id.tx_editprofile);

@@ -1,4 +1,4 @@
-package com.KKDev.kosmat;
+package com.KKDev.kosmat.fragment;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -21,6 +21,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.KKDev.kosmat.R;
 import com.KKDev.kosmat.adapter.TagihanAdapter;
 import com.KKDev.kosmat.model.User;
 

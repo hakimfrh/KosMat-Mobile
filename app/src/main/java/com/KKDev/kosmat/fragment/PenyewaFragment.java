@@ -1,4 +1,4 @@
-package com.KKDev.kosmat;
+package com.KKDev.kosmat.fragment;
 
 import android.os.Bundle;
 
@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.KKDev.kosmat.R;
 import com.KKDev.kosmat.adapter.ViewPagerAdapter;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;

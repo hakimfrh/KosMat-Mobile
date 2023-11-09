@@ -1,4 +1,4 @@
-package com.KKDev.kosmat;
+package com.KKDev.kosmat.fragment;
 
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
@@ -28,6 +28,7 @@ import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.KKDev.kosmat.R;
 import com.KKDev.kosmat.retrofit.DatabaseCallback;
 import com.KKDev.kosmat.retrofit.DatabaseConnection;
 import com.KKDev.kosmat.model.UserResponse;

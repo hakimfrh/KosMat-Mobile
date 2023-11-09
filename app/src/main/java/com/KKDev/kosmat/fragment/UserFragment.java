@@ -1,4 +1,4 @@
-package com.KKDev.kosmat;
+package com.KKDev.kosmat.fragment;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.KKDev.kosmat.R;
 import com.KKDev.kosmat.adapter.userAdapter;
 import com.KKDev.kosmat.model.User;
 import com.KKDev.kosmat.retrofit.DatabaseCallback;
