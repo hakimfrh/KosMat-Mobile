@@ -11,15 +11,23 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.KKDev.kosmat.R;
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
 
 public class TagihanAdapter extends RecyclerView.Adapter<TagihanAdapter.ViewHolder>{
 
     private Object[][] data;
     private Context context;
+    private BottomSheetBehavior bottomSheetBehavior;
 
-    public TagihanAdapter(Context context, Object[][] data) {
+    TextView bs_tx_nokamar, bs_tx_nama, bs_tx_tagihan;
+
+    public TagihanAdapter(Context context, Object[][] data,View bottomSheet) {
         this.context = context;
         this.data = data;
+        bs_tx_nokamar = bottomSheet.findViewById(R.id.bs_tx_nokamar);
+        bs_tx_nama = bottomSheet.findViewById(R.id.bs_tx_nama);
+        bs_tx_tagihan = bottomSheet.findViewById(R.id.bs_tx_tagihan);
+        bottomSheetBehavior = BottomSheetBehavior.from(bottomSheet);
     }
     @NonNull
     @Override
@@ -60,6 +68,10 @@ public class TagihanAdapter extends RecyclerView.Adapter<TagihanAdapter.ViewHold
         @Override
         public void onClick(View v) {
             int position = getAdapterPosition();
+            Object[] row = data[position];
+            bs_tx_nokamar.setText((CharSequence) row[1]);
+            bs_tx_tagihan.setText("Rp. " +(CharSequence) row[2]);
+            bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
 /*
             if (position != RecyclerView.NO_POSITION) {
                 // Mengambil deskripsi dari item yang diklik

@@ -7,6 +7,8 @@ import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.RequiresApi;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -24,6 +26,9 @@ import android.widget.TextView;
 import com.KKDev.kosmat.R;
 import com.KKDev.kosmat.adapter.TagihanAdapter;
 import com.KKDev.kosmat.model.User;
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.google.android.material.card.MaterialCardView;
 
 public class DashboardFragment extends Fragment {
     private boolean isDashboardVisible = false;
@@ -62,6 +67,10 @@ public class DashboardFragment extends Fragment {
         Bitmap bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
         img_profile.setImageBitmap(bitmap);
 
+        MaterialCardView bottomSheet = view.findViewById(R.id.bs_tagihan);
+        BottomSheetBehavior bottomSheetBehavior = BottomSheetBehavior.from(bottomSheet);
+        bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+
         Object[][] data = {
                 {R.drawable.kamar1, "Kamar 1", "800.000"},
                 {R.drawable.kamar2, "Kamar 2", "400.000"},
@@ -71,7 +80,7 @@ public class DashboardFragment extends Fragment {
 
         RecyclerView recyclerTagihan = view.findViewById(R.id.recycletagihan);
         recyclerTagihan.setLayoutManager(new LinearLayoutManager(getActivity(),LinearLayoutManager.HORIZONTAL,false));
-        TagihanAdapter adapterTagihan = new TagihanAdapter(getContext(), data);
+        TagihanAdapter adapterTagihan = new TagihanAdapter(getContext(), data,bottomSheet);
         recyclerTagihan.setAdapter(adapterTagihan);
 
 
