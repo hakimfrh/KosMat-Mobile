@@ -75,6 +75,7 @@
         android:clickable="true"
         android:elevation="10dp"
         android:src="@drawable/icon_add"
+        app:tint="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:shapeAppearance="@drawable/style_floatingbutton" />

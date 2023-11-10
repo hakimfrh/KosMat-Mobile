@@ -201,8 +201,8 @@ public class EditProfileFragment extends Fragment {
 
                                 Intent intent = new Intent(getActivity(), LogRegActivity.class);
                                 startActivity(intent);
-
                                 Toast.makeText(getContext(), "Berhasil Logout", Toast.LENGTH_SHORT).show();
+                                getActivity().finish();
                             }
                         })
                         .setNegativeButton("Tidak", new DialogInterface.OnClickListener() {

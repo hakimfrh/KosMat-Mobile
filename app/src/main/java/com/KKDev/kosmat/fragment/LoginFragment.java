@@ -20,6 +20,7 @@ import androidx.transition.ChangeBounds;
 import androidx.transition.ChangeImageTransform;
 import androidx.transition.TransitionSet;
 
+import com.KKDev.kosmat.LupaPasswordActivity;
 import com.KKDev.kosmat.MainActivity;
 import com.KKDev.kosmat.R;
 import com.KKDev.kosmat.model.User;
@@ -46,6 +47,7 @@ public class LoginFragment extends Fragment {
         TextInputEditText txt_username = (TextInputEditText) txtx_username.getEditText();
         TextInputEditText txt_password = (TextInputEditText) txtx_password.getEditText();
         TextView buttonTextView = view.findViewById(R.id.btn_GotoRegister);
+        TextView btn_lupaPass = view.findViewById(R.id.btn_lupapassword);
         CheckBox cb_ingatSaya = view.findViewById(R.id.cb_ingatSaya);
         Button btn_login = view.findViewById(R.id.btn_Login);
 
@@ -61,6 +63,14 @@ public class LoginFragment extends Fragment {
             public void onClick(View v) {
                 // Open the destination fragment
                 openDestinationFragmentWithTransitions(view, new RegisterFragment());
+            }
+        });
+        btn_lupaPass.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), LupaPasswordActivity.class);
+                intent.putExtra("username", txt_username.getText());
+                startActivity(intent);
             }
         });
         btn_login.setOnClickListener(new View.OnClickListener() {
@@ -128,8 +138,8 @@ public class LoginFragment extends Fragment {
         Intent intent = new Intent(getActivity(), MainActivity.class);
         intent.putExtra("user", user);
         startActivity(intent);
-
         Toast.makeText(getContext(), "Berhasil Login sebagai " + user.getNama(), Toast.LENGTH_SHORT).show();
+        getActivity().finish();
     }
 
     private void openDestinationFragmentWithTransitions(View view, Fragment destinationFragment) {

@@ -63,7 +63,7 @@ public class LogRegActivity extends AppCompatActivity {
                                 intent.putExtra("user", user);
                                 startActivity(intent);
                                 Toast.makeText(getApplicationContext(), "Berhasil Login sebagai " + user.getNama(), Toast.LENGTH_SHORT).show();
-
+                                finish();
                             }
                         }
                     }
@@ -85,8 +85,8 @@ public class LogRegActivity extends AppCompatActivity {
         }
     }
 
+/*
     public void onBackPressed() {
-
         FragmentManager fragmentManager = getSupportFragmentManager();
         LoginFragment loginFragment = (LoginFragment) fragmentManager.findFragmentByTag("LoginFragment");
         if (loginFragment != null && loginFragment.isVisible()) {
@@ -96,4 +96,6 @@ public class LogRegActivity extends AppCompatActivity {
         }
 
     }
+ */
+
 }

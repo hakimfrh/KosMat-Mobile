@@ -1,7 +1,6 @@
 package com.KKDev.kosmat;
 
 public class Api {
-    private static String ip = "192.168.1.15";
-//    private static String ip = "192.168.137.1";
-    public static final String urlUser = "http://"+ip+"/kosmat-api/user.php";
+    public static String server_ip = "192.168.0.11";
+    public static final String urlUser = "http://"+server_ip+"/kosmat-api/user.php";
 }

@@ -150,6 +150,16 @@
                 app:layout_constraintTop_toTopOf="@+id/tv_belumPunyaAkun" />
 
             <TextView
+                android:id="@+id/btn_lupapassword"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/archivo"
+                android:text="Lupa Password"
+                android:textColor="@color/link_blue"
+                app:layout_constraintEnd_toEndOf="@+id/txt_password"
+                app:layout_constraintTop_toTopOf="@+id/btn_GotoRegister" />
+
+            <TextView
                 android:id="@+id/tv_belumPunyaAkun"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

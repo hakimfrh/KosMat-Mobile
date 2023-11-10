@@ -61,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
 
         //DashboardFragment dashboardFragment = (DashboardFragment) getSupportFragmentManager().findFragmentByTag("DashboardFragment");
 
-        if (backStackEntryCount < 1) {
+        if (backStackEntryCount < 0) {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
             builder.setTitle("Exit")
