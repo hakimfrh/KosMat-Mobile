@@ -32,21 +32,10 @@ import com.google.android.material.card.MaterialCardView;
 
 public class DashboardFragment extends Fragment {
     private boolean isDashboardVisible = false;
+    View bottomSheet;
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        isDashboardVisible = true;
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        isDashboardVisible = false;
-    }
-
-    public boolean isDashboardVisible() {
-        return isDashboardVisible;
+    public DashboardFragment(View bottomSheet) {
+        this.bottomSheet = bottomSheet;
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -67,9 +56,9 @@ public class DashboardFragment extends Fragment {
         Bitmap bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
         img_profile.setImageBitmap(bitmap);
 
-        MaterialCardView bottomSheet = view.findViewById(R.id.bs_tagihan);
-        BottomSheetBehavior bottomSheetBehavior = BottomSheetBehavior.from(bottomSheet);
-        bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+        //ConstraintLayout bottomSheet = view.findViewById(R.id.bs_tagihan);
+        //BottomSheetBehavior bottomSheetBehavior = BottomSheetBehavior.from(bottomSheet);
+        //bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
 
         Object[][] data = {
                 {R.drawable.kamar1, "Kamar 1", "800.000"},

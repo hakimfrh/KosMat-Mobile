@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -11,12 +12,14 @@ import androidx.fragment.app.FragmentTransaction;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.KKDev.kosmat.fragment.DashboardFragment;
 import com.KKDev.kosmat.fragment.LaporanFragment;
 import com.KKDev.kosmat.fragment.ListKamarFragment;
 import com.KKDev.kosmat.fragment.PenyewaFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.navigation.NavigationBarView;
 
 
@@ -30,14 +33,16 @@ public class MainActivity extends AppCompatActivity {
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO); //disable darkmode
         setContentView(R.layout.activity_main);
 
+        View bottomSheet = findViewById(R.id.bs_tagihan);
+
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
-        loadFragment(new DashboardFragment());
+        loadFragment(new DashboardFragment(bottomSheet));
 
         bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 if (item.getItemId() == R.id.dashboard) {
-                    loadFragment(new DashboardFragment());
+                    loadFragment(new DashboardFragment(bottomSheet));
                     return true;
                 } else if (item.getItemId() == R.id.kamar) {
                     loadFragment(new ListKamarFragment());

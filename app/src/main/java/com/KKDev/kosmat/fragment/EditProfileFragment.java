@@ -194,7 +194,7 @@ public class EditProfileFragment extends Fragment {
                                 // Close the app
                                 SharedPreferences sharedPreferences = getActivity().getSharedPreferences("login", getContext().MODE_PRIVATE);
                                 SharedPreferences.Editor editor = sharedPreferences.edit();
-                                editor.putString("username", "");
+                                //editor.putString("username", "");
                                 editor.putString("password", "");
                                 editor.putBoolean("checkBox", false);
                                 editor.apply();

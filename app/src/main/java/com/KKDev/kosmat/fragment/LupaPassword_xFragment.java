@@ -1,4 +1,4 @@
-package com.KKDev.kosmat;
+package com.KKDev.kosmat.fragment;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -11,8 +11,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.TextView;
 
+import com.KKDev.kosmat.Api;
+import com.KKDev.kosmat.LupaPasswordActivity;
+import com.KKDev.kosmat.R;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -25,15 +27,12 @@ import com.google.android.material.textfield.TextInputLayout;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.HashMap;
-import java.util.Map;
-
-public class LupaPassword_1Fragment extends Fragment {
+public class LupaPassword_xFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_lupa_password_1, container, false);
+        View view = inflater.inflate(R.layout.fragment_lupa_password_x, container, false);
 
         Intent intent = getActivity().getIntent();
         String getUsername = (String) intent.getStringExtra("username");
