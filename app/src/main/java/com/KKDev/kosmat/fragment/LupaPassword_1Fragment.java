@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -29,6 +30,15 @@ public class LupaPassword_1Fragment extends Fragment {
     private long initialDurationMillis = 1 * 60 * 1000;
     public LupaPassword_1Fragment(String noWhatsapp) {
         this.noWhatsapp = noWhatsapp;
+    }
+    public LupaPassword_1Fragment() {
+        this.noWhatsapp = "";
+    }
+
+    @Override
+    public void onStop() {
+        countDownTimer.cancel();
+        super.onStop();
     }
 
     @Override
@@ -59,13 +69,12 @@ public class LupaPassword_1Fragment extends Fragment {
             public void onClick(View v) {
                 String inputCode = txt_code.getText().toString();
                 String result = ((LupaPasswordActivity) getActivity()).submitCode(inputCode);
-                if(result.equals("ok")){
+                if(result.equals("ok")) {
 
                     FragmentManager fm = getActivity().getSupportFragmentManager();
                     FragmentTransaction ft = fm.beginTransaction();
                     ft.replace(R.id.fragmentContainerView, new LupaPassword_2Fragment());
                     ft.commit();
-
                 }else{
                     AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
                     builder.setTitle("Gagal").setMessage(result).setPositiveButton("OK", new DialogInterface.OnClickListener() {
@@ -92,16 +101,17 @@ public class LupaPassword_1Fragment extends Fragment {
                 long secondsRemaining = millisUntilFinished / 1000;
                 String text = String.format("%02d:%02d", secondsRemaining / 60, secondsRemaining % 60);
                 tx_kirimUlang.setText(text);
-                tx_kirimUlang.setTextColor(getResources().getColor(R.color.black));
+                tx_kirimUlang.setTextColor(ContextCompat.getColor(requireContext(), R.color.black));
             }
 
             @Override
             public void onFinish() {
                 isUlangValid = true;
                 tx_kirimUlang.setText("Kirim Ulang Kode");
-                tx_kirimUlang.setTextColor(getResources().getColor(R.color.link_blue));
+                tx_kirimUlang.setTextColor(ContextCompat.getColor(requireContext(), R.color.link_blue));
             }
         };
         countDownTimer.start();
+
     }
 }

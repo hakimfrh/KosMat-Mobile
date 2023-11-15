@@ -13,6 +13,7 @@ import android.os.CountDownTimer;
 import android.widget.Toast;
 
 import com.KKDev.kosmat.fragment.LupaPassword_1Fragment;
+import com.KKDev.kosmat.fragment.LupaPassword_2Fragment;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -34,6 +35,12 @@ public class LupaPasswordActivity extends AppCompatActivity {
     private boolean isValid = true;
     private CountDownTimer countDownTimer;
     private long initialDurationMillis = 3 * 60 * 1000;
+
+    @Override
+    protected void onStop() {
+        countDownTimer.cancel();
+        super.onStop();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -153,7 +160,6 @@ public class LupaPasswordActivity extends AppCompatActivity {
                             public void onClick(DialogInterface dialog, int which) {
                                 // Dismiss the dialog
                                 dialog.dismiss();
-                                onBackPressed();
                             }
                         }).show();
                     }
