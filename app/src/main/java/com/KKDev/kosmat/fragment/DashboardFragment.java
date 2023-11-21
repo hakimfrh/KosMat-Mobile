@@ -24,6 +24,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.KKDev.kosmat.R;
+import com.KKDev.kosmat.adapter.GroupTransaksiAdapter;
 import com.KKDev.kosmat.adapter.TagihanAdapter;
 import com.KKDev.kosmat.model.User;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
@@ -56,31 +57,52 @@ public class DashboardFragment extends Fragment {
         Bitmap bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
         img_profile.setImageBitmap(bitmap);
 
-        //ConstraintLayout bottomSheet = view.findViewById(R.id.bs_tagihan);
-        //BottomSheetBehavior bottomSheetBehavior = BottomSheetBehavior.from(bottomSheet);
-        //bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
-
-        Object[][] data = {
-                {R.drawable.kamar1, "Kamar 1", "800.000"},
-                {R.drawable.kamar2, "Kamar 2", "400.000"},
-                {R.drawable.kamar3, "Kamar 3", "200.000"},
-                {R.drawable.kamar4, "Kamar 4", "1.200.000"}
-        };
-
-        RecyclerView recyclerTagihan = view.findViewById(R.id.recycletagihan);
-        recyclerTagihan.setLayoutManager(new LinearLayoutManager(getActivity(),LinearLayoutManager.HORIZONTAL,false));
-        TagihanAdapter adapterTagihan = new TagihanAdapter(getContext(), data,bottomSheet);
-        recyclerTagihan.setAdapter(adapterTagihan);
-
-
         img_profile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
 
-                openDestinationFragmentWithTransitions(view, new EditProfileFragment(),user);
+                openDestinationFragmentWithTransitions(view, new EditProfileFragment(), user);
             }
         });
+
+        //ConstraintLayout bottomSheet = view.findViewById(R.id.bs_tagihan);
+        //BottomSheetBehavior bottomSheetBehavior = BottomSheetBehavior.from(bottomSheet);
+        //bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+
+        Object[][] tagihan = {
+                {R.drawable.kamar1, "Kamar 1", "800.000"},
+                {R.drawable.kamar2, "Kamar 2", "400.000"},
+                {R.drawable.kamar3, "Kamar 3", "200.000"},
+                {R.drawable.kamar4, "Kamar 4", "1.200.000"}
+        };
+        Object[][] bulan = {
+                {1, "january", "400.000"},
+                {1, "february", "400.000"},
+                {2, "february", "400.000"},
+                {3, "february", "200.000"}
+        };
+        Object[][] data = {tagihan, bulan};
+
+        RecyclerView recyclerTagihan = view.findViewById(R.id.recycletagihan);
+        recyclerTagihan.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
+        TagihanAdapter adapterTagihan = new TagihanAdapter(getContext(), tagihan, bottomSheet);
+        recyclerTagihan.setAdapter(adapterTagihan);
+
+        Object[][] transaksi = {
+                {"Senin", "pengeluaran","Bayar Air","200.000"},
+                {"Senin", "Pemasukan","Kamar 3","400.000"},
+                {"Selasa", "Pengeluaran","Bayar Wifi","300.000"},
+                {"Selasa", "Pengeluaran","Bayar Listrik","250.000"},
+                {"Selasa", "Pemasukan","kamar 5","400.000"},
+                {"Rabu", "Pemasukan","kamar 4","400.000"}
+        };
+
+        RecyclerView recyclerTransaksi = view.findViewById(R.id.recycler_group_tagihan);
+        recyclerTransaksi.setLayoutManager(new LinearLayoutManager(getActivity()));
+        GroupTransaksiAdapter groupTransaksiAdapter = new GroupTransaksiAdapter(transaksi);
+        recyclerTransaksi.setAdapter(groupTransaksiAdapter);
+
         return view;
     }
 
@@ -94,7 +116,7 @@ public class DashboardFragment extends Fragment {
         destinationFragment.setSharedElementEnterTransition(transitionSet);
 
         Bundle bundle = new Bundle();
-        bundle.putSerializable("user",user);
+        bundle.putSerializable("user", user);
         destinationFragment.setArguments(bundle);
 
         FragmentTransaction transaction = getParentFragmentManager().beginTransaction();

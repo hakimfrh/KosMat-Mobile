@@ -1,6 +1,8 @@
 package com.KKDev.kosmat.model;
 
-public class Kamar {
+import java.io.Serializable;
+
+public class Kamar implements Serializable {
     String id_kamar;
     String nama_kamar;
     String harga_kamar;

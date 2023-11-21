@@ -16,8 +16,8 @@
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/imageView"
-            android:layout_width="130dp"
-            android:layout_height="100dp"
+            android:layout_width="100dp"
+            android:layout_height="80dp"
             android:scaleType="centerCrop"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -29,32 +29,42 @@
             android:id="@+id/Title"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/archivo_bold"
             android:paddingLeft="20dp"
-            android:text="Title"
-            android:textSize="30sp"
+            android:text="Kamar 1"
+            android:textSize="24sp"
             android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@+id/Description"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/penyewa"
+            app:layout_constraintEnd_toStartOf="@+id/harga_kamar"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toEndOf="@+id/imageView"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.0" />
 
         <TextView
-            android:id="@+id/Description"
+            android:id="@+id/penyewa"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:fontFamily="@font/archivo"
             android:paddingLeft="20dp"
             android:paddingTop="1dp"
-            android:text="Description"
+            android:text="PRABOWO SUBIYANTO"
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintEnd_toStartOf="@+id/harga_kamar"
             app:layout_constraintStart_toEndOf="@+id/imageView"
             app:layout_constraintTop_toBottomOf="@+id/Title" />
+
+        <TextView
+            android:id="@+id/harga_kamar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="24dp"
+            android:paddingRight="16dp"
+            android:text="Rp.400.000"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

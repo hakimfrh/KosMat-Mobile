@@ -7,58 +7,58 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.content.Context;
 import android.content.Intent;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.KKDev.kosmat.DescActivity;
+import com.KKDev.kosmat.KamarActivity;
 import com.KKDev.kosmat.R;
+import com.KKDev.kosmat.model.Kamar;
+
+import java.util.List;
 
 
-public class cardAdapter extends RecyclerView.Adapter<cardAdapter.ViewHolder> {
+public class listKamarAdapter extends RecyclerView.Adapter<listKamarAdapter.ViewHolder> {
 
-    private Object[][] data;
+    private List<Kamar> kamarList;
     private Context context;
 
-    public cardAdapter(Context context, Object[][] data) {
+    public listKamarAdapter(Context context, List<Kamar> data) {
         this.context = context;
-        this.data = data;
+        this.kamarList = data;
     }
+
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_layout, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_kamar, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Object[] row = data[position];
+        Kamar kamar = kamarList.get(position);
 
-        // Assuming row[0] is an integer representing the resource ID of the image
-        holder.imageView.setImageResource((Integer) row[0]);
+        //holder.imageView.setImageResource((Integer) row[0]);
 
-        // Assuming row[1] and row[2] are Strings for the title and description
-        holder.textViewTitle.setText((String) row[1]);
-        holder.textViewDescription.setText((String) row[2]);
-
+        holder.textViewTitle.setText("Kamar " +kamar.getId_kamar());
+        holder.textViewPenyewa.setText(kamar.getHarga_kamar());
+        holder.textViewHarga.setText("Rp. "+kamar.getHarga_kamar());
     }
 
-    // Tambahkan method untuk mendapatkan deskripsi dari posisi tertentu
-    public Object[] getItem(int position) {
-        Object[] row = data[position];
-        return row;
-    }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         ImageView imageView;
         TextView textViewTitle;
-        TextView textViewDescription;
+        TextView textViewPenyewa;
+        TextView textViewHarga;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             imageView = itemView.findViewById(R.id.imageView);
             textViewTitle = itemView.findViewById(R.id.Title);
-            textViewDescription = itemView.findViewById(R.id.Description);
+            textViewPenyewa = itemView.findViewById(R.id.penyewa);
+            textViewHarga = itemView.findViewById(R.id.harga_kamar);
 
             // Menambahkan listener klik pada itemView
             itemView.setOnClickListener(this);
@@ -70,14 +70,12 @@ public class cardAdapter extends RecyclerView.Adapter<cardAdapter.ViewHolder> {
 
             if (position != RecyclerView.NO_POSITION) {
                 // Mengambil deskripsi dari item yang diklik
-                Object[] item = getItem(position);
+                Kamar kamar = kamarList.get(position);
 
                 // Membuat intent untuk membuka DetailActivity
-                Intent intent = new Intent(context, DescActivity.class);
-                intent.putExtra("image", (Integer) item[0]);
-                intent.putExtra("title", (String) item[1]);
-                intent.putExtra("penghuni", (String) item[2]);
-                intent.putExtra("description", (String) item[3]);
+                Intent intent = new Intent(context, KamarActivity.class);
+                intent.putExtra("kamar",kamar);
+                intent.putExtra("mode","edit");
                 context.startActivity(intent);
             }
         }
@@ -85,6 +83,6 @@ public class cardAdapter extends RecyclerView.Adapter<cardAdapter.ViewHolder> {
 
     @Override
     public int getItemCount() {
-        return data.length;
+        return kamarList.size();
     }
 }

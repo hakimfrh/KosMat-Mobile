@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/primary"
-    tools:context=".TambahkamarActivity">
+    tools:context=".KamarActivity">
 
     <TextView
         android:id="@+id/tx_title"
@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="48dp"
         android:fontFamily="@font/poppins_ultrabold"
-        android:text="Daftar Kamar"
+        android:text="Tambah Kamar"
         android:textColor="@color/white"
         android:textSize="32sp"
         android:textStyle="bold"
@@ -70,8 +70,10 @@
                 android:layout_height="0dp"
                 app:layout_constraintBottom_toTopOf="@+id/btn_group1"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent">
+                app:layout_constraintVertical_bias="0.0">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
@@ -94,9 +96,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
+                        android:fontFamily="@font/poppins_ultrabold"
                         android:text="Rincian Kamar"
                         android:textSize="16sp"
-                        android:fontFamily="@font/poppins_ultrabold"
                         app:layout_constraintStart_toStartOf="@+id/shapeableImageView"
                         app:layout_constraintTop_toBottomOf="@+id/shapeableImageView" />
 
@@ -107,6 +109,7 @@
                         android:layout_marginStart="24dp"
                         android:layout_marginEnd="215dp"
                         app:hintEnabled="false"
+                        app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/textView8">
 
@@ -117,7 +120,7 @@
                             android:drawableStart="@drawable/nav_icon_kamar"
                             android:drawablePadding="8dp"
                             android:hint="No Kamar"
-                            android:inputType="text"
+                            android:inputType="number"
                             android:paddingStart="12dp"
                             android:paddingEnd="12dp"
                             android:textSize="12dp" />
@@ -144,6 +147,31 @@
                             android:drawableStart="@drawable/nav_icon_laporan"
                             android:drawablePadding="8dp"
                             android:hint="Harga Kamar"
+                            android:inputType="number"
+                            android:paddingStart="12dp"
+                            android:paddingEnd="12dp"
+                            android:textSize="12dp" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/txt_deskipsiKamar"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="24dp"
+                        android:layout_marginEnd="24dp"
+                        app:hintEnabled="false"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/txt_hargaKamar">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/style_textfield_underline"
+                            android:drawableStart="@drawable/nav_icon_laporan"
+                            android:drawablePadding="8dp"
+                            android:hint="Fasilitas kamar"
                             android:inputType="text"
                             android:paddingStart="12dp"
                             android:paddingEnd="12dp"
@@ -151,79 +179,99 @@
 
                     </com.google.android.material.textfield.TextInputLayout>
 
-                    <CheckBox
+                        <CheckBox
                         android:id="@+id/cb_disewa"
                         android:layout_width="wrap_content"
                         android:layout_height="24dp"
+                        android:layout_marginTop="8dp"
                         android:layout_marginStart="-6dp"
-                        android:layout_marginTop="8dp"
                         android:text="Disewa"
+                        android:checked="true"
                         app:layout_constraintStart_toStartOf="@+id/txt_hargaKamar"
-                        app:layout_constraintTop_toBottomOf="@+id/txt_hargaKamar" />
+                        app:layout_constraintTop_toBottomOf="@+id/txt_deskipsiKamar" />
 
-                    <TextView
-                        android:id="@+id/textView15"
-                        android:layout_width="wrap_content"
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/penyewa"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:fontFamily="@font/poppins_ultrabold"
-                        android:text="Rincian Penyewa"
-                        android:textSize="16sp"
-                        app:layout_constraintStart_toStartOf="@+id/txt_hargaKamar"
-                        app:layout_constraintTop_toBottomOf="@+id/cb_disewa" />
+                        app:layout_constraintTop_toBottomOf="@+id/cb_disewa">
 
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/txt_kamar_nik"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="24dp"
-                        android:layout_marginTop="8dp"
-                        android:layout_marginEnd="24dp"
-                        app:hintEnabled="false"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/textView15">
-
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:layout_width="match_parent"
+                        <TextView
+                            android:id="@+id/tx_rincianPenyewa"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:background="@drawable/style_textfield_underline"
-                            android:drawableStart="@drawable/icon_person"
-                            android:drawablePadding="8dp"
-                            android:hint="NIK"
-                            android:inputType="text"
-                            android:paddingStart="12dp"
-                            android:paddingEnd="12dp"
-                            android:textSize="12dp" />
+                            android:layout_marginStart="24dp"
+                            android:layout_marginTop="8dp"
+                            android:fontFamily="@font/poppins_ultrabold"
+                            android:text="Rincian Penyewa"
+                            android:textSize="16sp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
 
-                    </com.google.android.material.textfield.TextInputLayout>
-
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/txt_nama"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="24dp"
-                        android:layout_marginTop="8dp"
-                        android:layout_marginEnd="24dp"
-                        app:hintEnabled="false"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/txt_kamar_nik">
-
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:layout_width="match_parent"
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/kamar_txt_nik"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:background="@drawable/style_textfield_underline"
-                            android:drawableStart="@drawable/icon_person"
-                            android:drawablePadding="8dp"
-                            android:hint="Nama"
-                            android:inputType="text"
-                            android:paddingStart="12dp"
-                            android:paddingEnd="12dp"
-                            android:textSize="12dp" />
+                            android:layout_marginStart="24dp"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginEnd="24dp"
+                            app:hintEnabled="false"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/sp_penyewa">
 
-                    </com.google.android.material.textfield.TextInputLayout>
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:background="@drawable/style_textfield_underline"
+                                android:drawableStart="@drawable/icon_person"
+                                android:drawablePadding="8dp"
+                                android:hint="NIK"
+                                android:inputType="text"
+                                android:paddingStart="12dp"
+                                android:paddingEnd="12dp"
+                                android:textSize="12dp" />
 
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/kamar_kamar_txt_nama"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="24dp"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginEnd="24dp"
+                            app:hintEnabled="false"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/kamar_txt_nik">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:background="@drawable/style_textfield_underline"
+                                android:drawableStart="@drawable/icon_person"
+                                android:drawablePadding="8dp"
+                                android:hint="Nama"
+                                android:inputType="text"
+                                android:paddingStart="12dp"
+                                android:paddingEnd="12dp"
+                                android:textSize="12dp" />
+
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <Spinner
+                            android:id="@+id/sp_penyewa"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="24dp"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginEnd="150dp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/tx_rincianPenyewa" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </ScrollView>
         </androidx.constraintlayout.widget.ConstraintLayout>

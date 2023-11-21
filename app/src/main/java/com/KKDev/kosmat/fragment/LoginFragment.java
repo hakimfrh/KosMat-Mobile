@@ -15,30 +15,55 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.transition.ChangeBounds;
 import androidx.transition.ChangeImageTransform;
 import androidx.transition.TransitionSet;
 
-import com.KKDev.kosmat.LupaPasswordActivity;
+import com.KKDev.kosmat.Api;
+import com.KKDev.kosmat.whatsappVerificationActivity;
 import com.KKDev.kosmat.MainActivity;
 import com.KKDev.kosmat.R;
 import com.KKDev.kosmat.model.User;
 import com.KKDev.kosmat.retrofit.DatabaseCallback;
 import com.KKDev.kosmat.retrofit.DatabaseConnection;
 import com.KKDev.kosmat.model.UserResponse;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.List;
 
 public class LoginFragment extends Fragment {
 
+    private static final int WHATSAPP_VERIFICATION = 2;
+    private View view;
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == WHATSAPP_VERIFICATION) {
+            if (resultCode == 1) {
+                Toast.makeText(getContext(), "Verifikasi whatsapp berhasil", Toast.LENGTH_SHORT).show();
+                openDestinationFragmentWithTransitions(view, new LupaPasswordFragment());
+            }
+        }
+    }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_login, container, false);
+        view = inflater.inflate(R.layout.fragment_login, container, false);
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences("login", getContext().MODE_PRIVATE);
 
 
@@ -68,9 +93,52 @@ public class LoginFragment extends Fragment {
         btn_lupaPass.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), LupaPasswordActivity.class);
-                intent.putExtra("username", txt_username.getText());
-                startActivity(intent);
+                String url = Api.urlOwnerWhatsapp;
+                RequestQueue queue = Volley.newRequestQueue(getContext());  // Replace 'null' with your context if you are in an Android application
+                StringRequest stringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            JSONObject jsonObject = new JSONObject(response);
+
+                            // Retrieve values directly from the JSON object
+                            // int code = jsonObject.getInt("code");
+                            String status = jsonObject.getString("status");
+                            String whatsapp = jsonObject.getString("whatsapp");
+                            if (status.equals("ok")) {
+
+                                Intent intent = new Intent(getActivity(), whatsappVerificationActivity.class);
+                                intent.putExtra("whatsapp", whatsapp);
+                                startActivityForResult(intent, WHATSAPP_VERIFICATION);
+                            }
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                            builder.setTitle("ERROR").setMessage(e.toString()).setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    // Dismiss the dialog
+                                    dialog.dismiss();
+                                }
+                            }).show();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                        builder.setTitle("Eror").setMessage(error.toString()).setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                // Dismiss the dialog
+                                dialog.dismiss();
+                            }
+                        }).show();
+                    }
+                });
+                queue.add(stringRequest);
+
             }
         });
         btn_login.setOnClickListener(new View.OnClickListener() {
@@ -96,19 +164,18 @@ public class LoginFragment extends Fragment {
                                     editor.putString("password", password);
                                     editor.putBoolean("checkBox", cb_ingatSaya.isChecked());
                                     editor.apply();
-
                                     login(user);
-                                } else {
-                                    // Show an alert dialog for incorrect login
-                                    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                                    builder.setTitle("Gagal Login").setMessage("Username atau Password salah").setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            // Dismiss the dialog
-                                            dialog.dismiss();
-                                        }
-                                    }).show();
                                 }
+                            } else {
+                                // Show an alert dialog for incorrect login
+                                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                                builder.setTitle("Gagal Login").setMessage("Username atau Password salah").setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        // Dismiss the dialog
+                                        dialog.dismiss();
+                                    }
+                                }).show();
                             }
                         }
 

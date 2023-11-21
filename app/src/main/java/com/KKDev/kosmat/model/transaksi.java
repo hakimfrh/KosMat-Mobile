@@ -1,7 +1,12 @@
 package com.KKDev.kosmat.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class transaksi {
     private String tanggal;
+
+    List<String[]> transaksi = new ArrayList<>();
     private String tipe;
     private String nama;
     private String total;

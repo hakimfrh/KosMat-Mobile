@@ -3,6 +3,7 @@ package com.KKDev.kosmat.fragment;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -23,15 +24,24 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.KKDev.kosmat.Api;
 import com.KKDev.kosmat.R;
 import com.KKDev.kosmat.retrofit.DatabaseCallback;
 import com.KKDev.kosmat.retrofit.DatabaseConnection;
 import com.KKDev.kosmat.model.UserResponse;
+import com.KKDev.kosmat.whatsappVerificationActivity;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.android.material.textfield.TextInputEditText;
 
@@ -44,9 +54,22 @@ import java.util.List;
 import com.KKDev.kosmat.model.User;
 
 import org.json.JSONException;
+import org.json.JSONObject;
 
 public class RegisterFragment extends Fragment {
 
+    private static final int WHATSAPP_VERIFICATION = 2;
+    User user;
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == WHATSAPP_VERIFICATION) {
+            if (resultCode == 1) {
+                Toast.makeText(getContext(), "Verifikasi whatsapp berhasil", Toast.LENGTH_SHORT).show();
+                registerUser(user);
+            }
+        }
+    }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
@@ -57,13 +80,13 @@ public class RegisterFragment extends Fragment {
         genderList.add("Laki Laki");
         genderList.add("Perempuan");
 
-        TextInputLayout txtx_Nama = view.findViewById(R.id.txt_namaLengkap);
+        TextInputLayout txtx_nama = view.findViewById(R.id.txt_namaLengkap);
         TextInputLayout txtx_nik = view.findViewById(R.id.txt_nik);
         TextInputLayout txtx_whatsapp = view.findViewById(R.id.txt_whatsapp);
         TextInputLayout txtx_username = view.findViewById(R.id.txt_regUsername);
         TextInputLayout txtx_password = view.findViewById(R.id.txt_regPassword);
         TextInputLayout txtx_tanggal = view.findViewById(R.id.txt_tglLahir);
-        TextInputEditText txt_nama = (TextInputEditText) txtx_Nama.getEditText();
+        TextInputEditText txt_nama = (TextInputEditText) txtx_nama.getEditText();
         TextInputEditText txt_nik = (TextInputEditText) txtx_nik.getEditText();
         TextInputEditText txt_whatsapp = (TextInputEditText) txtx_whatsapp.getEditText();
         TextInputEditText txt_username = (TextInputEditText) txtx_username.getEditText();
@@ -87,9 +110,9 @@ public class RegisterFragment extends Fragment {
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 String input = s.toString();
                 if (!input.matches("^[a-zA-Z\\s]*$")) {
-                    txt_nama.setError("Namamu aneh");
+                    txtx_nama.setError("Namamu aneh");
                 } else {
-                    txt_nama.setError(null);
+                    txtx_nama.setError(null);
                 }
             }
 
@@ -109,9 +132,9 @@ public class RegisterFragment extends Fragment {
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 String nik = s.toString();
                 if (nik.length() > 16) {
-                    txt_nik.setError("NIK Tidak Valid");
+                    txtx_nik.setError("NIK Tidak Valid");
                 } else {
-                    txt_nik.setError(null);
+                    txtx_nik.setError(null);
                 }
            /* 
                 if (!email.contains("@") || !email.contains(".")) {
@@ -135,15 +158,15 @@ public class RegisterFragment extends Fragment {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (txt_whatsapp.length() > 13) {
-                    txt_whatsapp.setError("Nomormu kepanjangan bro");
+                    txtx_whatsapp.setError("Nomormu kepanjangan bro");
                 } else if (txt_whatsapp.length() > 2) {
                     if (!txt_whatsapp.getText().toString().substring(0, 2).equals("08")) {
-                        txt_whatsapp.setError("Masukkan nomor yang valid");
+                        txtx_whatsapp.setError("Masukkan nomor yang valid");
                     } else {
-                        txt_whatsapp.setError(null);
+                        txtx_whatsapp.setError(null);
                     }
                 } else {
-                    txt_whatsapp.setError(null);
+                    txtx_whatsapp.setError(null);
                 }
             }
 
@@ -157,7 +180,7 @@ public class RegisterFragment extends Fragment {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (hasFocus) {
-                    showDatePickerDialog(txt_tanggal);
+                    showDatePickerDialog(txtx_tanggal);
                 }
             }
         });
@@ -171,11 +194,11 @@ public class RegisterFragment extends Fragment {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (txt_username.getText().length() < 4) {
-                    txt_username.setError("Kependekan bro");
+                    txtx_username.setError("Kependekan bro");
                 } else if (txt_username.getText().length() > 16) {
-                    txt_username.setError("Kepanjangan bro");
+                    txtx_username.setError("Kepanjangan bro");
                 } else {
-                    txt_username.setError(null);
+                    txtx_username.setError(null);
                 }
             }
 
@@ -194,11 +217,11 @@ public class RegisterFragment extends Fragment {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (txt_password.getText().length() < 4) {
-                    txt_password.setError("Kependekan bro");
+                    txtx_password.setError("Kependekan bro");
                 } else if (txt_password.getText().length() > 16) {
-                    txt_password.setError("Kepanjangan bro");
+                    txtx_password.setError("Kepanjangan bro");
                 } else {
-                    txt_password.setError(null);
+                    txtx_password.setError(null);
                 }
             }
 
@@ -244,33 +267,33 @@ public class RegisterFragment extends Fragment {
                 String gender = sp_gender.getSelectedItem().toString();
                 boolean isValid = true;
                 if (TextUtils.isEmpty(nama)) {
-                    txt_nama.setError("Tidak boleh kosong");
+                    txtx_nama.setError("Tidak boleh kosong");
                     isValid = false;
                 }
                 if (TextUtils.isEmpty(nik)) {
-                    txt_nik.setError("Tidak boleh kosong");
+                    txtx_nik.setError("Tidak boleh kosong");
                     isValid = false;
                 }
                 if (TextUtils.isEmpty(noWhatsapp)) {
-                    txt_whatsapp.setError("Tidak boleh kosong");
+                    txtx_whatsapp.setError("Tidak boleh kosong");
                     isValid = false;
                 }
                 if (TextUtils.isEmpty(tglLahir)) {
-                    txt_tanggal.setError("Tidak boleh kosong");
+                    txtx_tanggal.setError("Tidak boleh kosong");
                     isValid = false;
                 }
                 if (TextUtils.isEmpty(username)) {
-                    txt_username.setError("Tidak boleh kosong");
+                    txtx_username.setError("Tidak boleh kosong");
                     isValid = false;
                 }
                 if (TextUtils.isEmpty(password)) {
-                    txt_password.setError("Tidak boleh kosong");
+                    txtx_password.setError("Tidak boleh kosong");
                     isValid = false;
                 }
                 if (gender.equals("Jenis Kelamin")) {
                     isValid = false;
                 }
-                if (!(txt_nama.getError() == null) || !(txt_nik.getError() == null) || !(txt_whatsapp.getError() == null) || !(txt_tanggal.getError() == null) || !(txt_username.getError() == null) || !(txt_password.getError() == null)) {
+                if (!(txtx_nama.getError() == null) || !(txtx_nik.getError() == null) || !(txtx_whatsapp.getError() == null) || !(txtx_tanggal.getError() == null) || !(txtx_username.getError() == null) || !(txtx_password.getError() == null)) {
                     isValid = false;
                 }
                 if (isValid) {
@@ -281,64 +304,10 @@ public class RegisterFragment extends Fragment {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             dialog.dismiss();
-                            //SqliteHelper db = new SqliteHelper(container.getContext());
-                            DatabaseConnection db = new DatabaseConnection();
-
-                            User user = new User(nik, username, password, nama, noWhatsapp, noWhatsappWali, privilege, tglLahir, gender, image);
-                            try {
-                                db.registerUser(user, new DatabaseCallback<UserResponse>() {
-                                    @Override
-                                    public void onSuccess(UserResponse data) {
-                                        //if (data.getCode() == 200) {
-                                        if (data.getStatus().equals("User Registered")) {
-                                            AlertDialog.Builder success = new AlertDialog.Builder(getActivity());
-                                            success.setTitle("Register berhasil").setMessage("Silahkan login kembali").setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                                @Override
-                                                public void onClick(DialogInterface dialog, int which) {
-                                                    // Dismiss the dialog
-
-                                                    SharedPreferences sharedPreferences = getActivity().getSharedPreferences("login", getContext().MODE_PRIVATE);
-                                                    SharedPreferences.Editor editor = sharedPreferences.edit();
-                                                    editor.putString("username", username);
-                                                    editor.putString("password", password);
-                                                    editor.apply();
-                                                    dialog.dismiss();
-                                                    requireActivity().onBackPressed();
-                                                }
-                                            }).show();
-                                        } else {
-                                            AlertDialog.Builder success = new AlertDialog.Builder(getActivity());
-                                            success.setTitle("Gagal").setMessage(data.getStatus()).setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                                @Override
-                                                public void onClick(DialogInterface dialog, int which) {
-                                                    dialog.dismiss();
-                                                }
-                                            }).show();
-                                        }
-                                    }
-
-                                    @Override
-                                    public void onError(Throwable t) {
-                                        AlertDialog.Builder success = new AlertDialog.Builder(getActivity());
-                                        success.setTitle("Error").setMessage(t.toString()).setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                dialog.dismiss();
-                                            }
-                                        }).show();
-                                    }
-                                });
-                            } catch (JSONException e) {
-                                AlertDialog.Builder success = new AlertDialog.Builder(getActivity());
-                                success.setTitle("Error").setMessage(e.toString()).setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        dialog.dismiss();
-                                    }
-                                }).show();
-                                throw new RuntimeException(e);
-                            }
-
+                            user = new User(nik, username, password, nama, noWhatsapp, noWhatsappWali, privilege, tglLahir, gender, image);
+                            Intent intent = new Intent(getActivity(), whatsappVerificationActivity.class);
+                            intent.putExtra("whatsapp",noWhatsapp);
+                            startActivityForResult(intent,WHATSAPP_VERIFICATION);
                         }
                     }).setNegativeButton("Tidak", new DialogInterface.OnClickListener() {
                         @Override
@@ -362,7 +331,8 @@ public class RegisterFragment extends Fragment {
         return view;
     }
 
-    private void showDatePickerDialog(TextInputEditText textField) {
+    private void showDatePickerDialog(TextInputLayout textInputLayout) {
+        TextInputEditText textInputEditText = (TextInputEditText) textInputLayout.getEditText();
         final Calendar c = Calendar.getInstance();
         int year = c.get(Calendar.YEAR);
         int month = c.get(Calendar.MONTH);
@@ -373,9 +343,9 @@ public class RegisterFragment extends Fragment {
             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                 // Update the EditText with the selected date
                 String tanggal = year + "-" + (monthOfYear + 1) + "-" + dayOfMonth;
-                textField.setText(tanggal);
-                textField.clearFocus();
-                textField.setError(null);
+                textInputEditText.setText(tanggal);
+                textInputEditText.clearFocus();
+                textInputLayout.setError(null);
                 // Calculate age
                 Calendar dob = Calendar.getInstance();
                 dob.set(year, monthOfYear, dayOfMonth);
@@ -394,12 +364,93 @@ public class RegisterFragment extends Fragment {
         datePickerDialog.show();
     }
 
-    private void openDestinationFragmentWithoutTransitions(View view, Fragment destinationFragment) {
+    public void registerUser(User user) {
+        String url = Api.urlUser;
 
-        FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
-        transaction.replace(R.id.logRegFragment, destinationFragment); // Replace with the correct container ID
-        transaction.addToBackStack(null);
-        transaction.commit();
+        RequestQueue requestQueue = Volley.newRequestQueue(getContext());
+        // Create JSON object
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("method", "register");
+            jsonObject.put("nik", user.getNik());
+            jsonObject.put("username", user.getUsername());
+            jsonObject.put("password", user.getPassword());
+            jsonObject.put("nama", user.getNama());
+            jsonObject.put("no_whatsapp", user.getNo_whatsapp());
+            jsonObject.put("no_whatsapp_wali", user.getNo_whatsapp_wali());
+            jsonObject.put("privilege", user.getPrivilege());
+            jsonObject.put("tgl_lahir", user.getTgl_lahir());
+            jsonObject.put("gender", user.getGender());
+            jsonObject.put("image", user.getImage());
+        } catch (JSONException e) {
+            e.printStackTrace();
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+            builder.setTitle("Error").setMessage(e.toString()).setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            }).show();
+            return;
+        }
+
+        // Create the request
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, jsonObject,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            int code = response.getInt("code");
+                            String status = response.getString("status");
+
+                            // Handle the response based on code and status
+                            if (status.equals("User Registered")) {
+                                AlertDialog.Builder success = new AlertDialog.Builder(getActivity());
+                                success.setTitle("Register berhasil").setMessage("Silahkan login kembali").setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        // Dismiss the dialog
+
+                                        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("login", getContext().MODE_PRIVATE);
+                                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                                        editor.putString("username", user.getUsername());
+                                        editor.putString("password", user.getPassword());
+                                        editor.apply();
+                                        dialog.dismiss();
+                                        requireActivity().onBackPressed();
+                                    }
+                                }).show();
+                            } else {
+                                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                                builder.setTitle("Error").setMessage(status).setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        dialog.dismiss();
+                                    }
+                                }).show();
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                            builder.setTitle("Error").setMessage(e.toString()).setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            }).show();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        // Handle error
+                    }
+                });
+
+        // Add the request to the RequestQueue
+        requestQueue.add(jsonObjectRequest);
     }
 
 }

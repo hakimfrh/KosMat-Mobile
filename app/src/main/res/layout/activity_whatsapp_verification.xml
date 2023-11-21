@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragment.LupaPassword_1Fragment">
+    tools:context=".whatsappVerificationActivity">
 
     <ImageView
         android:id="@+id/imageView2"
@@ -66,7 +66,7 @@
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:inputType="text" />
+            android:inputType="number" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <TextView
@@ -83,7 +83,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="Kirim Ulang Kode"
+        android:text="Loading..."
         android:textColor="@color/link_blue"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="@+id/txt_kodewa"
