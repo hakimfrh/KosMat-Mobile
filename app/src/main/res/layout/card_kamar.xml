@@ -28,12 +28,11 @@
         <TextView
             android:id="@+id/Title"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="36dp"
             android:paddingLeft="20dp"
             android:text="Kamar 1"
             android:textSize="24sp"
             android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@+id/penyewa"
             app:layout_constraintEnd_toStartOf="@+id/harga_kamar"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toEndOf="@+id/imageView"
@@ -41,13 +40,13 @@
             app:layout_constraintVertical_bias="0.0" />
 
         <TextView
-            android:id="@+id/penyewa"
+            android:id="@+id/desc"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:paddingLeft="20dp"
             android:paddingTop="1dp"
             android:text="PRABOWO SUBIYANTO"
-            android:textSize="16sp"
+            android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/harga_kamar"
             app:layout_constraintStart_toEndOf="@+id/imageView"
@@ -57,7 +56,7 @@
             android:id="@+id/harga_kamar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingLeft="24dp"
+            android:paddingLeft="8dp"
             android:paddingRight="16dp"
             android:text="Rp.400.000"
             android:textSize="16sp"

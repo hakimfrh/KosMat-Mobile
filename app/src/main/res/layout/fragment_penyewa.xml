@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="48dp"
         android:fontFamily="@font/poppins_ultrabold"
-        android:text="Daftar Kamar"
+        android:text="Penyewa"
         android:textColor="@color/white"
         android:textSize="32sp"
         android:textStyle="bold"

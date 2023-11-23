@@ -22,10 +22,12 @@ public class listKamarAdapter extends RecyclerView.Adapter<listKamarAdapter.View
 
     private List<Kamar> kamarList;
     private Context context;
+    private Boolean isTerisi;
 
-    public listKamarAdapter(Context context, List<Kamar> data) {
+    public listKamarAdapter(Context context, List<Kamar> data,Boolean isTerisi) {
         this.context = context;
         this.kamarList = data;
+        this.isTerisi = isTerisi;
     }
 
     @NonNull
@@ -42,7 +44,8 @@ public class listKamarAdapter extends RecyclerView.Adapter<listKamarAdapter.View
         //holder.imageView.setImageResource((Integer) row[0]);
 
         holder.textViewTitle.setText("Kamar " +kamar.getId_kamar());
-        holder.textViewPenyewa.setText(kamar.getHarga_kamar());
+        String desc = isTerisi?kamar.getNama():kamar.getDeskripsi();
+        holder.textViewDesc.setText(desc);
         holder.textViewHarga.setText("Rp. "+kamar.getHarga_kamar());
     }
 
@@ -50,14 +53,14 @@ public class listKamarAdapter extends RecyclerView.Adapter<listKamarAdapter.View
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         ImageView imageView;
         TextView textViewTitle;
-        TextView textViewPenyewa;
+        TextView textViewDesc;
         TextView textViewHarga;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             imageView = itemView.findViewById(R.id.imageView);
             textViewTitle = itemView.findViewById(R.id.Title);
-            textViewPenyewa = itemView.findViewById(R.id.penyewa);
+            textViewDesc = itemView.findViewById(R.id.desc);
             textViewHarga = itemView.findViewById(R.id.harga_kamar);
 
             // Menambahkan listener klik pada itemView

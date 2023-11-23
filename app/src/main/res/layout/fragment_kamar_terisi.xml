@@ -4,9 +4,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".fragment.KamarKosongFragment">
+    tools:context=".fragment.KamarTerisiFragment">
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/KamarKosongRecyclerView"
+        android:id="@+id/KamarTerisiRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginStart="8dp"
@@ -17,5 +17,4 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:listitem="@layout/card_kamar" />
-
 </androidx.constraintlayout.widget.ConstraintLayout>

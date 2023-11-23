@@ -18,9 +18,10 @@ public class User implements Serializable {
     private String tgl_lahir;
     private String gender;
     private String image;
+    private String image_data;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    public User(String nik, String username, String password, String nama, String no_whatsapp, String no_whatsapp_wali, String privilege, String tgl_lahir, String gender, byte[] image) {
+    public User(String nik, String username, String password, String nama, String no_whatsapp, String no_whatsapp_wali, String privilege, String tgl_lahir, String gender, byte[] image_data) {
         this.nik = nik;
         this.username = username;
         this.password = password;
@@ -30,19 +31,7 @@ public class User implements Serializable {
         this.privilege = privilege;
         this.tgl_lahir = tgl_lahir;
         this.gender = gender;
-        this.image = Base64.getEncoder().encodeToString(image);
-    }
-    public User(String nik, String username, String password, String nama, String no_whatsapp, String no_whatsapp_wali, String privilege, String tgl_lahir, String gender, String image) {
-        this.nik = nik;
-        this.username = username;
-        this.password = password;
-        this.nama = nama;
-        this.no_whatsapp = no_whatsapp;
-        this.no_whatsapp_wali = no_whatsapp_wali;
-        this.privilege = privilege;
-        this.tgl_lahir = tgl_lahir;
-        this.gender = gender;
-        this.image = image;
+        this.image_data = Base64.getEncoder().encodeToString(image_data);
     }
 
     public String getNik() {
@@ -125,13 +114,21 @@ public class User implements Serializable {
         this.image = image;
     }
 
+    public String getImage_data() {
+        return image_data;
+    }
+
+    public void setImage_data(String image_data) {
+        this.image_data = image_data;
+    }
+
     @RequiresApi(api = Build.VERSION_CODES.O)
     public byte[] getImageByte() {
-        return Base64.getDecoder().decode(image);
+        return Base64.getDecoder().decode(image_data);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void setImageByte(byte[] imageData) {
-        this.image = Base64.getEncoder().encodeToString(imageData);
+        this.image_data = Base64.getEncoder().encodeToString(imageData);
     }
 }

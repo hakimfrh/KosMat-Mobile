@@ -133,7 +133,7 @@ public class EditProfileFragment extends Fragment {
 
                 // Convert the bitmap to a byte array
                 ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
                 byte[] image = stream.toByteArray();
 
                 String nik = edit_txt_nik.getText().toString();

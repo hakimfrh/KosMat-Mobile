@@ -16,6 +16,7 @@ import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.KKDev.kosmat.DescActivity;
+import com.KKDev.kosmat.MainActivity;
 import com.KKDev.kosmat.R;
 import com.KKDev.kosmat.model.User;
 
@@ -51,12 +52,6 @@ public class userAdapter extends RecyclerView.Adapter<userAdapter.ViewHolder> {
 
     }
 
-    // Tambahkan method untuk mendapatkan deskripsi dari posisi tertentu
-    public User getItem(int position) {
-        User row = data[position];
-        return row;
-    }
-
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         ImageView imageView;
         TextView textViewNama;
@@ -74,8 +69,10 @@ public class userAdapter extends RecyclerView.Adapter<userAdapter.ViewHolder> {
 
         @Override
         public void onClick(View v) {
-/*
             int position = getAdapterPosition();
+            User user = data[position];
+            ((MainActivity)context).showBS_Pengguna(user);
+/*
             if (position != RecyclerView.NO_POSITION) {
                 // Mengambil deskripsi dari item yang diklik
                 Object[] item = getItem(position);
