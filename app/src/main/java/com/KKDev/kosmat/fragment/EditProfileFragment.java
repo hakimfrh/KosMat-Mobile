@@ -89,8 +89,7 @@ public class EditProfileFragment extends Fragment {
         User user = (User) bundle.getSerializable("user");
         img_editProfile = view.findViewById(R.id.edit_imgprofile);
 
-        byte[] byteArray = user.getImageByte();
-        profile_image= BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
+        profile_image= user.getImageBitmap();
         img_editProfile.setImageBitmap(profile_image);
 
         List<String> genderList = new ArrayList<>();

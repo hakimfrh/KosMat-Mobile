@@ -1,5 +1,7 @@
 package com.KKDev.kosmat.model;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Build;
 
 import androidx.annotation.RequiresApi;
@@ -130,5 +132,11 @@ public class User implements Serializable {
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void setImageByte(byte[] imageData) {
         this.image_data = Base64.getEncoder().encodeToString(imageData);
+    }
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public Bitmap getImageBitmap(){
+        byte[] byteArray = getImageByte();
+        Bitmap bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
+        return bitmap;
     }
 }

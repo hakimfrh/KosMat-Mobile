@@ -53,9 +53,7 @@ public class DashboardFragment extends Fragment {
 
         String nama = user.getNama();
         tx_namaUser.setText(nama);
-        byte[] byteArray = user.getImageByte();
-        Bitmap bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
-        img_profile.setImageBitmap(bitmap);
+        img_profile.setImageBitmap(user.getImageBitmap());
 
         img_profile.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -46,11 +46,10 @@ public class listKamarAdapter extends RecyclerView.Adapter<listKamarAdapter.View
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Kamar kamar = kamarList.get(position);
 
-        byte[] byteArray = kamar.getImageByte();
-        Bitmap bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
+
         String desc = isTerisi?kamar.getNama():kamar.getDeskripsi();
 
-        holder.imageView.setImageBitmap(bitmap);
+        holder.imageView.setImageBitmap(kamar.getImageBitmap());
         holder.textViewTitle.setText("Kamar " +kamar.getId_kamar());
         holder.textViewDesc.setText(desc);
         holder.textViewHarga.setText("Rp. "+kamar.getHarga_kamar());

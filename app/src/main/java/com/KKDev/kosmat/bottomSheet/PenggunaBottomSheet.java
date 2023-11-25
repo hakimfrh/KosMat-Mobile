@@ -40,9 +40,7 @@ public class PenggunaBottomSheet extends BottomSheetDialogFragment {
         TextView tx_whatsapp = view.findViewById(R.id.tx_bs_whatsapp);
         TextView tx_whatsappWali = view.findViewById(R.id.tx_bs_whatsappWali);
 
-        byte[] byteArray = user.getImageByte();
-        Bitmap bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
-        img_profile.setImageBitmap(bitmap);
+        img_profile.setImageBitmap(user.getImageBitmap());
         tx_pengguna.setText(user.getNama());
         tx_nik.setText(user.getNik());
         //tx_kamar.setText(user.);

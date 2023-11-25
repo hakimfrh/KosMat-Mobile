@@ -43,10 +43,7 @@ public class userAdapter extends RecyclerView.Adapter<userAdapter.ViewHolder> {
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         User row = data[position];
 
-        byte[] byteArray = row.getImageByte();
-        Bitmap bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
-
-        holder.imageView.setImageBitmap(bitmap);
+        holder.imageView.setImageBitmap(row.getImageBitmap());
         holder.textViewNama.setText(row.getNama());
         holder.textViewKamar.setText("");
 
