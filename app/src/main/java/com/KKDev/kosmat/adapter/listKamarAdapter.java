@@ -1,5 +1,8 @@
 package com.KKDev.kosmat.adapter;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +12,7 @@ import android.content.Context;
 import android.content.Intent;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.KKDev.kosmat.KamarActivity;
@@ -37,14 +41,17 @@ public class listKamarAdapter extends RecyclerView.Adapter<listKamarAdapter.View
         return new ViewHolder(view);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Kamar kamar = kamarList.get(position);
 
-        //holder.imageView.setImageResource((Integer) row[0]);
-
-        holder.textViewTitle.setText("Kamar " +kamar.getId_kamar());
+        byte[] byteArray = kamar.getImageByte();
+        Bitmap bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
         String desc = isTerisi?kamar.getNama():kamar.getDeskripsi();
+
+        holder.imageView.setImageBitmap(bitmap);
+        holder.textViewTitle.setText("Kamar " +kamar.getId_kamar());
         holder.textViewDesc.setText(desc);
         holder.textViewHarga.setText("Rp. "+kamar.getHarga_kamar());
     }

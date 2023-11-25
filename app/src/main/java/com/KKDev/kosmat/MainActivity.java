@@ -1,6 +1,7 @@
 package com.KKDev.kosmat;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
@@ -10,11 +11,17 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.content.DialogInterface;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.Build;
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.KKDev.kosmat.bottomSheet.PenggunaBottomSheet;
 import com.KKDev.kosmat.fragment.DashboardFragment;
 import com.KKDev.kosmat.fragment.LaporanFragment;
 import com.KKDev.kosmat.fragment.ListKamarFragment;
@@ -27,7 +34,6 @@ import com.google.android.material.navigation.NavigationBarView;
 
 public class MainActivity extends AppCompatActivity {
     BottomNavigationView bottomNavigationView;
-    private BottomSheetBehavior bottomSheet_pengguna;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,8 +43,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         View bottomSheet_tagihan = findViewById(R.id.bs_tagihan);
-        View bs_pengguna = findViewById(R.id.bs_pengguna);
-        bottomSheet_pengguna = BottomSheetBehavior.from(bs_pengguna);
 
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
         loadFragment(new DashboardFragment(bottomSheet_tagihan));
@@ -98,27 +102,17 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+
     private void loadFragment(Fragment fragment) {
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
         ft.replace(R.id.mainFragmentContainer, fragment);
         ft.commit();
     }
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public void showBS_Pengguna(User user){
-        TextView tx_pengguna = findViewById(R.id.tx_bs_namaPengguna);
-        TextView tx_nik = findViewById(R.id.tx_bs_nik);
-        TextView tx_kamar = findViewById(R.id.tx_bs_kamar);
-        TextView tx_alamat = findViewById(R.id.tx_bs_alamat);
-        TextView tx_whatsapp = findViewById(R.id.tx_bs_whatsapp);
-        TextView tx_whatsappWali = findViewById(R.id.tx_bs_whatsappWali);
-
-        tx_pengguna.setText(user.getNama());
-        tx_nik.setText(user.getNik());
-        //tx_kamar.setText(user.);
-//        tx_alamat.setText(user.get);
-        tx_whatsapp.setText(user.getNo_whatsapp());
-        tx_whatsappWali.setText(user.getNo_whatsapp_wali());
-        bottomSheet_pengguna.setState(BottomSheetBehavior.STATE_EXPANDED);
+        PenggunaBottomSheet penggunaBottomSheet = new PenggunaBottomSheet(user);
+        penggunaBottomSheet.show(getSupportFragmentManager(), penggunaBottomSheet.getTag());
     }
 
 }

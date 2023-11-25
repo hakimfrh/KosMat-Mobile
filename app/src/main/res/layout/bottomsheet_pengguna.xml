@@ -2,13 +2,9 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/bs_pengguna"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    app:behavior_hideable="true"
-    app:behavior_peekHeight="0dp"
-    app:cardCornerRadius="24dp"
-    app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
+    app:cardCornerRadius="24dp">
 
     <View
         android:layout_width="match_parent"
@@ -33,6 +29,7 @@
         android:id="@+id/materialCardView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:backgroundTint="@color/white"
         app:cardCornerRadius="24dp"
         app:cardElevation="0dp"
         app:strokeWidth="0dp">
@@ -57,7 +54,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <com.google.android.material.imageview.ShapeableImageView
-                android:id="@+id/shapeableImageView3"
+                android:id="@+id/img_bs_pengguna"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
                 android:scaleType="centerCrop"
@@ -78,7 +75,7 @@
                 android:textSize="24dp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/shapeableImageView3"
+                app:layout_constraintStart_toEndOf="@+id/img_bs_pengguna"
                 app:layout_constraintTop_toBottomOf="@+id/textView15" />
 
             <TextView

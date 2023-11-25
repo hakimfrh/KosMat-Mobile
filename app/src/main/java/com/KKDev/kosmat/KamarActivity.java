@@ -1,5 +1,6 @@
 package com.KKDev.kosmat;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
@@ -9,6 +10,9 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -16,6 +20,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -48,18 +53,24 @@ public class KamarActivity extends AppCompatActivity {
     Kamar kamar;
     Spinner sp_penyewa;
     CheckBox cb_disewa;
+    ImageView imageView;
 
     TextInputEditText txt_no_kamar;
+    TextInputEditText txt_nik;
+    TextInputEditText txt_nama;
 
     List<User> userList;
 
     Context context;
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_kamar);
         context = this;
+
+        imageView = findViewById(R.id.img_kamar);
         TextView tx_header = findViewById(R.id.tx_title);
         TextView tx_rincianPenyewa = findViewById(R.id.tx_rincianPenyewa);
         TextInputLayout txtx_no_kamar = findViewById(R.id.txt_noKamar);
@@ -67,11 +78,12 @@ public class KamarActivity extends AppCompatActivity {
         TextInputLayout txtx_nik = findViewById(R.id.kamar_txt_nik);
         TextInputLayout txtx_nama = findViewById(R.id.kamar_kamar_txt_nama);
         TextInputLayout txtx_desc = findViewById(R.id.txt_deskipsiKamar);
-        txt_no_kamar = (TextInputEditText) txtx_no_kamar.getEditText();
         TextInputEditText txt_harga_kamar = (TextInputEditText) txtx_harga_kamar.getEditText();
-        TextInputEditText txt_nik = (TextInputEditText) txtx_nik.getEditText();
-        TextInputEditText txt_nama = (TextInputEditText) txtx_nama.getEditText();
         TextInputEditText txt_desc_kamar = (TextInputEditText) txtx_desc.getEditText();
+        txt_no_kamar = (TextInputEditText) txtx_no_kamar.getEditText();
+        txt_nik = (TextInputEditText) txtx_nik.getEditText();
+        txt_nama = (TextInputEditText) txtx_nama.getEditText();
+
 
         cb_disewa = findViewById(R.id.cb_disewa);
         sp_penyewa = findViewById(R.id.sp_penyewa);
@@ -83,11 +95,13 @@ public class KamarActivity extends AppCompatActivity {
         mode = intent.getStringExtra("mode");
         if (mode.equals("edit")) {
             kamar = (Kamar) intent.getSerializableExtra("kamar");
+
+            imageView.setImageBitmap(kamar.getImageBitmap());
             tx_header.setText("Detail Kamar");
             txt_no_kamar.setText(kamar.getId_kamar());
             txt_harga_kamar.setText(kamar.getHarga_kamar());
             txt_desc_kamar.setText(kamar.getDeskripsi());
-        }else {
+        } else {
             tx_header.setText("Tambah Kamar");
             btn_hapus.setVisibility(View.GONE);
         }
@@ -103,7 +117,7 @@ public class KamarActivity extends AppCompatActivity {
             }
         });
 
-        if (mode.equals("edit") && kamar.getId_kepemilikan()==null) {
+        if (mode.equals("edit") && kamar.getId_kepemilikan() == null) {
             cb_disewa.setChecked(false);
         }
 
@@ -298,10 +312,13 @@ public class KamarActivity extends AppCompatActivity {
                             if (status.equals("ok")) {
                                 if (mode.equals("edit")) {
                                     int index = sp_penyewa.getSelectedItemPosition();
-                                    if (index == 0) index = 0;
-                                    String nik = userList.get(index - 1).getNik();
-                                    if ((!kamar.getId_kamar().equals(txt_no_kamar)) || (!kamar.getNik().equals(nik)) ) {
-                                        updatePenyewa();
+                                    if (index > 0) {
+                                        String nik = userList.get(index - 1).getNik();
+                                        if ((!kamar.getId_kamar().equals(txt_no_kamar)) || (!kamar.getNik().equals(nik))) {
+                                            updatePenyewa();
+                                        }
+                                    } else {
+                                        tambahPenyewa();
                                     }
                                 } else if (mode.equals("new") && cb_disewa.isChecked()) {
                                     updatePenyewa();
@@ -357,6 +374,74 @@ public class KamarActivity extends AppCompatActivity {
         requestQueue.add(jsonObjectRequest);
     }
 
+    private void tambahPenyewa() {
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("method", "registerPenyewa");
+            jsonObject.put("nik", txt_nik.getText());
+            jsonObject.put("nama", txt_nama.getText());
+        } catch (JSONException e) {
+            e.printStackTrace();
+            AlertDialog.Builder builder = new AlertDialog.Builder(getBaseContext());
+            builder.setTitle("Error").setMessage(e.toString()).setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            }).show();
+            return;
+        }
+        RequestQueue requestQueue = Volley.newRequestQueue(context);
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, Api.urlUser, jsonObject,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            int code = response.getInt("code");
+                            String status = response.getString("status");
+
+                            // Handle the response based on code and status
+                            if (status.equals("ok")) {
+                                updatePenyewa();
+                            } else {
+                                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                                builder.setTitle("Error").setMessage(status).setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        dialog.dismiss();
+                                    }
+                                }).show();
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                            builder.setTitle("Error").setMessage(e.toString()).setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            }).show();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        // Handle error
+                        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                        builder.setTitle("Error").setMessage(error.toString()).setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        }).show();
+                    }
+                });
+
+        // Add the request to the RequestQueue
+        requestQueue.add(jsonObjectRequest);
+    }
+
     private void updatePenyewa() {
         java.util.Date date = new java.util.Date();
         SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd");
@@ -367,77 +452,77 @@ public class KamarActivity extends AppCompatActivity {
         String tanggal_masuk = f.format(date);
         if (cb_disewa.isChecked()) {
             if (penyewa == 0) {
+                nik = txt_nik.getText().toString();
             } else {
                 nik = userList.get(penyewa - 1).getNik();
-                String id_kepemilikan = id_kamar + getBulan(date) + nik;
-                JSONObject jsonObject = new JSONObject();
-                try {
-                    jsonObject.put("id_kepemilikan", id_kepemilikan);
-                    jsonObject.put("id_kamar", id_kamar);
-                    jsonObject.put("tanggal_masuk", tanggal_masuk);
-                    jsonObject.put("nik", nik);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                    AlertDialog.Builder builder = new AlertDialog.Builder(getBaseContext());
-                    builder.setTitle("Error").setMessage(e.toString()).setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            }
+            String id_kepemilikan = id_kamar + getBulan(date) + nik;
+            JSONObject jsonObject = new JSONObject();
+            try {
+                jsonObject.put("id_kepemilikan", id_kepemilikan);
+                jsonObject.put("id_kamar", id_kamar);
+                jsonObject.put("tanggal_masuk", tanggal_masuk);
+                jsonObject.put("nik", nik);
+            } catch (JSONException e) {
+                e.printStackTrace();
+                AlertDialog.Builder builder = new AlertDialog.Builder(getBaseContext());
+                builder.setTitle("Error").setMessage(e.toString()).setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                }).show();
+                return;
+            }
+            RequestQueue requestQueue = Volley.newRequestQueue(context);
+            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, Api.urlKepemilikan, jsonObject,
+                    new Response.Listener<JSONObject>() {
                         @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                        }
-                    }).show();
-                    return;
-                }
-                RequestQueue requestQueue = Volley.newRequestQueue(context);
-                JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, Api.urlKepemilikan, jsonObject,
-                        new Response.Listener<JSONObject>() {
-                            @Override
-                            public void onResponse(JSONObject response) {
-                                try {
-                                    int code = response.getInt("code");
-                                    String status = response.getString("status");
+                        public void onResponse(JSONObject response) {
+                            try {
+                                int code = response.getInt("code");
+                                String status = response.getString("status");
 
-                                    // Handle the response based on code and status
-                                    if (status.equals("ok")) {
+                                // Handle the response based on code and status
+                                if (status.equals("ok")) {
 
-                                    } else {
-                                        AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                                        builder.setTitle("Error").setMessage(status).setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                dialog.dismiss();
-                                            }
-                                        }).show();
-                                    }
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
+                                } else {
                                     AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                                    builder.setTitle("Error").setMessage(e.toString()).setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                    builder.setTitle("Error").setMessage(status).setPositiveButton("OK", new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
                                             dialog.dismiss();
                                         }
                                     }).show();
                                 }
-                            }
-                        },
-                        new Response.ErrorListener() {
-
-                            @Override
-                            public void onErrorResponse(VolleyError error) {
-                                // Handle error
+                            } catch (JSONException e) {
+                                e.printStackTrace();
                                 AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                                builder.setTitle("Error").setMessage(error.toString()).setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                builder.setTitle("Error").setMessage(e.toString()).setPositiveButton("OK", new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
                                         dialog.dismiss();
                                     }
                                 }).show();
                             }
-                        });
+                        }
+                    },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            // Handle error
+                            AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                            builder.setTitle("Error").setMessage(error.toString()).setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            }).show();
+                        }
+                    });
 
-                // Add the request to the RequestQueue
-                requestQueue.add(jsonObjectRequest);
-            }
+            // Add the request to the RequestQueue
+            requestQueue.add(jsonObjectRequest);
         } else {
             RequestQueue requestQueue = Volley.newRequestQueue(context);
             StringRequest stringRequest = new StringRequest(Request.Method.DELETE, Api.urlKepemilikan + "?id_kepemilikan=" + kamar.getId_kepemilikan(), new Response.Listener() {
@@ -474,6 +559,7 @@ public class KamarActivity extends AppCompatActivity {
             });
             requestQueue.add(stringRequest);
         }
+
     }
 
     private String getBulan(Date date) {

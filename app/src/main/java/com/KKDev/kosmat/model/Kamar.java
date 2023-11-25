@@ -1,6 +1,13 @@
 package com.KKDev.kosmat.model;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.Build;
+
+import androidx.annotation.RequiresApi;
+
 import java.io.Serializable;
+import java.util.Base64;
 
 public class Kamar implements Serializable {
     String id_kamar;
@@ -8,25 +15,30 @@ public class Kamar implements Serializable {
     String harga_kamar;
     String deskripsi;
     String photo;
+    String image_data;
     String id_kepemilikan;
     String nik;
     String tgl_masuk;
     String nama;
 
-    public Kamar(String id_kamar, String nama_kamar, String harga_kamar, String deskripsi, String photo) {
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public Kamar(String id_kamar, String nama_kamar, String harga_kamar, String deskripsi, String photo, byte[] image_data) {
         this.id_kamar = id_kamar;
         this.nama_kamar = nama_kamar;
         this.harga_kamar = harga_kamar;
         this.deskripsi = deskripsi;
         this.photo = photo;
+        this.image_data = Base64.getEncoder().encodeToString(image_data);
     }
 
-    public Kamar(String id_kamar, String nama_kamar, String harga_kamar, String deskripsi, String photo, String id_kepemilikan, String nik, String tgl_masuk, String nama) {
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public Kamar(String id_kamar, String nama_kamar, String harga_kamar, String deskripsi, String photo, byte[] image_data, String id_kepemilikan, String nik, String tgl_masuk, String nama) {
         this.id_kamar = id_kamar;
         this.nama_kamar = nama_kamar;
         this.harga_kamar = harga_kamar;
         this.deskripsi = deskripsi;
         this.photo = photo;
+        this.image_data = Base64.getEncoder().encodeToString(image_data);
         this.id_kepemilikan = id_kepemilikan;
         this.nik = nik;
         this.tgl_masuk = tgl_masuk;
@@ -73,6 +85,22 @@ public class Kamar implements Serializable {
         this.photo = photo;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public byte[] getImageByte() {
+        return Base64.getDecoder().decode(image_data);
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public void setImageByte(byte[] imageData) {
+        this.image_data = Base64.getEncoder().encodeToString(imageData);
+    }
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public Bitmap getImageBitmap(){
+        byte[] byteArray = getImageByte();
+        Bitmap bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
+        return bitmap;
+    }
+
     public String getId_kepemilikan() {
         return id_kepemilikan;
     }
@@ -104,4 +132,5 @@ public class Kamar implements Serializable {
     public void setNama(String nama) {
         this.nama = nama;
     }
+
 }
