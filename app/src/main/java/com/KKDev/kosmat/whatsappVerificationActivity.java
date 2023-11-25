@@ -65,9 +65,9 @@ public class whatsappVerificationActivity extends AppCompatActivity {
         TextView tx_watsapp =findViewById(R.id.tx_whatsapp);
 
         tx_watsapp.setText(whatsapp);
-        generateCode();
-        submitCode(kode);
-        //sendCode();
+        //generateCode();
+        //submitCode(kode);
+        sendCode();
         tx_kirimUlang.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -172,7 +172,7 @@ public class whatsappVerificationActivity extends AppCompatActivity {
     }
 
     public void sendMessage(final String message, final String number) {
-        String url = "http://" + Api.server_ip + ":8000/send-message";
+        String url = "https://whatsapp-api--hakimfrh.repl.co/send-message";
         RequestQueue queue = Volley.newRequestQueue(this);  // Replace 'null' with your context if you are in an Android application
 
         Context context = this;
