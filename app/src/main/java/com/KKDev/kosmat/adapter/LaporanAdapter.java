@@ -1,38 +1,84 @@
 package com.KKDev.kosmat.adapter;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.KKDev.kosmat.R;
 
-public class LaporanAdapter extends RecyclerView.Adapter<LaporanAdapter.ViewHolder>{
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+public class LaporanAdapter extends RecyclerView.Adapter<LaporanAdapter.ViewHolder> {
+    Context context;
+    JSONArray jsonArray;
+
+    public LaporanAdapter(Context context, JSONArray jsonArray) {
+        this.context = context;
+        this.jsonArray = jsonArray;
+    }
+
     @NonNull
     @Override
     public LaporanAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_tagihan, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_laporan, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull LaporanAdapter.ViewHolder holder, int position) {
-
+        try {
+            JSONObject data = jsonArray.getJSONObject(position);
+            holder.tx_bulan.setText(nameBulan(data.getString("month")));
+            holder.recyclerView.setAdapter(new LaporanAdapter_inner(context,data.getJSONArray("array")));
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return jsonArray.length();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView tx_bulan;
+        RecyclerView recyclerView;
+
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             tx_bulan = itemView.findViewById(R.id.tx_bulan);
+            recyclerView = itemView.findViewById(R.id.recycler_laporan);
+            recyclerView.setLayoutManager(new LinearLayoutManager(context));
         }
+    }
+
+    private String nameBulan(String date){
+        String result ="";
+
+        String bulan= date.split(" ")[0];
+        String tahun = date.split(" ")[1];
+        if(bulan.equals("1")){ result = "Januari";
+        } else if (bulan.equals("2")) {result = "Februari";
+        }else if (bulan.equals("3")) {result = "Maret";
+        }else if (bulan.equals("4")) {result = "April";
+        }else if (bulan.equals("5")) {result = "Mei";
+        }else if (bulan.equals("6")) {result = "Juni";
+        }else if (bulan.equals("7")) {result = "Juli";
+        }else if (bulan.equals("8")) {result = "Agustus";
+        }else if (bulan.equals("9")) {result = "September";
+        }else if (bulan.equals("10")) {result = "Oktober";
+        }else if (bulan.equals("11")) {result = "November";
+        }else if (bulan.equals("12")) {result = "Desember";
+        }
+
+        return result+" "+tahun;
     }
 }

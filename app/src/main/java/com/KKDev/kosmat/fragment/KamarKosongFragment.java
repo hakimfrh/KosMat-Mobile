@@ -43,8 +43,8 @@ public class KamarKosongFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_kamar_kosong, container, false);
 
         String url = Api.urlKamarKosong;
-        RequestQueue queue = Volley.newRequestQueue(getContext());
         Context context = getContext();
+        RequestQueue queue = Volley.newRequestQueue(getContext());
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {

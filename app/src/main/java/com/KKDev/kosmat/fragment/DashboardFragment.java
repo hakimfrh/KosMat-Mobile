@@ -33,11 +33,7 @@ import com.google.android.material.card.MaterialCardView;
 
 public class DashboardFragment extends Fragment {
     private boolean isDashboardVisible = false;
-    View bottomSheet;
 
-    public DashboardFragment(View bottomSheet) {
-        this.bottomSheet = bottomSheet;
-    }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -83,9 +79,9 @@ public class DashboardFragment extends Fragment {
         Object[][] data = {tagihan, bulan};
 
         RecyclerView recyclerTagihan = view.findViewById(R.id.recycletagihan);
-        recyclerTagihan.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
-        TagihanAdapter adapterTagihan = new TagihanAdapter(getContext(), tagihan, bottomSheet);
-        recyclerTagihan.setAdapter(adapterTagihan);
+//        recyclerTagihan.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
+//        TagihanAdapter adapterTagihan = new TagihanAdapter(getContext(), tagihan, bottomSheet);
+//        recyclerTagihan.setAdapter(adapterTagihan);
 
         Object[][] transaksi = {
                 {"Senin", "pengeluaran","Bayar Air","200.000"},

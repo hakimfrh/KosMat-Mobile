@@ -7,8 +7,9 @@
     tools:context=".fragment.PengeluaranFragment">
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_pengeluaran"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_margin="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

@@ -16,12 +16,15 @@
             android:id="@+id/tx_bulan"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:layout_marginStart="8dp"
             android:text="April 2023"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_laporan"
             android:layout_marginTop="6dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

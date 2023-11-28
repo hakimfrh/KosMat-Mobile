@@ -15,19 +15,19 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textView27"
+        android:id="@+id/tx_jumlah"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/poppins_ultrabold"
         android:text="Rp.250000"
         android:textColor="@color/black"
-        android:textSize="20sp"
+        android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/view" />
 
     <TextView
-        android:id="@+id/textView24"
+        android:id="@+id/tx_keterangan"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Bayar Angin"
@@ -37,11 +37,12 @@
         app:layout_constraintTop_toBottomOf="@+id/view" />
 
     <TextView
+        android:id="@+id/tx_tanggal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="12 April 2023"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView24" />
+        app:layout_constraintTop_toBottomOf="@+id/tx_keterangan" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -46,13 +46,13 @@ public class MainActivity extends AppCompatActivity {
         View bottomSheet_tagihan = findViewById(R.id.bs_tagihan);
 
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
-        loadFragment(new DashboardFragment(bottomSheet_tagihan));
+        loadFragment(new DashboardFragment());
 
         bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 if (item.getItemId() == R.id.dashboard) {
-                    loadFragment(new DashboardFragment(bottomSheet_tagihan));
+                    loadFragment(new DashboardFragment());
                     return true;
                 } else if (item.getItemId() == R.id.kamar) {
                     loadFragment(new ListKamarFragment());
