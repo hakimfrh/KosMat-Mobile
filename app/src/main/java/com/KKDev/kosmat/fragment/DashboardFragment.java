@@ -1,14 +1,12 @@
 package com.KKDev.kosmat.fragment;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.RequiresApi;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -23,13 +21,21 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.KKDev.kosmat.Api;
 import com.KKDev.kosmat.R;
-import com.KKDev.kosmat.adapter.GroupTransaksiAdapter;
-import com.KKDev.kosmat.adapter.TagihanAdapter;
+import com.KKDev.kosmat.adapter.LaporanAdapter;
+import com.KKDev.kosmat.adapter.TransaksiAdapter;
 import com.KKDev.kosmat.model.User;
-import com.google.android.material.bottomsheet.BottomSheetBehavior;
-import com.google.android.material.bottomsheet.BottomSheetDialog;
-import com.google.android.material.card.MaterialCardView;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class DashboardFragment extends Fragment {
     private boolean isDashboardVisible = false;
@@ -41,12 +47,14 @@ public class DashboardFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_dashboard, container, false);
-        Intent intent = getActivity().getIntent();
-        User user = (User) intent.getSerializableExtra("user");
 
         ImageView img_profile = view.findViewById(R.id.img_profile);
         TextView tx_namaUser = view.findViewById(R.id.tx_dsNama);
+        RecyclerView recyclerView = view.findViewById(R.id.recycler_transaksi);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
+        Intent intent = getActivity().getIntent();
+        User user = (User) intent.getSerializableExtra("user");
         String nama = user.getNama();
         tx_namaUser.setText(nama);
         img_profile.setImageBitmap(user.getImageBitmap());
@@ -59,44 +67,46 @@ public class DashboardFragment extends Fragment {
                 openDestinationFragmentWithTransitions(view, new EditProfileFragment(), user);
             }
         });
+        String url = Api.urlTranskasi;
+        RequestQueue queue = Volley.newRequestQueue(getContext());
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url+"?method=getTransaksi", new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    JSONObject jsonObject = new JSONObject(response);
+                    String status = jsonObject.getString("status");
+                    if (status.equals("ok")) {
+                        JSONArray jsonArray = jsonObject.getJSONArray("transaksi");
 
-        //ConstraintLayout bottomSheet = view.findViewById(R.id.bs_tagihan);
-        //BottomSheetBehavior bottomSheetBehavior = BottomSheetBehavior.from(bottomSheet);
-        //bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+                        recyclerView.setAdapter( new TransaksiAdapter(getContext(), jsonArray));
+                    }
 
-        Object[][] tagihan = {
-                {R.drawable.kamar1, "Kamar 1", "800.000"},
-                {R.drawable.kamar2, "Kamar 2", "400.000"},
-                {R.drawable.kamar3, "Kamar 3", "200.000"},
-                {R.drawable.kamar4, "Kamar 4", "1.200.000"}
-        };
-        Object[][] bulan = {
-                {1, "january", "400.000"},
-                {1, "february", "400.000"},
-                {2, "february", "400.000"},
-                {3, "february", "200.000"}
-        };
-        Object[][] data = {tagihan, bulan};
-
-        RecyclerView recyclerTagihan = view.findViewById(R.id.recycletagihan);
-//        recyclerTagihan.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
-//        TagihanAdapter adapterTagihan = new TagihanAdapter(getContext(), tagihan, bottomSheet);
-//        recyclerTagihan.setAdapter(adapterTagihan);
-
-        Object[][] transaksi = {
-                {"Senin", "pengeluaran","Bayar Air","200.000"},
-                {"Senin", "Pemasukan","Kamar 3","400.000"},
-                {"Selasa", "Pengeluaran","Bayar Wifi","300.000"},
-                {"Selasa", "Pengeluaran","Bayar Listrik","250.000"},
-                {"Selasa", "Pemasukan","kamar 5","400.000"},
-                {"Rabu", "Pemasukan","kamar 4","400.000"}
-        };
-
-        RecyclerView recyclerTransaksi = view.findViewById(R.id.recycler_group_tagihan);
-        recyclerTransaksi.setLayoutManager(new LinearLayoutManager(getActivity()));
-        GroupTransaksiAdapter groupTransaksiAdapter = new GroupTransaksiAdapter(transaksi);
-        recyclerTransaksi.setAdapter(groupTransaksiAdapter);
-
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                    builder.setTitle("EROR").setMessage(e.toString()).setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            // Dismiss the dialog
+                            dialog.dismiss();
+                        }
+                    }).show();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                builder.setTitle("Eror").setMessage(error.toString()).setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // Dismiss the dialog
+                        dialog.dismiss();
+                    }
+                }).show();
+            }
+        });
+        queue.add(stringRequest);
         return view;
     }
 

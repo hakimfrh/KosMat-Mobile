@@ -37,6 +37,7 @@ public class LaporanAdapter extends RecyclerView.Adapter<LaporanAdapter.ViewHold
         try {
             JSONObject data = jsonArray.getJSONObject(position);
             holder.tx_bulan.setText(nameBulan(data.getString("month")));
+            holder.recyclerView.setLayoutManager(new LinearLayoutManager(context));
             holder.recyclerView.setAdapter(new LaporanAdapter_inner(context,data.getJSONArray("array")));
         } catch (JSONException e) {
             throw new RuntimeException(e);
@@ -56,7 +57,6 @@ public class LaporanAdapter extends RecyclerView.Adapter<LaporanAdapter.ViewHold
             super(itemView);
             tx_bulan = itemView.findViewById(R.id.tx_bulan);
             recyclerView = itemView.findViewById(R.id.recycler_laporan);
-            recyclerView.setLayoutManager(new LinearLayoutManager(context));
         }
     }
 
@@ -66,7 +66,7 @@ public class LaporanAdapter extends RecyclerView.Adapter<LaporanAdapter.ViewHold
         String bulan= date.split(" ")[0];
         String tahun = date.split(" ")[1];
         if(bulan.equals("1")){ result = "Januari";
-        } else if (bulan.equals("2")) {result = "Februari";
+        }else if (bulan.equals("2")) {result = "Februari";
         }else if (bulan.equals("3")) {result = "Maret";
         }else if (bulan.equals("4")) {result = "April";
         }else if (bulan.equals("5")) {result = "Mei";
