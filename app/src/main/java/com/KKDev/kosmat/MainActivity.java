@@ -21,6 +21,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.KKDev.kosmat.bottomSheet.EditHargaKamarBottomSheet;
 import com.KKDev.kosmat.bottomSheet.PenggunaBottomSheet;
 import com.KKDev.kosmat.fragment.DashboardFragment;
 import com.KKDev.kosmat.fragment.LaporanFragment;
@@ -115,4 +116,8 @@ public class MainActivity extends AppCompatActivity {
         penggunaBottomSheet.show(getSupportFragmentManager(), penggunaBottomSheet.getTag());
     }
 
+    public void showBS_editKamar(){
+        EditHargaKamarBottomSheet editHargaKamarBottomSheet = new EditHargaKamarBottomSheet();
+        editHargaKamarBottomSheet.show(getSupportFragmentManager(), editHargaKamarBottomSheet.getTag());
+    }
 }

@@ -9,5 +9,6 @@
     <color name="invisible">#00FFFFFF</color>
     <color name="red">#FF3E3E</color>
     <color name="link_blue">#1E6392</color>
+    <color name="yellow">#FFDE69</color>
 
 </resources>

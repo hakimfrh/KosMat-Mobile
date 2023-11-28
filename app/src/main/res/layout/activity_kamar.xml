@@ -85,11 +85,11 @@
                         android:layout_height="220dp"
                         android:layout_margin="24dp"
                         android:scaleType="centerCrop"
+                        android:src="@drawable/icon_kamar_tambahgambar"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:shapeAppearanceOverlay="@style/rounded"
-                        tools:src="@drawable/kamar1" />
+                        app:shapeAppearanceOverlay="@style/rounded"/>
 
                     <TextView
                         android:id="@+id/textView8"

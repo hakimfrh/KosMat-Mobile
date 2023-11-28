@@ -42,9 +42,9 @@ public class PenggunaBottomSheet extends BottomSheetDialogFragment {
 
         img_profile.setImageBitmap(user.getImageBitmap());
         tx_pengguna.setText(user.getNama());
-        tx_nik.setText(user.getNik());
+        tx_nik.setText("Nik: "+user.getNik());
         //tx_kamar.setText(user.);
-//        tx_alamat.setText(user.get);
+        //tx_alamat.setText(user.get);
         tx_whatsapp.setText(user.getNo_whatsapp());
         tx_whatsappWali.setText(user.getNo_whatsapp_wali());
         return view;

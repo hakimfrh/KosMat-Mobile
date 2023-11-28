@@ -297,9 +297,9 @@ public class KamarActivity extends AppCompatActivity {
 
     private void simpan_kamar(JSONObject jsonObject) {
         String url = Api.urlKamar;
-        RequestQueue requestQueue = Volley.newRequestQueue(context);
         Activity activity = this;
         // Create the request
+        RequestQueue requestQueue = Volley.newRequestQueue(context);
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, jsonObject,
                 new Response.Listener<JSONObject>() {
                     @Override

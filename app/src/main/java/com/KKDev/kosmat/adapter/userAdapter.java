@@ -64,6 +64,7 @@ public class userAdapter extends RecyclerView.Adapter<userAdapter.ViewHolder> {
             itemView.setOnClickListener(this);
         }
 
+        @RequiresApi(api = Build.VERSION_CODES.O)
         @Override
         public void onClick(View v) {
             int position = getAdapterPosition();

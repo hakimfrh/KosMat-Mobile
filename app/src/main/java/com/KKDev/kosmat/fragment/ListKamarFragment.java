@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.KKDev.kosmat.KamarActivity;
+import com.KKDev.kosmat.MainActivity;
 import com.KKDev.kosmat.R;
 import com.KKDev.kosmat.adapter.ViewPagerAdapter;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -32,6 +33,7 @@ public class ListKamarFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_listkamar, container, false);
 
+        FloatingActionButton btn_editHarga = view.findViewById(R.id.btn_editHargaKamar);
         FloatingActionButton btn_tambahKamar = view.findViewById(R.id.btn_tambahKamar);
         viewPager = view.findViewById(R.id.viewKamar);
         tabLayout = view.findViewById(R.id.tabKamar);
@@ -39,6 +41,7 @@ public class ListKamarFragment extends Fragment {
         List<Fragment> fragments = new ArrayList<>();
         fragments.add(new KamarTerisiFragment());
         fragments.add(new KamarKosongFragment());
+
         // Add more fragments as needed
         FragmentActivity fragmentActivity = requireActivity();
         ViewPagerAdapter adapter = new ViewPagerAdapter(fragmentActivity.getSupportFragmentManager(), getLifecycle(), fragments);
@@ -61,6 +64,13 @@ public class ListKamarFragment extends Fragment {
                 Intent intent = new Intent(getContext(), KamarActivity.class);
                 intent.putExtra("mode","new");
                 startActivity(intent);
+            }
+        });
+
+        btn_editHarga.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((MainActivity)getContext()).showBS_editKamar();
             }
         });
         return view;
