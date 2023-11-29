@@ -23,6 +23,7 @@ import android.widget.TextView;
 
 import com.KKDev.kosmat.bottomSheet.EditHargaKamarBottomSheet;
 import com.KKDev.kosmat.bottomSheet.PenggunaBottomSheet;
+import com.KKDev.kosmat.bottomSheet.TagihanBottomSheet;
 import com.KKDev.kosmat.fragment.DashboardFragment;
 import com.KKDev.kosmat.fragment.LaporanFragment;
 import com.KKDev.kosmat.fragment.ListKamarFragment;
@@ -31,6 +32,8 @@ import com.KKDev.kosmat.model.User;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.navigation.NavigationBarView;
+
+import org.json.JSONObject;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -42,8 +45,6 @@ public class MainActivity extends AppCompatActivity {
 
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO); //disable darkmode
         setContentView(R.layout.activity_main);
-
-        View bottomSheet_tagihan = findViewById(R.id.bs_tagihan);
 
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
         loadFragment(new DashboardFragment());
@@ -120,4 +121,11 @@ public class MainActivity extends AppCompatActivity {
         EditHargaKamarBottomSheet editHargaKamarBottomSheet = new EditHargaKamarBottomSheet();
         editHargaKamarBottomSheet.show(getSupportFragmentManager(), editHargaKamarBottomSheet.getTag());
     }
+
+    public void showBS_tagihan(JSONObject jsonObject){
+        TagihanBottomSheet tagihanBottomSheet = new TagihanBottomSheet(jsonObject);
+        tagihanBottomSheet.show(getSupportFragmentManager(), tagihanBottomSheet.getTag());
+    }
+
+
 }

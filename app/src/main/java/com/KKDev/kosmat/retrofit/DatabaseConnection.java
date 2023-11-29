@@ -16,7 +16,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 public class DatabaseConnection {
     private String server = Api.server_ip;
-    Retrofit retrofit = new Retrofit.Builder().baseUrl("http://" +server +"/").addConverterFactory(GsonConverterFactory.create()).build();
+    Retrofit retrofit = new Retrofit.Builder().baseUrl(server +"/").addConverterFactory(GsonConverterFactory.create()).build();
     ApiServices services = retrofit.create(ApiServices.class);
 
 

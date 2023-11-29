@@ -24,6 +24,7 @@ import android.widget.TextView;
 import com.KKDev.kosmat.Api;
 import com.KKDev.kosmat.R;
 import com.KKDev.kosmat.adapter.LaporanAdapter;
+import com.KKDev.kosmat.adapter.TagihanAdapter;
 import com.KKDev.kosmat.adapter.TransaksiAdapter;
 import com.KKDev.kosmat.model.User;
 import com.android.volley.Request;
@@ -50,8 +51,10 @@ public class DashboardFragment extends Fragment {
 
         ImageView img_profile = view.findViewById(R.id.img_profile);
         TextView tx_namaUser = view.findViewById(R.id.tx_dsNama);
-        RecyclerView recyclerView = view.findViewById(R.id.recycler_transaksi);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        RecyclerView recycler_transaksi = view.findViewById(R.id.recycler_transaksi);
+        RecyclerView recycler_tagihan = view.findViewById(R.id.recycler_tagihan);
+        recycler_transaksi.setLayoutManager(new LinearLayoutManager(getContext()));
+        recycler_tagihan.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
 
         Intent intent = getActivity().getIntent();
         User user = (User) intent.getSerializableExtra("user");
@@ -67,18 +70,16 @@ public class DashboardFragment extends Fragment {
                 openDestinationFragmentWithTransitions(view, new EditProfileFragment(), user);
             }
         });
-        String url = Api.urlTranskasi;
         RequestQueue queue = Volley.newRequestQueue(getContext());
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, url+"?method=getTransaksi", new Response.Listener<String>() {
+        StringRequest tagihanRequest = new StringRequest(Request.Method.GET, Api.urlTranskasi+"?method=getTagihan", new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 try {
                     JSONObject jsonObject = new JSONObject(response);
                     String status = jsonObject.getString("status");
                     if (status.equals("ok")) {
-                        JSONArray jsonArray = jsonObject.getJSONArray("transaksi");
-
-                        recyclerView.setAdapter( new TransaksiAdapter(getContext(), jsonArray));
+                        JSONArray jsonArray = jsonObject.getJSONArray("tagihan_list");
+                        recycler_tagihan.setAdapter( new TagihanAdapter(getContext(), jsonArray));
                     }
 
                 } catch (JSONException e) {
@@ -106,7 +107,45 @@ public class DashboardFragment extends Fragment {
                 }).show();
             }
         });
-        queue.add(stringRequest);
+        queue.add(tagihanRequest);
+
+        StringRequest transaksiRequest = new StringRequest(Request.Method.GET, Api.urlTranskasi+"?method=getTransaksi", new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    JSONObject jsonObject = new JSONObject(response);
+                    String status = jsonObject.getString("status");
+                    if (status.equals("ok")) {
+                        JSONArray jsonArray = jsonObject.getJSONArray("transaksi");
+                        recycler_transaksi.setAdapter( new TransaksiAdapter(getContext(), jsonArray));
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                    builder.setTitle("EROR").setMessage(e.toString()).setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            // Dismiss the dialog
+                            dialog.dismiss();
+                        }
+                    }).show();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                builder.setTitle("Eror").setMessage(error.toString()).setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // Dismiss the dialog
+                        dialog.dismiss();
+                    }
+                }).show();
+            }
+        });
+        queue.add(transaksiRequest);
         return view;
     }
 

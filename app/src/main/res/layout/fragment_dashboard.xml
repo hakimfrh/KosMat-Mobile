@@ -159,7 +159,7 @@
 
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recycletagihan"
+                    android:id="@+id/recycler_tagihan"
                     android:layout_width="0dp"
                     android:layout_height="90dp"
                     android:layout_marginTop="4dp"

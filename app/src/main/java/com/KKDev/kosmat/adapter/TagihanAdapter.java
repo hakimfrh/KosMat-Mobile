@@ -8,27 +8,28 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.KKDev.kosmat.MainActivity;
 import com.KKDev.kosmat.R;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 
-public class TagihanAdapter extends RecyclerView.Adapter<TagihanAdapter.ViewHolder>{
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
-    private Object[][] data;
-    private Context context;
-    private BottomSheetBehavior bottomSheetBehavior;
+public class TagihanAdapter extends RecyclerView.Adapter<TagihanAdapter.ViewHolder> {
 
-    TextView bs_tx_nokamar, bs_tx_nama, bs_tx_tagihan;
 
-    public TagihanAdapter(Context context, Object[][] data,View bottomSheet) {
+    Context context;
+    JSONArray jsonArray;
+
+    public TagihanAdapter(Context context, JSONArray jsonArray) {
         this.context = context;
-        this.data = data;
-        bs_tx_nokamar = bottomSheet.findViewById(R.id.bs_tx_nokamar);
-        bs_tx_nama = bottomSheet.findViewById(R.id.bs_tx_nama);
-        bs_tx_tagihan = bottomSheet.findViewById(R.id.bs_tx_tagihan);
-        bottomSheetBehavior = BottomSheetBehavior.from(bottomSheet);
+        this.jsonArray = jsonArray;
     }
+
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -38,17 +39,21 @@ public class TagihanAdapter extends RecyclerView.Adapter<TagihanAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Object[] row = data[position];
-        holder.imageView.setImageResource((Integer) row[0]);
-        holder.textViewTitle.setText((String) row[1]);
-        holder.textViewTotal.setText("Rp. "+(String) row[2]);
+        try {
+            JSONObject data = jsonArray.getJSONObject(position);
+            holder.textViewTitle.setText("Kamar " + data.getString("id_kamar"));
+            int total = 0;
+            for (int i = 0; i < data.getJSONArray("array").length(); i++) {
+                int jumlah = data.getJSONArray("array").getJSONObject(i).getInt("jumlah");
+                total += jumlah;
+            }
+            holder.textViewTotal.setText("Rp. " + Integer.toString(total));
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     // Tambahkan method untuk mendapatkan deskripsi dari posisi tertentu
-    public Object[] getItem(int position) {
-        Object[] row = data[position];
-        return row;
-    }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         ImageView imageView;
@@ -61,35 +66,24 @@ public class TagihanAdapter extends RecyclerView.Adapter<TagihanAdapter.ViewHold
             textViewTitle = itemView.findViewById(R.id.tagihan_title);
             textViewTotal = itemView.findViewById(R.id.tagihan_total);
 
-            // Menambahkan listener klik pada itemView
             itemView.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View v) {
-            int position = getAdapterPosition();
-            Object[] row = data[position];
-            bs_tx_nokamar.setText((CharSequence) row[1]);
-            bs_tx_tagihan.setText("Rp. " +(CharSequence) row[2]);
-            bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
-/*
-            if (position != RecyclerView.NO_POSITION) {
-                // Mengambil deskripsi dari item yang diklik
-                Object[] item = getItem(position);
+            try {
+                int position = getAdapterPosition();
+                JSONObject data = jsonArray.getJSONObject(position);
+                ((MainActivity) context).showBS_tagihan(data);
+            } catch (JSONException e) {
+                throw new RuntimeException(e);
+            }
 
-                // Membuat intent untuk membuka DetailActivity
-                Intent intent = new Intent(context, DescActivity.class);
-                intent.putExtra("image", (Integer) item[0]);
-                intent.putExtra("title", (String) item[1]);
-                intent.putExtra("penghuni", (String) item[2]);
-                intent.putExtra("description", (String) item[3]);
-                context.startActivity(intent);
-            }*/
         }
     }
 
     @Override
     public int getItemCount() {
-        return data.length;
+        return jsonArray.length();
     }
 }

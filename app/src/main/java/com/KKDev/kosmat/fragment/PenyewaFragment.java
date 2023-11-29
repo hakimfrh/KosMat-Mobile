@@ -33,7 +33,7 @@ public class PenyewaFragment extends Fragment {
 
             List<Fragment> fragments = new ArrayList<>();
             fragments.add(new UserFragment());
-            fragments.add(new PesanFragment());
+            fragments.add(new KeluhanFragment());
             // Add more fragments as needed
             FragmentActivity fragmentActivity = requireActivity();
             ViewPagerAdapter adapter = new ViewPagerAdapter(fragmentActivity.getSupportFragmentManager(), getLifecycle(), fragments);
