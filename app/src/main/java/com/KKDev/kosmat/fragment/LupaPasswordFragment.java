@@ -1,5 +1,7 @@
 package com.KKDev.kosmat.fragment;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -12,9 +14,19 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.KKDev.kosmat.Api;
 import com.KKDev.kosmat.R;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class LupaPasswordFragment extends Fragment {
 
@@ -76,7 +88,81 @@ public class LupaPasswordFragment extends Fragment {
                 String password_1 = txt_password_1.getText().toString();
                 String password_2 = txt_password_2.getText().toString();
                 if(password_1.equals(password_2)){
+                    JSONObject jsonObject = new JSONObject();
+                    try {
+                        jsonObject.put("method", "updatePassword");
+                        jsonObject.put("password", password_1);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                        builder.setTitle("Error").setMessage(e.toString()).setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        }).show();
+                        return;
+                    }
+                    String url = Api.urlUser;
+                    RequestQueue requestQueue = Volley.newRequestQueue(getContext());
+                    JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, jsonObject,
+                            new Response.Listener<JSONObject>() {
+                                @Override
+                                public void onResponse(JSONObject response) {
+                                    try {
+                                        int code = response.getInt("code");
+                                        String status = response.getString("status");
 
+                                        // Handle the response based on code and status
+                                        if (status.equals("ok")) {
+
+                                          AlertDialog.Builder success = new AlertDialog.Builder(getContext());
+                                            success.setTitle("Success").setMessage("Password telah diubah").setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog, int which) {
+                                                    // Dismiss the dialog
+                                                    dialog.dismiss();
+                                                    getActivity().onBackPressed();
+                                                }
+                                            }).show();
+                                        } else {
+                                            AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                                            builder.setTitle("Error").setMessage(status).setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog, int which) {
+                                                    dialog.dismiss();
+                                                }
+                                            }).show();
+                                        }
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                                        builder.setTitle("Error").setMessage(e.toString()).setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                dialog.dismiss();
+                                            }
+                                        }).show();
+                                    }
+                                }
+                            },
+                            new Response.ErrorListener() {
+
+                                @Override
+                                public void onErrorResponse(VolleyError error) {
+                                    // Handle error
+                                    AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                                    builder.setTitle("Error").setMessage(error.toString()).setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            dialog.dismiss();
+                                        }
+                                    }).show();
+                                }
+                            });
+
+                    // Add the request to the RequestQueue
+                    requestQueue.add(jsonObjectRequest);
                 }else{
                     txtx_password_2.setError("Password tidak sama");
                 }

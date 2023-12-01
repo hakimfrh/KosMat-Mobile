@@ -24,6 +24,7 @@ import android.widget.TextView;
 import com.KKDev.kosmat.bottomSheet.EditHargaKamarBottomSheet;
 import com.KKDev.kosmat.bottomSheet.PenggunaBottomSheet;
 import com.KKDev.kosmat.bottomSheet.TagihanBottomSheet;
+import com.KKDev.kosmat.bottomSheet.TambahPengeluaranBottomSheet;
 import com.KKDev.kosmat.fragment.DashboardFragment;
 import com.KKDev.kosmat.fragment.LaporanFragment;
 import com.KKDev.kosmat.fragment.ListKamarFragment;
@@ -33,6 +34,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.navigation.NavigationBarView;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 
@@ -125,6 +127,11 @@ public class MainActivity extends AppCompatActivity {
     public void showBS_tagihan(JSONObject jsonObject){
         TagihanBottomSheet tagihanBottomSheet = new TagihanBottomSheet(jsonObject);
         tagihanBottomSheet.show(getSupportFragmentManager(), tagihanBottomSheet.getTag());
+    }
+
+    public void showBS_tambahPengeluaran(JSONArray jsonArray){
+        TambahPengeluaranBottomSheet tambahPengeluaranBottomSheet = new TambahPengeluaranBottomSheet(jsonArray);
+        tambahPengeluaranBottomSheet.show(getSupportFragmentManager(), tambahPengeluaranBottomSheet.getTag());
     }
 
 

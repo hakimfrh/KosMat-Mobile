@@ -45,7 +45,7 @@ public class PenyewaFragment extends Fragment {
                         tab.setText("Penyewa");
                         break;
                     case 1:
-                        tab.setText("Pesan");
+                        tab.setText("Keluhan");
                         break;
                 }
             }).attach();

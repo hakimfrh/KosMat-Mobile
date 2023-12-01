@@ -30,8 +30,12 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 
 public class KeuntunganFragment extends Fragment {
@@ -156,7 +160,11 @@ public class KeuntunganFragment extends Fragment {
                 }
 
                 HashSet<String> uniqueBulanSet = new HashSet<>(pemasukanMap.keySet());
-                uniqueBulanSet.addAll(pengeluaranMap.keySet());
+                if (pemasukanMap.size() > pengeluaranMap.size()) {
+                    uniqueBulanSet.addAll(pemasukanMap.keySet());
+                } else {
+                    uniqueBulanSet.addAll(pengeluaranMap.keySet());
+                }
 
                 JSONArray mergedArray = new JSONArray();
                 for (String bulan : uniqueBulanSet) {
@@ -171,9 +179,16 @@ public class KeuntunganFragment extends Fragment {
 
                     mergedArray.put(mergedObj);
                 }
-                totalTransksi = mergedArray;
+                List<JSONObject> keuntunganList = new ArrayList<>();
+                for (int i = 0; i < mergedArray.length(); i++) {
+                    keuntunganList.add(mergedArray.getJSONObject(i));
+                }
+                keuntunganList = sortJson(keuntunganList);
+
+                totalTransksi = new JSONArray(keuntunganList);
+                //textView.setText(totalTransksi.toString(4));
                 textView.setVisibility(View.GONE);
-                recyclerView.setAdapter(new KeuntunganAdapter(getContext(),totalTransksi));
+                recyclerView.setAdapter(new KeuntunganAdapter(getContext(), totalTransksi));
             } else {
                 // Handle cases where pemasukan or pengeluaran JSON arrays are null or not properly received
                 textView.setText("No data available");
@@ -183,5 +198,16 @@ public class KeuntunganFragment extends Fragment {
         }
     }
 
-
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public static List<JSONObject> sortJson(List<JSONObject> array) {
+        Collections.sort(array, Comparator.comparing(o -> {
+            try {
+                return Integer.parseInt(((JSONObject) o).getString("bulan").split(" ")[0]);
+            } catch (JSONException e) {
+                e.printStackTrace();
+                return null;
+            }
+        }).reversed());
+        return array;
+    }
 }

@@ -1,8 +1,6 @@
 package com.KKDev.kosmat.adapter;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,26 +10,24 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.KKDev.kosmat.MainActivity;
 import com.KKDev.kosmat.R;
-import com.google.android.material.bottomsheet.BottomSheetBehavior;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.Base64;
+import java.time.LocalDate;
 
-public class TagihanAdapter extends RecyclerView.Adapter<TagihanAdapter.ViewHolder> {
+public class KeluhanAdapter extends RecyclerView.Adapter<KeluhanAdapter.ViewHolder> {
 
 
     Context context;
     JSONArray jsonArray;
 
-    public TagihanAdapter(Context context, JSONArray jsonArray) {
+    public KeluhanAdapter(Context context, JSONArray jsonArray) {
         this.context = context;
         this.jsonArray = jsonArray;
     }
@@ -39,7 +35,7 @@ public class TagihanAdapter extends RecyclerView.Adapter<TagihanAdapter.ViewHold
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_tagihan, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_keluhan, parent, false);
         return new ViewHolder(view);
     }
 
@@ -48,17 +44,9 @@ public class TagihanAdapter extends RecyclerView.Adapter<TagihanAdapter.ViewHold
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         try {
             JSONObject data = jsonArray.getJSONObject(position);
-
-            int total = 0;
-            for (int i = 0; i < data.getJSONArray("array").length(); i++) {
-                int jumlah = data.getJSONArray("array").getJSONObject(i).getInt("jumlah");
-                total += jumlah;
-            }
-            byte[] byteArray = Base64.getDecoder().decode(data.getString("photo"));
-            Bitmap bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
-            holder.imageView.setImageBitmap(bitmap);
-            holder.textViewTitle.setText("Kamar " + data.getString("id_kamar"));
-            holder.textViewTotal.setText("Rp. " + total);
+            holder.tx_idkamar.setText("Kamar "+data.getString("id_kamar"));
+            holder.tx_keterangan.setText(data.getString("keterangan"));
+            holder.tx_tanggal.setText(tanggal(data.getString("tanggal")));
         } catch (JSONException e) {
             throw new RuntimeException(e);
         }
@@ -67,15 +55,13 @@ public class TagihanAdapter extends RecyclerView.Adapter<TagihanAdapter.ViewHold
     // Tambahkan method untuk mendapatkan deskripsi dari posisi tertentu
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        ImageView imageView;
-        TextView textViewTitle;
-        TextView textViewTotal;
+        TextView tx_idkamar, tx_keterangan, tx_tanggal;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            imageView = itemView.findViewById(R.id.tagihan_img_kamar);
-            textViewTitle = itemView.findViewById(R.id.tagihan_title);
-            textViewTotal = itemView.findViewById(R.id.tagihan_total);
+            tx_idkamar = itemView.findViewById(R.id.tx_idkamar);
+            tx_keterangan = itemView.findViewById(R.id.tx_keterangan);
+            tx_tanggal = itemView.findViewById(R.id.tx_tanggal);
 
             itemView.setOnClickListener(this);
         }
@@ -96,5 +82,21 @@ public class TagihanAdapter extends RecyclerView.Adapter<TagihanAdapter.ViewHold
     @Override
     public int getItemCount() {
         return jsonArray.length();
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    private String tanggal(String datetime){
+        String result="";
+        String tanggal = datetime.split(" ")[0];
+        String jam = datetime.split(" ")[1];
+
+        LocalDate parsedDate = LocalDate.parse(tanggal);
+        LocalDate currentDate = LocalDate.now();
+        if (parsedDate.isEqual(currentDate)) {
+            result = jam.split(":")[0]+":"+jam.split(":")[1];
+        } else {
+           result = tanggal;
+        }
+        return result;
     }
 }

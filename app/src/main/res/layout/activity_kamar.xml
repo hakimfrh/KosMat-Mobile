@@ -7,6 +7,35 @@
     android:background="@color/primary"
     tools:context=".KamarActivity">
 
+    <AbsoluteLayout
+        android:id="@+id/absoluteLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/primary"
+        android:transitionName="background"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/circle1"
+            android:layout_width="717dp"
+            android:layout_height="717dp"
+            android:layout_x="65dp"
+            android:layout_y="-400dp"
+            android:alpha="0.4"
+            android:src="@drawable/circle"
+            android:transitionName="circle1" />
+
+        <ImageView
+            android:id="@+id/circle2"
+            android:layout_width="639dp"
+            android:layout_height="639dp"
+            android:layout_x="150dp"
+            android:layout_y="-400dp"
+            android:src="@drawable/circle"
+            android:transitionName="circle2" />
+    </AbsoluteLayout>
     <TextView
         android:id="@+id/tx_title"
         android:layout_width="wrap_content"

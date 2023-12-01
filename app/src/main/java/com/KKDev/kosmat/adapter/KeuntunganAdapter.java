@@ -45,7 +45,7 @@ public class KeuntunganAdapter extends RecyclerView.Adapter<KeuntunganAdapter.Vi
             holder.tx_jumlah_pengeluaran.setText("Rp. "+pengeluaran);
             holder.tx_jumlah_keuntungan.setText("Rp. "+keuntungan);
 
-            if(keuntungan<0){
+            if(keuntungan<=0){
                 holder.tx_jumlah_keuntungan.setTextColor(context.getResources().getColor(R.color.red));
             }else {
                 holder.tx_jumlah_keuntungan.setTextColor(context.getResources().getColor(R.color.primary));
