@@ -12,8 +12,12 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.ExifInterface;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.util.Base64;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -42,26 +46,74 @@ import com.google.gson.Gson;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import android.graphics.Matrix;
+
 public class KamarActivity extends AppCompatActivity {
+    private static final int PICK_IMAGE = 1;
+    private static final int REQUEST_IMAGE_CAPTURE = 2;
+    private static final int REQUEST_CHOOSER = 3;
 
     String mode;
     Kamar kamar;
     Spinner sp_penyewa;
     CheckBox cb_disewa;
-    ImageView imageView;
-
-    TextInputEditText txt_no_kamar;
-    TextInputEditText txt_nik;
-    TextInputEditText txt_nama;
-
+    ImageView imageView,btn_rotate;
+    TextInputEditText txt_no_kamar, txt_nik, txt_nama;
     List<User> userList;
-
+    Bitmap bitmap;
     Context context;
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode == Activity.RESULT_OK) {
+            if (requestCode == REQUEST_CHOOSER) {
+                Uri selectedImage = data != null ? data.getData() : null;
+                boolean isCamera = data != null && data.getExtras() != null && data.getExtras().containsKey("data");
+                if (isCamera && data.getExtras() != null) {
+                    bitmap = (Bitmap) data.getExtras().get("data");
+                    imageView.setImageBitmap(bitmap);
+                } else if (selectedImage != null) {
+                    InputStream inputStream = null;
+                    try {
+                        //baca file
+                        inputStream = getContentResolver().openInputStream(selectedImage);
+                        bitmap = BitmapFactory.decodeStream(inputStream);
+
+                        //compress
+                        int maxWidthOrHeight = 600;
+                        int width = bitmap.getWidth();
+                        int height = bitmap.getHeight();
+                        int newWidth, newHeight;
+                        if (width > height) {
+                            newWidth = maxWidthOrHeight;
+                            newHeight = (int) (height * ((float) maxWidthOrHeight / width));
+                        } else {
+                            newHeight = maxWidthOrHeight;
+                            newWidth = (int) (width * ((float) maxWidthOrHeight / height));
+                        }
+                        bitmap = Bitmap.createScaledBitmap(bitmap, newWidth, newHeight, true);
+
+                        imageView.setImageBitmap(bitmap);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+            }
+        } else if (resultCode == Activity.RESULT_CANCELED) {
+            // Handle the cancellation here (if required)
+        }
+    }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -71,6 +123,7 @@ public class KamarActivity extends AppCompatActivity {
         context = this;
 
         imageView = findViewById(R.id.img_kamar);
+        btn_rotate = findViewById(R.id.btn_rotate);
         TextView tx_header = findViewById(R.id.tx_title);
         TextView tx_rincianPenyewa = findViewById(R.id.tx_rincianPenyewa);
         TextInputLayout txtx_no_kamar = findViewById(R.id.txt_noKamar);
@@ -95,8 +148,8 @@ public class KamarActivity extends AppCompatActivity {
         mode = intent.getStringExtra("mode");
         if (mode.equals("edit")) {
             kamar = (Kamar) intent.getSerializableExtra("kamar");
-
-            imageView.setImageBitmap(kamar.getImageBitmap());
+            bitmap = kamar.getImageBitmap();
+            imageView.setImageBitmap(bitmap);
             tx_header.setText("Detail Kamar");
             txt_no_kamar.setText(kamar.getId_kamar());
             txt_harga_kamar.setText(kamar.getHarga_kamar());
@@ -192,15 +245,25 @@ public class KamarActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (mode.equals("edit")) {
+
                     // Create JSON object
                     JSONObject jsonObject = new JSONObject();
                     try {
+                        String encodedImage = "";
+                        if (bitmap != null) {
+                            // Convert the bitmap to a byte array
+                            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                            bitmap.compress(Bitmap.CompressFormat.JPEG, 90, stream);
+                            byte[] image = stream.toByteArray();
+                            encodedImage = Base64.encodeToString(image, Base64.DEFAULT);
+//                          Toast.makeText(getApplicationContext(), "Size = " + stream.size(), Toast.LENGTH_SHORT).show();
+                        }
                         jsonObject.put("method", "updateKamar");
                         jsonObject.put("old_id_kamar", kamar.getId_kamar());
                         jsonObject.put("id_kamar", txt_no_kamar.getText());
                         jsonObject.put("harga_kamar", txt_harga_kamar.getText());
                         jsonObject.put("deskripsi", txt_desc_kamar.getText());
-                        jsonObject.put("image", "");
+                        jsonObject.put("image", encodedImage);
                     } catch (JSONException e) {
                         e.printStackTrace();
                         AlertDialog.Builder builder = new AlertDialog.Builder(getBaseContext());
@@ -219,11 +282,20 @@ public class KamarActivity extends AppCompatActivity {
                     // Create JSON object
                     JSONObject jsonObject = new JSONObject();
                     try {
+                        String encodedImage = "";
+                        if (bitmap != null) {
+                            // Convert the bitmap to a byte array
+                            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                            bitmap.compress(Bitmap.CompressFormat.JPEG, 90, stream);
+                            byte[] image = stream.toByteArray();
+                            encodedImage = Base64.encodeToString(image, Base64.DEFAULT);
+//                          Toast.makeText(getApplicationContext(), "Size = " + stream.size(), Toast.LENGTH_SHORT).show();
+                        }
                         jsonObject.put("method", "create");
                         jsonObject.put("id_kamar", txt_no_kamar.getText());
                         jsonObject.put("harga_kamar", txt_harga_kamar.getText());
                         jsonObject.put("deskripsi", txt_desc_kamar.getText());
-                        jsonObject.put("image", "");
+                        jsonObject.put("image", encodedImage);
                     } catch (JSONException e) {
                         e.printStackTrace();
                         AlertDialog.Builder builder = new AlertDialog.Builder(getBaseContext());
@@ -293,6 +365,25 @@ public class KamarActivity extends AppCompatActivity {
 
             }
         });
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent galleryIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+
+                Intent chooserIntent = Intent.createChooser(galleryIntent, "Choose Image...");
+                chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, new Intent[]{cameraIntent});
+
+                startActivityForResult(chooserIntent, REQUEST_CHOOSER);
+            }
+        });
+        btn_rotate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                bitmap = rotateBitmap(bitmap);
+                imageView.setImageBitmap(bitmap);
+            }
+        });
     }
 
     private void simpan_kamar(JSONObject jsonObject) {
@@ -318,10 +409,10 @@ public class KamarActivity extends AppCompatActivity {
                                             updatePenyewa();
                                         }
                                     } else {
-                                        if(cb_disewa.isChecked()){
-                                            if(txt_nama.getText().equals("") || txt_nik.equals("")){
+                                        if (cb_disewa.isChecked()) {
+                                            if (txt_nama.getText().equals("") || txt_nik.equals("")) {
                                                 Toast.makeText(context, "Isi kolom yang kosong", Toast.LENGTH_SHORT).show();
-                                            }else{
+                                            } else {
                                                 tambahPenyewa();
                                             }
                                         }
@@ -610,6 +701,13 @@ public class KamarActivity extends AppCompatActivity {
         }//desember
 
         return b;
+    }
+
+    private Bitmap rotateBitmap(Bitmap bitmap) {
+        Matrix matrix = new Matrix();
+        matrix.postRotate(270);
+        return Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
+
     }
 
 }

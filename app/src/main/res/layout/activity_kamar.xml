@@ -120,6 +120,16 @@
                         app:layout_constraintTop_toTopOf="parent"
                         app:shapeAppearanceOverlay="@style/rounded"/>
 
+                    <ImageView
+                        android:id="@+id/btn_rotate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:src="@drawable/icon_rotate"
+                        app:tint="@color/primaryDark"
+                        app:layout_constraintEnd_toEndOf="@+id/img_kamar"
+                        app:layout_constraintTop_toBottomOf="@+id/img_kamar" />
+
                     <TextView
                         android:id="@+id/textView8"
                         android:layout_width="wrap_content"
