@@ -103,16 +103,16 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="Alamat"
+                android:text="Tanggal Lahir"
                 android:textSize="8sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tx_bs_kamar" />
 
             <TextView
-                android:id="@+id/tx_bs_alamat"
+                android:id="@+id/tx_bs_tgllahir"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Jember Ngab"
+                android:text="1 Januari 2099"
                 android:textColor="@color/black"
                 app:layout_constraintStart_toStartOf="@+id/textView25"
                 app:layout_constraintTop_toBottomOf="@+id/textView25" />
@@ -125,7 +125,7 @@
                 android:text="Nomor Whatsapp"
                 android:textSize="8sp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tx_bs_alamat" />
+                app:layout_constraintTop_toBottomOf="@+id/tx_bs_tgllahir" />
 
             <TextView
                 android:id="@+id/tx_bs_whatsapp"
@@ -155,6 +155,19 @@
                 app:layout_constraintStart_toStartOf="@+id/textView25"
                 app:layout_constraintTop_toBottomOf="@+id/textView28" />
 
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_bs_hapus"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:backgroundTint="@color/red"
+                android:text="Hapus"
+                android:textColor="@color/white"
+                android:textSize="17sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tx_bs_whatsappWali" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>
 </androidx.constraintlayout.widget.ConstraintLayout>

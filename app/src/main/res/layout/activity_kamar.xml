@@ -256,7 +256,7 @@
                                 android:drawableStart="@drawable/icon_person"
                                 android:drawablePadding="8dp"
                                 android:hint="NIK"
-                                android:inputType="text"
+                                android:inputType="phone"
                                 android:paddingStart="12dp"
                                 android:paddingEnd="12dp"
                                 android:textSize="12dp" />

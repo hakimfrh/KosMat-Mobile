@@ -57,6 +57,12 @@ public class TagihanAdapter_inner extends RecyclerView.Adapter<TagihanAdapter_in
                 tagihanCheckboxListener.onCheckTagihanChange(getTagihan());
             }
         });
+        holder.tx_tagihan_bulan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                holder.checkBox.performClick();
+            }
+        });
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

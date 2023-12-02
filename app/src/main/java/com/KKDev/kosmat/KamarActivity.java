@@ -318,7 +318,13 @@ public class KamarActivity extends AppCompatActivity {
                                             updatePenyewa();
                                         }
                                     } else {
-                                        tambahPenyewa();
+                                        if(cb_disewa.isChecked()){
+                                            if(txt_nama.getText().equals("") || txt_nik.equals("")){
+                                                Toast.makeText(context, "Isi kolom yang kosong", Toast.LENGTH_SHORT).show();
+                                            }else{
+                                                tambahPenyewa();
+                                            }
+                                        }
                                     }
                                 } else if (mode.equals("new") && cb_disewa.isChecked()) {
                                     updatePenyewa();
