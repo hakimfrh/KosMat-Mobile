@@ -81,75 +81,85 @@ public class TambahPengeluaranBottomSheet extends BottomSheetDialogFragment {
         btn_tambah_pengeluaran.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                JSONObject jsonObject = new JSONObject();
-                try {
-                    jsonObject.put("method", "tambahPengeluaran");
-                    jsonObject.put("keterangan", txt_jenis.getText());
-                    jsonObject.put("jumlah", txt_jumlah.getText());
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                    AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                    builder.setTitle("Error").setMessage(e.toString()).setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                        }
-                    }).show();
-                    return;
-                }
-                String url = Api.urlTranskasi;
-                RequestQueue requestQueue = Volley.newRequestQueue(getContext());
-                JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, jsonObject,
-                        new Response.Listener<JSONObject>() {
+                String jenis = txt_jenis.getText().toString();
+                String jumlah = txt_jumlah.getText().toString();
+                if (!jenis.isEmpty() && !jumlah.isEmpty()) {
+                    JSONObject jsonObject = new JSONObject();
+                    try {
+                        jsonObject.put("method", "tambahPengeluaran");
+                        jsonObject.put("keterangan", jenis);
+                        jsonObject.put("jumlah", jumlah);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                        builder.setTitle("Error").setMessage(e.toString()).setPositiveButton("OK", new DialogInterface.OnClickListener() {
                             @Override
-                            public void onResponse(JSONObject response) {
-                                try {
-                                    int code = response.getInt("code");
-                                    String status = response.getString("status");
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        }).show();
+                        return;
+                    }
+                    String url = Api.urlTranskasi;
+                    RequestQueue requestQueue = Volley.newRequestQueue(getContext());
+                    JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, jsonObject,
+                            new Response.Listener<JSONObject>() {
+                                @Override
+                                public void onResponse(JSONObject response) {
+                                    try {
+                                        int code = response.getInt("code");
+                                        String status = response.getString("status");
 
-                                    // Handle the response based on code and status
-                                    if (status.equals("ok")) {
-                                        bottomSheetDialogFragment.dismiss();
-                                        MainActivityUpdateListener listener = ((MainActivity)getContext()).getListener();
-                                        listener.updateTransaksiList();
-                                    } else {
+                                        // Handle the response based on code and status
+                                        if (status.equals("ok")) {
+                                            bottomSheetDialogFragment.dismiss();
+                                            MainActivityUpdateListener listener = ((MainActivity) getContext()).getListener();
+                                            listener.updateTransaksiList();
+                                        } else {
+                                            AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                                            builder.setTitle("Error").setMessage(status).setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog, int which) {
+                                                    dialog.dismiss();
+                                                }
+                                            }).show();
+                                        }
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
                                         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                                        builder.setTitle("Error").setMessage(status).setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                        builder.setTitle("Error").setMessage(e.toString()).setPositiveButton("OK", new DialogInterface.OnClickListener() {
                                             @Override
                                             public void onClick(DialogInterface dialog, int which) {
                                                 dialog.dismiss();
                                             }
                                         }).show();
                                     }
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
+                                }
+                            },
+                            new Response.ErrorListener() {
+
+                                @Override
+                                public void onErrorResponse(VolleyError error) {
+                                    // Handle error
                                     AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                                    builder.setTitle("Error").setMessage(e.toString()).setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                    builder.setTitle("Error").setMessage(error.toString()).setPositiveButton("OK", new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
                                             dialog.dismiss();
                                         }
                                     }).show();
                                 }
-                            }
-                        },
-                        new Response.ErrorListener() {
+                            });
 
-                            @Override
-                            public void onErrorResponse(VolleyError error) {
-                                // Handle error
-                                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                                builder.setTitle("Error").setMessage(error.toString()).setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        dialog.dismiss();
-                                    }
-                                }).show();
-                            }
-                        });
-
-                // Add the request to the RequestQueue
-                requestQueue.add(jsonObjectRequest);
+                    // Add the request to the RequestQueue
+                    requestQueue.add(jsonObjectRequest);
+                } else {
+                    if (jenis.isEmpty()) {
+                        txt_jenis.setError("Data tidak boleh kosong");
+                    } else {
+                        txtx_jumlah.setError("Data tidak boleh kosong");
+                    }
+                }
             }
         });
         return view;

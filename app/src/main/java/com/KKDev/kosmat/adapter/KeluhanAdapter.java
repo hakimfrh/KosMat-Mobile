@@ -1,6 +1,7 @@
 package com.KKDev.kosmat.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,10 +10,13 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.KKDev.kosmat.KamarActivity;
 import com.KKDev.kosmat.MainActivity;
 import com.KKDev.kosmat.R;
+import com.KKDev.kosmat.desc_keluhan_Activity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -25,8 +29,11 @@ public class KeluhanAdapter extends RecyclerView.Adapter<KeluhanAdapter.ViewHold
 
     Context context;
     JSONArray jsonArray;
+    Fragment fragment;
 
-    public KeluhanAdapter(Context context, JSONArray jsonArray) {
+
+    public KeluhanAdapter(Fragment fragment,Context context, JSONArray jsonArray) {
+        this.fragment = fragment;
         this.context = context;
         this.jsonArray = jsonArray;
     }
@@ -70,7 +77,9 @@ public class KeluhanAdapter extends RecyclerView.Adapter<KeluhanAdapter.ViewHold
             try {
                 int position = getAdapterPosition();
                 JSONObject data = jsonArray.getJSONObject(position);
-                ((MainActivity) context).showBS_tagihan(data);
+                Intent intent = new Intent(context, desc_keluhan_Activity.class);
+                intent.putExtra("data",data.toString());
+                fragment.startActivityForResult(intent,89);
             } catch (JSONException e) {
                 throw new RuntimeException(e);
             }

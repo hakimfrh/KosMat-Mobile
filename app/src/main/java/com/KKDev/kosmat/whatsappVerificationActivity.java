@@ -192,6 +192,7 @@ public class whatsappVerificationActivity extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int which) {
                         // Dismiss the dialog
                         dialog.dismiss();
+                        onBackPressed();
                     }
                 }).show();
             }

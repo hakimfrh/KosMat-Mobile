@@ -2,7 +2,7 @@ package com.KKDev.kosmat;
 
 public class Api {
 //    public static String server_ip = "https://kosmat.tifb.myhost.id/kosmat";
-    public static String server_ip = "http://192.168.1.17";
+    public static String server_ip = "http://192.168.1.23";
 
     public static final String urlUser = server_ip+"/kosmat-api/user.php";
     public static final String urlOwnerWhatsapp = server_ip+"/kosmat-api/user.php?method=getOwnerWhatsapp";

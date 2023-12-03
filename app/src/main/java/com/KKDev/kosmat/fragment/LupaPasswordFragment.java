@@ -37,7 +37,7 @@ public class LupaPasswordFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_lupa_password, container, false);
 
         TextInputLayout txtx_password_1 = view.findViewById(R.id.txt_gantipassword_1);
-        TextInputLayout txtx_password_2= view.findViewById(R.id.txt_gantipassword_2);
+        TextInputLayout txtx_password_2 = view.findViewById(R.id.txt_gantipassword_2);
         TextInputEditText txt_password_1 = (TextInputEditText) txtx_password_1.getEditText();
         TextInputEditText txt_password_2 = (TextInputEditText) txtx_password_2.getEditText();
         Button btn_resetPassword = view.findViewById(R.id.btn_gantiPassword);
@@ -51,9 +51,11 @@ public class LupaPasswordFragment extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(s.length()<4){
+                if (s.length() < 4) {
                     txtx_password_1.setError("harus lebih dari 4 karakter");
-                }else{txtx_password_1.setError(null);}
+                } else {
+                    txtx_password_1.setError(null);
+                }
             }
 
             @Override
@@ -70,9 +72,11 @@ public class LupaPasswordFragment extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(s.length()<4){
+                if (s.length() < 4) {
                     txtx_password_2.setError("harus lebih dari 4 karakter");
-                } else{txtx_password_2.setError(null);}
+                } else {
+                    txtx_password_2.setError(null);
+                }
             }
 
             @Override
@@ -87,7 +91,7 @@ public class LupaPasswordFragment extends Fragment {
             public void onClick(View v) {
                 String password_1 = txt_password_1.getText().toString();
                 String password_2 = txt_password_2.getText().toString();
-                if(password_1.equals(password_2)){
+                if (password_1.equals(password_2) && (!password_1.isEmpty())) {
                     JSONObject jsonObject = new JSONObject();
                     try {
                         jsonObject.put("method", "updatePassword");
@@ -116,7 +120,7 @@ public class LupaPasswordFragment extends Fragment {
                                         // Handle the response based on code and status
                                         if (status.equals("ok")) {
 
-                                          AlertDialog.Builder success = new AlertDialog.Builder(getContext());
+                                            AlertDialog.Builder success = new AlertDialog.Builder(getContext());
                                             success.setTitle("Success").setMessage("Password telah diubah").setPositiveButton("OK", new DialogInterface.OnClickListener() {
                                                 @Override
                                                 public void onClick(DialogInterface dialog, int which) {
@@ -163,8 +167,12 @@ public class LupaPasswordFragment extends Fragment {
 
                     // Add the request to the RequestQueue
                     requestQueue.add(jsonObjectRequest);
-                }else{
-                    txtx_password_2.setError("Password tidak sama");
+                } else {
+                    if (password_1.isEmpty()) {
+                        txtx_password_1.setError("Password tidak boleh kosong");
+                    } else {
+                        txtx_password_2.setError("Password tidak sama");
+                    }
                 }
             }
         });

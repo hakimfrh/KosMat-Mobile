@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -45,8 +46,10 @@ public class LogRegActivity extends AppCompatActivity {
         String savedUsername = sharedPreferences.getString("username", "");
         String savedPassword = sharedPreferences.getString("password", "");
         boolean savedCheckbox = sharedPreferences.getBoolean("checkBox", false);
+        boolean editLogin = sharedPreferences.getBoolean("editLogin", false);
+        Activity activity = this;
 
-        if (savedCheckbox && (!savedUsername.isEmpty() && !savedPassword.isEmpty())) {
+        if ((savedCheckbox || editLogin) && (!savedUsername.isEmpty() && !savedPassword.isEmpty())) {
             RequestQueue requestQueue = Volley.newRequestQueue(this);
             StringRequest stringRequest = new StringRequest(Request.Method.GET, Api.urlUser + "?method=getUser&username=" + savedUsername + "&password=" + savedPassword, new Response.Listener() {
                 @Override
@@ -58,7 +61,10 @@ public class LogRegActivity extends AppCompatActivity {
                             List<User> userList = userResponse.getUserlist();
                             User user = userList.get(0);
                             if (user != null) {
-
+                                SharedPreferences sharedPreferences = activity.getSharedPreferences("login", getBaseContext().MODE_PRIVATE);
+                                SharedPreferences.Editor editor = sharedPreferences.edit();
+                                editor.putBoolean("editLogin", false);
+                                editor.apply();
                                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                                 intent.putExtra("user", user);
                                 startActivity(intent);

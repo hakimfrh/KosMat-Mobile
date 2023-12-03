@@ -21,6 +21,9 @@
         android:theme="@style/Theme.KosMat"
         tools:targetApi="31">
         <activity
+            android:name=".desc_keluhan_Activity"
+            android:exported="false" />
+        <activity
             android:name=".whatsappVerificationActivity"
             android:exported="false" />
         <activity

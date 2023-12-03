@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.KKDev.kosmat.R;
 import com.KKDev.kosmat.adapter.userAdapter;
@@ -24,10 +25,12 @@ import java.util.List;
 public class UserFragment extends Fragment {
     private RecyclerView recyclerView;
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_user, container, false);
+        TextView tx_loading = view.findViewById(R.id.tx_penyewa_loading);
         DatabaseConnection db = new DatabaseConnection();
         db.getAllUser(new DatabaseCallback<UserResponse>() {
             @Override
@@ -41,7 +44,11 @@ public class UserFragment extends Fragment {
                         users[i] = userList.get(i);
                     }
                     */
-
+                    if(userList.size()>0){
+                        tx_loading.setVisibility(View.GONE);
+                    }else{
+                        tx_loading.setText("Kosong...");
+                    }
                     User[] users = userList.toArray(new User[0]);
                     recyclerView = view.findViewById(R.id.userlist);
                     recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));

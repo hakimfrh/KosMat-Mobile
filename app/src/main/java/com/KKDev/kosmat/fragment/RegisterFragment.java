@@ -110,7 +110,7 @@ public class RegisterFragment extends Fragment {
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 String input = s.toString();
                 if (!input.matches("^[a-zA-Z\\s]*$")) {
-                    txtx_nama.setError("Namamu aneh");
+                    txtx_nama.setError("Nama hanya boleh huruf");
                 } else {
                     txtx_nama.setError(null);
                 }
@@ -132,7 +132,7 @@ public class RegisterFragment extends Fragment {
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 String nik = s.toString();
                 if (nik.length() > 16) {
-                    txtx_nik.setError("NIK Tidak Valid");
+                    txtx_nik.setError("Masukkan NIK yang valid");
                 } else {
                     txtx_nik.setError(null);
                 }
@@ -158,7 +158,7 @@ public class RegisterFragment extends Fragment {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (txt_whatsapp.length() > 13) {
-                    txtx_whatsapp.setError("Nomormu kepanjangan bro");
+                    txtx_whatsapp.setError("Masukan Nomor yang valid");
                 } else if (txt_whatsapp.length() > 2) {
                     if (!txt_whatsapp.getText().toString().substring(0, 2).equals("08")) {
                         txtx_whatsapp.setError("Masukkan nomor yang valid");
@@ -194,9 +194,9 @@ public class RegisterFragment extends Fragment {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (txt_username.getText().length() < 4) {
-                    txtx_username.setError("Kependekan bro");
+                    txtx_username.setError("Username minimal 4 karakter");
                 } else if (txt_username.getText().length() > 16) {
-                    txtx_username.setError("Kepanjangan bro");
+                    txtx_username.setError("Username maksimal 16 karakter");
                 } else {
                     txtx_username.setError(null);
                 }
@@ -217,9 +217,9 @@ public class RegisterFragment extends Fragment {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (txt_password.getText().length() < 4) {
-                    txtx_password.setError("Kependekan bro");
+                    txtx_password.setError("Username minimal 4 karater");
                 } else if (txt_password.getText().length() > 16) {
-                    txtx_password.setError("Kepanjangan bro");
+                    txtx_password.setError("Username maksimal 4 karakter");
                 } else {
                     txtx_password.setError(null);
                 }
@@ -262,10 +262,14 @@ public class RegisterFragment extends Fragment {
                 String nama = txt_nama.getText().toString();
                 String noWhatsapp = txt_whatsapp.getText().toString();
                 String noWhatsappWali = "";
-                String privilege = "0";
+                String privilege = "1";
                 String tglLahir = txt_tanggal.getText().toString();
                 String gender = sp_gender.getSelectedItem().toString();
                 boolean isValid = true;
+                if(nik.length()!=16){
+                    txtx_nik.setError("Masukkan NIK yang valid");
+                    isValid = false;
+                }
                 if (TextUtils.isEmpty(nama)) {
                     txtx_nama.setError("Tidak boleh kosong");
                     isValid = false;

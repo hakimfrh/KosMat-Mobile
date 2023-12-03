@@ -130,6 +130,17 @@
                         app:layout_constraintEnd_toEndOf="@+id/img_kamar"
                         app:layout_constraintTop_toBottomOf="@+id/img_kamar" />
 
+                    <ImageView
+                        android:id="@+id/btn_tagih"
+                        android:layout_width="wrap_content"
+                        android:layout_height="0dp"
+                        android:layout_marginEnd="12dp"
+                        android:src="@drawable/icon_pemasukan"
+                        app:layout_constraintBottom_toBottomOf="@+id/btn_rotate"
+                        app:layout_constraintEnd_toStartOf="@+id/btn_rotate"
+                        app:layout_constraintTop_toTopOf="@+id/btn_rotate"
+                        app:tint="@color/primaryDark" />
+
                     <TextView
                         android:id="@+id/textView8"
                         android:layout_width="wrap_content"

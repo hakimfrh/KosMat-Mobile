@@ -159,6 +159,7 @@ public class EditHargaKamarBottomSheet extends BottomSheetDialogFragment {
                                     // Handle the response based on code and status
                                     if (status.equals("ok")) {
                                        bottomSheetDialogFragment.dismiss();
+                                        Toast.makeText(getContext(), "Tarif diperbarui", Toast.LENGTH_SHORT).show();
                                         MainActivityUpdateListener listener = ((MainActivity)getContext()).getListener();
                                         listener.updateKamarList();
                                     } else {

@@ -6,6 +6,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -22,6 +23,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -50,6 +52,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -64,7 +67,7 @@ public class KamarActivity extends AppCompatActivity {
     Kamar kamar;
     Spinner sp_penyewa;
     CheckBox cb_disewa;
-    ImageView imageView,btn_rotate;
+    ImageView imageView, btn_rotate, btn_tagih;
     TextInputEditText txt_no_kamar, txt_nik, txt_nama;
     List<User> userList;
     Bitmap bitmap;
@@ -122,6 +125,7 @@ public class KamarActivity extends AppCompatActivity {
 
         imageView = findViewById(R.id.img_kamar);
         btn_rotate = findViewById(R.id.btn_rotate);
+        btn_tagih = findViewById(R.id.btn_tagih);
         TextView tx_header = findViewById(R.id.tx_title);
         TextView tx_rincianPenyewa = findViewById(R.id.tx_rincianPenyewa);
         TextInputLayout txtx_no_kamar = findViewById(R.id.txt_noKamar);
@@ -369,7 +373,7 @@ public class KamarActivity extends AppCompatActivity {
                 Intent galleryIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                 Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
-                Intent chooserIntent = Intent.createChooser(galleryIntent, "Choose Image...");
+                Intent chooserIntent = Intent.createChooser(galleryIntent, "Pilih Gambar...");
                 chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, new Intent[]{cameraIntent});
 
                 startActivityForResult(chooserIntent, REQUEST_CHOOSER);
@@ -378,11 +382,117 @@ public class KamarActivity extends AppCompatActivity {
         btn_rotate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                bitmap = rotateBitmap(bitmap);
-                imageView.setImageBitmap(bitmap);
+                if (bitmap != null) {
+                    bitmap = rotateBitmap(bitmap);
+                    imageView.setImageBitmap(bitmap);
+                }
             }
         });
 
+        btn_tagih.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                builder.setTitle("Buat Tagihan").setMessage("Buat tagihan untuk " + kamar.getNama() + " kamar " + kamar.getId_kamar() + "?")
+                        .setPositiveButton("Ya, pilih tenggat", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                                final Calendar c = Calendar.getInstance();
+                                int year = c.get(Calendar.YEAR);
+                                int month = c.get(Calendar.MONTH);
+                                int day = c.get(Calendar.DAY_OF_MONTH);
+
+                                DatePickerDialog datePickerDialog = new DatePickerDialog(context, new DatePickerDialog.OnDateSetListener() {
+                                    @Override
+                                    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                                        // Update the EditText with the selected date
+                                        String tanggal = year + "-" + (monthOfYear + 1) + "-" + dayOfMonth;
+                                        createTagihan(kamar.getId_kepemilikan(), tanggal);
+                                    }
+                                }, year, month, day);
+                                datePickerDialog.show();
+                            }
+
+                        }).setNegativeButton("Tidak", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        }).show();
+
+            }
+        });
+
+    }
+
+    private void createTagihan(String id_kepemilikan, String tenggat) {
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("method", "createTagihan");
+            jsonObject.put("id_kepemilikan", id_kepemilikan);
+            jsonObject.put("tenggat", tenggat);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+            AlertDialog.Builder builder = new AlertDialog.Builder(getBaseContext());
+            builder.setTitle("Error").setMessage(e.toString()).setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            }).show();
+            return;
+        }
+        RequestQueue requestQueue = Volley.newRequestQueue(context);
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, Api.urlTranskasi, jsonObject,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            int code = response.getInt("code");
+                            String status = response.getString("status");
+
+                            // Handle the response based on code and status
+                            if (status.equals("ok")) {
+                                Toast.makeText(getApplicationContext(), "Tagihan Ditambahkan", Toast.LENGTH_SHORT).show();
+                            } else {
+                                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                                builder.setTitle("Error").setMessage(status).setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        dialog.dismiss();
+                                    }
+                                }).show();
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                            builder.setTitle("Error").setMessage(e.toString()).setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            }).show();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        // Handle error
+                        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                        builder.setTitle("Error").setMessage(error.toString()).setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        }).show();
+                    }
+                });
+
+        // Add the request to the RequestQueue
+        requestQueue.add(jsonObjectRequest);
     }
 
     private void simpan_kamar(JSONObject jsonObject) {

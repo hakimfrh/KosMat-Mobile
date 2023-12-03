@@ -209,7 +209,7 @@ public class EditProfileFragment extends Fragment {
                                         SharedPreferences.Editor editor = sharedPreferences.edit();
                                         editor.putString("username", username);
                                         editor.putString("password", password);
-                                        editor.putBoolean("checkBox", true);
+                                        editor.putBoolean("editLogin", true);
                                         editor.apply();
 
                                         Intent intent = new Intent(getActivity(), LogRegActivity.class);
