@@ -78,6 +78,8 @@ public class KeluhanFragment extends Fragment {
                             textView.setText("Kosong...");
                         }
                         recyclerView.setAdapter(new KeluhanAdapter(fragment, getContext(), jsonArray));
+                    }else{
+                            textView.setText("Kosong...");
                     }
 
                 } catch (JSONException e) {

@@ -127,7 +127,7 @@
                     android:id="@+id/tx_bulanIni"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Januari"
+                    android:text="-"
                     android:textColor="@color/white"
                     android:textSize="12sp"
                     android:textStyle="bold"
@@ -136,10 +136,10 @@
                     app:layout_constraintTop_toTopOf="@+id/tx_dsDesc" />
 
                 <TextView
-                    android:id="@+id/textView4"
+                    android:id="@+id/tx_keuntungan"
                     android:layout_width="wrap_content"
                     android:layout_height="50dp"
-                    android:text="Rp. 1.200.000"
+                    android:text="Rp. "
                     android:textColor="@color/white"
                     android:textSize="36sp"
                     android:textStyle="bold"
@@ -154,8 +154,8 @@
                     android:text="Tagihan Kos"
                     android:textColor="@color/white"
                     android:textSize="12sp"
-                    app:layout_constraintStart_toStartOf="@+id/textView4"
-                    app:layout_constraintTop_toBottomOf="@+id/textView4" />
+                    app:layout_constraintStart_toStartOf="@+id/tx_keuntungan"
+                    app:layout_constraintTop_toBottomOf="@+id/tx_keuntungan" />
 
 
                 <androidx.recyclerview.widget.RecyclerView
@@ -198,6 +198,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
+                android:id="@+id/tx_lihat_semua"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="24dp"

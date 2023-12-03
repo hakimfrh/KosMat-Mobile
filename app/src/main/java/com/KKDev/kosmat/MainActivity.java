@@ -130,6 +130,10 @@ public class MainActivity extends AppCompatActivity implements MainActivityUpdat
     public MainActivityUpdateListener getListener(){
         return this;
     }
+
+    @Override
+    public void updateDashboard() {bottomNavigationView.setSelectedItemId(R.id.dashboard);}
+
     @Override
     public void updateKamarList() {
         bottomNavigationView.setSelectedItemId(R.id.kamar);

@@ -49,7 +49,7 @@ public class desc_keluhan_Activity extends AppCompatActivity {
             dateTime = data.getString("tanggal");
             isiKeluhan = data.getString("keterangan");
             image = data.getString("image_data");
-            if(!image.isEmpty())tx_tidakGambar.setVisibility(View.GONE);
+            if (!image.isEmpty()) tx_tidakGambar.setVisibility(View.GONE);
             tanggal = dateTime.split(" ")[0];
             waktu = dateTime.split(" ")[1];
         } catch (JSONException e) {
@@ -71,22 +71,27 @@ public class desc_keluhan_Activity extends AppCompatActivity {
                         // Dismiss the dialog
                         dialog.dismiss();
                         RequestQueue requestQueue = Volley.newRequestQueue(context);
-                        StringRequest stringRequest = new StringRequest(Request.Method.DELETE, Api.urlKeluhan + "?is_kepemilikan=" + id_kepemilikan + "&tanggal=" + dateTime, new Response.Listener() {
+                        StringRequest stringRequest = new StringRequest(Request.Method.DELETE, Api.urlKeluhan + "?id_kepemilikan=" + id_kepemilikan + "&tanggal=" + dateTime, new Response.Listener() {
                             @Override
                             public void onResponse(Object response) {
                                 if (response != null) {
-                                    UserResponse userResponse = new Gson().fromJson(response.toString(), UserResponse.class);
-                                    if (userResponse.getStatus().equals("ok")) {
-                                        AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                                        builder.setTitle("Success").setMessage("Keluhan Berhasil Dihapus").setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                // Dismiss the dialog
-                                                setResult(RESULT_OK);
-                                                dialog.dismiss();
-                                                onBackPressed();
-                                            }
-                                        }).show();
+                                    try {
+                                        JSONObject jsonObject = new JSONObject(response.toString());
+                                        String status = jsonObject.getString("status");
+                                        if (status.equals("ok")) {
+                                            AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                                            builder.setTitle("Success").setMessage("Keluhan Berhasil Dihapus").setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog, int which) {
+                                                    // Dismiss the dialog
+                                                    setResult(RESULT_OK);
+                                                    dialog.dismiss();
+                                                    onBackPressed();
+                                                }
+                                            }).show();
+                                        }
+                                    } catch (JSONException e) {
+                                        throw new RuntimeException(e);
                                     }
                                 }
                             }

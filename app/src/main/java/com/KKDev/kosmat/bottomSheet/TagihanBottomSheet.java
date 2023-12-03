@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.KKDev.kosmat.Api;
+import com.KKDev.kosmat.MainActivity;
 import com.KKDev.kosmat.R;
 import com.KKDev.kosmat.adapter.TagihanAdapter_inner;
 import com.KKDev.kosmat.listener.TagihanCheckboxListener;
@@ -32,7 +33,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class TagihanBottomSheet extends BottomSheetDialogFragment implements TagihanCheckboxListener{
+public class TagihanBottomSheet extends BottomSheetDialogFragment implements TagihanCheckboxListener {
     JSONObject jsonObject;
     TextView tx_total;
     TagihanAdapter_inner adapter;
@@ -56,9 +57,9 @@ public class TagihanBottomSheet extends BottomSheetDialogFragment implements Tag
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         try {
-            tx_nokamar.setText("Kamar "+jsonObject.getString("id_kamar"));
+            tx_nokamar.setText("Kamar " + jsonObject.getString("id_kamar"));
             tx_nama.setText(jsonObject.getString("nama"));
-            adapter = new TagihanAdapter_inner(getContext(),jsonObject.getJSONArray("array"),this);
+            adapter = new TagihanAdapter_inner(getContext(), jsonObject.getJSONArray("array"), this);
             recyclerView.setAdapter(adapter);
         } catch (JSONException e) {
             throw new RuntimeException(e);
@@ -68,17 +69,35 @@ public class TagihanBottomSheet extends BottomSheetDialogFragment implements Tag
             @Override
             public void onClick(View v) {
                 JSONArray tagihan_list = adapter.getTagihan();
-                int length = tagihan_list.length();
-                try {
-                    for (int i = 0; i < length; i++) {
-                        JSONObject tagihan = tagihan_list.getJSONObject(i);
-                        validasi(tagihan.getString("id_tagihan"));
-                        bottomSheetDialogFragment.dismiss();
-                    }
-                } catch (JSONException e) {
-                    throw new RuntimeException(e);
+                if (tagihan_list.length() > 0) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                    builder.setTitle("Konfirmasi").setMessage("Validasi tagihan terpilih ?").setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            // Dismiss the dialog
+                            dialog.dismiss();
+                            int length = tagihan_list.length();
+                            try {
+                                for (int i = 0; i < length; i++) {
+                                    JSONObject tagihan = tagihan_list.getJSONObject(i);
+                                    validasi(tagihan.getString("id_tagihan"));
+                                    bottomSheetDialogFragment.dismiss();
+                                    ((MainActivity)getContext()).updateDashboard();
+
+                                }
+                            } catch (JSONException e) {
+                                throw new RuntimeException(e);
+                            }
+                        }
+                    }).setNegativeButton("Tidak", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    }).show();
                 }
             }
+
         });
 
         return view;
@@ -93,9 +112,10 @@ public class TagihanBottomSheet extends BottomSheetDialogFragment implements Tag
         } catch (JSONException e) {
             throw new RuntimeException(e);
         }
-        tx_total.setText("Rp. "+Integer.toString(total));
+        tx_total.setText("Rp. " + Integer.toString(total));
     }
-    private void validasi(String id_tagihan){
+
+    private void validasi(String id_tagihan) {
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("method", "validasiTagihan");

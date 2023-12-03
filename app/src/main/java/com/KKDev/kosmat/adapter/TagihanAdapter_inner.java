@@ -109,6 +109,7 @@ public class TagihanAdapter_inner extends RecyclerView.Adapter<TagihanAdapter_in
 
         String tahun = date.split("-")[0];
         String bulan = date.split("-")[1];
+        String tanggal = date.split("-")[2];
         if (bulan.equals("1")) {
             result = "Januari";
         } else if (bulan.equals("2")) {
@@ -135,7 +136,7 @@ public class TagihanAdapter_inner extends RecyclerView.Adapter<TagihanAdapter_in
             result = "Desember";
         }
 
-        return result + " " + tahun;
+        return tanggal+" "+result + " " + tahun;
     }
 
 }

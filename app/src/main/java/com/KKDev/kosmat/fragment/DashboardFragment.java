@@ -22,6 +22,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.KKDev.kosmat.Api;
+import com.KKDev.kosmat.MainActivity;
 import com.KKDev.kosmat.R;
 import com.KKDev.kosmat.adapter.LaporanAdapter;
 import com.KKDev.kosmat.adapter.TagihanAdapter;
@@ -51,6 +52,9 @@ public class DashboardFragment extends Fragment {
 
         ImageView img_profile = view.findViewById(R.id.img_profile);
         TextView tx_namaUser = view.findViewById(R.id.tx_dsNama);
+        TextView tx_bulanIni = view.findViewById(R.id.tx_bulanIni);
+        TextView tx_keuntungan = view.findViewById(R.id.tx_keuntungan);
+        TextView tx_lihatSemua = view.findViewById(R.id.tx_lihat_semua);
         RecyclerView recycler_transaksi = view.findViewById(R.id.recycler_transaksi);
         RecyclerView recycler_tagihan = view.findViewById(R.id.recycler_tagihan);
         recycler_transaksi.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -65,12 +69,53 @@ public class DashboardFragment extends Fragment {
         img_profile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-
                 openDestinationFragmentWithTransitions(view, new EditProfileFragment(), user);
             }
         });
+        tx_lihatSemua.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((MainActivity)getContext()).updateTransaksiList();
+            }
+        });
         RequestQueue queue = Volley.newRequestQueue(getContext());
+        StringRequest keuntunganRequest = new StringRequest(Request.Method.GET, Api.urlTranskasi+"?method=getKeuntungan", new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    JSONObject jsonObject = new JSONObject(response);
+                    String status = jsonObject.getString("status");
+                    if (status.equals("ok")) {
+                        tx_bulanIni.setText(nameBulan(jsonObject.getString("bulan")));
+                        tx_keuntungan.setText("Rp. "+jsonObject.getString("keuntungan"));
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                    builder.setTitle("EROR").setMessage(e.toString()).setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            // Dismiss the dialog
+                            dialog.dismiss();
+                        }
+                    }).show();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                builder.setTitle("Eror").setMessage(error.toString()).setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // Dismiss the dialog
+                        dialog.dismiss();
+                    }
+                }).show();
+            }
+        });
+        queue.add(keuntunganRequest);
         StringRequest tagihanRequest = new StringRequest(Request.Method.GET, Api.urlTranskasi+"?method=getTagihan", new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -108,6 +153,7 @@ public class DashboardFragment extends Fragment {
             }
         });
         queue.add(tagihanRequest);
+
 
         StringRequest transaksiRequest = new StringRequest(Request.Method.GET, Api.urlTranskasi+"?method=getTransaksi", new Response.Listener<String>() {
             @Override
@@ -171,5 +217,36 @@ public class DashboardFragment extends Fragment {
         transaction.addSharedElement(view.findViewById(R.id.img_profile), "img_profile");
         transaction.addSharedElement(view.findViewById(R.id.img_editprofile), "img_editProfile");
         transaction.commit();
+    }
+    private String nameBulan(String bulan) {
+        String result = "";
+
+        if (bulan.equals("1")) {
+            result = "Januari";
+        } else if (bulan.equals("2")) {
+            result = "Februari";
+        } else if (bulan.equals("3")) {
+            result = "Maret";
+        } else if (bulan.equals("4")) {
+            result = "April";
+        } else if (bulan.equals("5")) {
+            result = "Mei";
+        } else if (bulan.equals("6")) {
+            result = "Juni";
+        } else if (bulan.equals("7")) {
+            result = "Juli";
+        } else if (bulan.equals("8")) {
+            result = "Agustus";
+        } else if (bulan.equals("9")) {
+            result = "September";
+        } else if (bulan.equals("10")) {
+            result = "Oktober";
+        } else if (bulan.equals("11")) {
+            result = "November";
+        } else if (bulan.equals("12")) {
+            result = "Desember";
+        }
+
+        return result;
     }
 }
