@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.KKDev.kosmat.Api;
 import com.KKDev.kosmat.MainActivity;
@@ -54,6 +55,7 @@ public class KamarKosongFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_kamar_kosong, container, false);
 
+        TextView tx_loading = view.findViewById(R.id.tx_kamar_kosong_loading);
         String url = Api.urlKamarKosong;
         Context context = getContext();
         Fragment fragment = this;
@@ -77,6 +79,12 @@ public class KamarKosongFragment extends Fragment {
 
                         listKamarAdapter adapter = new listKamarAdapter(context, fragment, kamarList,false);
                         recyclerView.setAdapter(adapter);
+
+                        if(kamarList.size()>0){
+                            tx_loading.setVisibility(View.GONE);
+                        }
+                    }else{
+                        tx_loading.setText("Kosong...");
                     }
 
                 } catch (JSONException e) {

@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.KKDev.kosmat.Api;
 import com.KKDev.kosmat.MainActivity;
@@ -36,6 +37,8 @@ public class PengeluaranFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_pengeluaran, container, false);
 
+
+        TextView tx_loading = view.findViewById(R.id.tx_kamar_pengeluaran_loading);
         FloatingActionButton btn_tambahPengeluaran = view.findViewById(R.id.btn_tambah_pengeluaran);
         RecyclerView recyclerView = view.findViewById(R.id.recycler_pengeluaran);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -59,6 +62,11 @@ public class PengeluaranFragment extends Fragment {
                         jsonArray = jsonObject.getJSONArray("pengeluaran");
 
                         recyclerView.setAdapter( new LaporanAdapter(getContext(), jsonArray));
+                        if(jsonArray.length()>0){
+                            tx_loading.setVisibility(View.GONE);
+                        }
+                    }else {
+                        tx_loading.setText("Kosong...");
                     }
 
                 } catch (JSONException e) {

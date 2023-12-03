@@ -42,15 +42,16 @@ public class KeuntunganFragment extends Fragment {
     JSONArray pemasukan;
     JSONArray pengeluaran;
     JSONArray totalTransksi;
-    TextView textView;
     RecyclerView recyclerView;
+    TextView tx_loading;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_keuntungan, container, false);
-        textView = view.findViewById(R.id.textView16);
+
+        tx_loading = view.findViewById(R.id.tx_kamar_keuntungan_loading);
         recyclerView = view.findViewById(R.id.recycler_keuntungan);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         getPemasukan();
@@ -187,11 +188,12 @@ public class KeuntunganFragment extends Fragment {
 
                 totalTransksi = new JSONArray(keuntunganList);
                 //textView.setText(totalTransksi.toString(4));
-                textView.setVisibility(View.GONE);
                 recyclerView.setAdapter(new KeuntunganAdapter(getContext(), totalTransksi));
-            } else {
-                // Handle cases where pemasukan or pengeluaran JSON arrays are null or not properly received
-                textView.setText("No data available");
+                if(keuntunganList.size()>0){
+                    tx_loading.setVisibility(View.GONE);
+                }
+            }else {
+                tx_loading.setText("Kosong...");
             }
         } catch (JSONException e) {
             throw new RuntimeException(e);

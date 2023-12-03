@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.KKDev.kosmat.Api;
 import com.KKDev.kosmat.R;
@@ -35,6 +36,7 @@ public class PemasukanFragment extends Fragment {
         RecyclerView recyclerView = view.findViewById(R.id.recycler_pemasukan);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
+        TextView tx_loading = view.findViewById(R.id.tx_kamar_pemasukan_loading);
         String url = Api.urlTranskasi;
         RequestQueue queue = Volley.newRequestQueue(getContext());
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url+"?method=getPemasukan", new Response.Listener<String>() {
@@ -45,8 +47,12 @@ public class PemasukanFragment extends Fragment {
                     String status = jsonObject.getString("status");
                     if (status.equals("ok")) {
                         JSONArray jsonArray = jsonObject.getJSONArray("pemasukan");
-
                         recyclerView.setAdapter( new LaporanAdapter(getContext(), jsonArray));
+                        if(jsonArray.length()>0){
+                            tx_loading.setVisibility(View.GONE);
+                        }
+                    }else {
+                        tx_loading.setText("Kosong...");
                     }
 
                 } catch (JSONException e) {

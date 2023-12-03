@@ -15,6 +15,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.KKDev.kosmat.Api;
 import com.KKDev.kosmat.MainActivity;
@@ -40,10 +42,11 @@ import java.util.List;
 
 public class KamarTerisiFragment extends Fragment {
     private RecyclerView recyclerView;
+
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == 88){
-            MainActivityUpdateListener listener = ((MainActivity)getContext()).getListener();
+        if (requestCode == 88) {
+            MainActivityUpdateListener listener = ((MainActivity) getContext()).getListener();
             listener.updateKamarList();
         }
     }
@@ -54,6 +57,7 @@ public class KamarTerisiFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_kamar_terisi, container, false);
 
+        TextView tx_loading = view.findViewById(R.id.tx_kamar_terisi_loading);
         String url = Api.urlKamarTerisi;
         RequestQueue queue = Volley.newRequestQueue(getContext());
         Context context = getContext();
@@ -76,8 +80,13 @@ public class KamarTerisiFragment extends Fragment {
                         recyclerView = view.findViewById(R.id.KamarTerisiRecyclerView);
                         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-                        listKamarAdapter adapter = new listKamarAdapter(context, fragment, kamarList,true);
+                        listKamarAdapter adapter = new listKamarAdapter(context, fragment, kamarList, true);
                         recyclerView.setAdapter(adapter);
+                        if (kamarList.size() > 0) {
+                            tx_loading.setVisibility(View.GONE);
+                        }
+                    } else {
+                        tx_loading.setText("Kosong...");
                     }
 
                 } catch (JSONException e) {
