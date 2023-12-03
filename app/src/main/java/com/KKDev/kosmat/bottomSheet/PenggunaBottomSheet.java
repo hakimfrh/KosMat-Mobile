@@ -19,7 +19,9 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 
 import com.KKDev.kosmat.Api;
+import com.KKDev.kosmat.MainActivity;
 import com.KKDev.kosmat.R;
+import com.KKDev.kosmat.listener.MainActivityUpdateListener;
 import com.KKDev.kosmat.model.User;
 import com.KKDev.kosmat.model.UserResponse;
 import com.android.volley.Request;
@@ -80,6 +82,8 @@ public class PenggunaBottomSheet extends BottomSheetDialogFragment {
                                     if (userResponse.getStatus().equals("ok")) {
                                         bottomSheetDialogFragment.dismiss();
                                         Toast.makeText(getContext(), user.getNama()+" dihapus", Toast.LENGTH_SHORT).show();
+                                        MainActivityUpdateListener listener = ((MainActivity)getContext()).getListener();
+                                        listener.updatePenyewaList();;
                                     }
                                 }
                             }

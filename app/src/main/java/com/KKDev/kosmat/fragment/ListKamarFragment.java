@@ -3,6 +3,7 @@ package com.KKDev.kosmat.fragment;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager2.widget.ViewPager2;
@@ -15,6 +16,7 @@ import com.KKDev.kosmat.KamarActivity;
 import com.KKDev.kosmat.MainActivity;
 import com.KKDev.kosmat.R;
 import com.KKDev.kosmat.adapter.ViewPagerAdapter;
+import com.KKDev.kosmat.listener.MainActivityUpdateListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
@@ -23,9 +25,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ListKamarFragment extends Fragment {
-
+    private static int KAMAR_ACTIVITY = 88;
     private ViewPager2 viewPager;
     private TabLayout tabLayout;
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == KAMAR_ACTIVITY){
+            MainActivityUpdateListener listener = ((MainActivity)getContext()).getListener();
+            listener.updateKamarList();
+        }
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -63,7 +74,7 @@ public class ListKamarFragment extends Fragment {
             public void onClick(View v) {
                 Intent intent = new Intent(getContext(), KamarActivity.class);
                 intent.putExtra("mode","new");
-                startActivity(intent);
+                startActivityForResult(intent,KAMAR_ACTIVITY);
             }
         });
 

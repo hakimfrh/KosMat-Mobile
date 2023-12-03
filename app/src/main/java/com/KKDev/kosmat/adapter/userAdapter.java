@@ -1,9 +1,6 @@
 package com.KKDev.kosmat.adapter;
 
 import android.content.Context;
-import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,7 +12,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.KKDev.kosmat.DescActivity;
 import com.KKDev.kosmat.MainActivity;
 import com.KKDev.kosmat.R;
 import com.KKDev.kosmat.model.User;

@@ -1,5 +1,6 @@
 package com.KKDev.kosmat.adapter;
 
+import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Build;
@@ -13,10 +14,13 @@ import android.content.Intent;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.KKDev.kosmat.KamarActivity;
+import com.KKDev.kosmat.MainActivity;
 import com.KKDev.kosmat.R;
+import com.KKDev.kosmat.listener.MainActivityUpdateListener;
 import com.KKDev.kosmat.model.Kamar;
 
 import java.util.List;
@@ -24,13 +28,15 @@ import java.util.List;
 
 public class listKamarAdapter extends RecyclerView.Adapter<listKamarAdapter.ViewHolder> {
 
+    Context context;
+    Fragment fragment;
     private List<Kamar> kamarList;
-    private Context context;
     private Boolean isTerisi;
 
-    public listKamarAdapter(Context context, List<Kamar> data,Boolean isTerisi) {
+    public listKamarAdapter(Context context, Fragment fragment, List<Kamar> kamarList, Boolean isTerisi) {
         this.context = context;
-        this.kamarList = data;
+        this.fragment = fragment;
+        this.kamarList = kamarList;
         this.isTerisi = isTerisi;
     }
 
@@ -85,7 +91,7 @@ public class listKamarAdapter extends RecyclerView.Adapter<listKamarAdapter.View
                 Intent intent = new Intent(context, KamarActivity.class);
                 intent.putExtra("kamar",kamar);
                 intent.putExtra("mode","edit");
-                context.startActivity(intent);
+                fragment.startActivityForResult(intent,88);
             }
         }
     }

@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.KKDev.kosmat.R;
+import com.KKDev.kosmat.listener.TagihanCheckboxListener;
 
 import org.json.JSONArray;
 import org.json.JSONException;

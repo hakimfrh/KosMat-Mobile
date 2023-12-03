@@ -5,21 +5,14 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.content.DialogInterface;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.Bundle;
-import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.KKDev.kosmat.bottomSheet.EditHargaKamarBottomSheet;
 import com.KKDev.kosmat.bottomSheet.PenggunaBottomSheet;
@@ -29,16 +22,16 @@ import com.KKDev.kosmat.fragment.DashboardFragment;
 import com.KKDev.kosmat.fragment.LaporanFragment;
 import com.KKDev.kosmat.fragment.ListKamarFragment;
 import com.KKDev.kosmat.fragment.PenyewaFragment;
+import com.KKDev.kosmat.listener.MainActivityUpdateListener;
 import com.KKDev.kosmat.model.User;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.navigation.NavigationBarView;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements MainActivityUpdateListener {
     BottomNavigationView bottomNavigationView;
 
     @Override
@@ -134,5 +127,21 @@ public class MainActivity extends AppCompatActivity {
         tambahPengeluaranBottomSheet.show(getSupportFragmentManager(), tambahPengeluaranBottomSheet.getTag());
     }
 
+    public MainActivityUpdateListener getListener(){
+        return this;
+    }
+    @Override
+    public void updateKamarList() {
+        bottomNavigationView.setSelectedItemId(R.id.kamar);
+    }
 
+    @Override
+    public void updateTransaksiList() {
+        bottomNavigationView.setSelectedItemId(R.id.laporan);
+    }
+
+    @Override
+    public void updatePenyewaList() {
+        bottomNavigationView.setSelectedItemId(R.id.penyewa);
+    }
 }

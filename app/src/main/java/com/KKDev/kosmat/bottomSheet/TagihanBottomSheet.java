@@ -8,9 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -21,8 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.KKDev.kosmat.Api;
 import com.KKDev.kosmat.R;
 import com.KKDev.kosmat.adapter.TagihanAdapter_inner;
-import com.KKDev.kosmat.adapter.TagihanCheckboxListener;
-import com.KKDev.kosmat.model.User;
+import com.KKDev.kosmat.listener.TagihanCheckboxListener;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -34,8 +31,6 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.util.List;
 
 public class TagihanBottomSheet extends BottomSheetDialogFragment implements TagihanCheckboxListener{
     JSONObject jsonObject;

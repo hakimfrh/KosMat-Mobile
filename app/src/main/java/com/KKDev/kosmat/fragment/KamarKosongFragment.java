@@ -1,10 +1,13 @@
 package com.KKDev.kosmat.fragment;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -14,8 +17,10 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.KKDev.kosmat.Api;
+import com.KKDev.kosmat.MainActivity;
 import com.KKDev.kosmat.R;
 import com.KKDev.kosmat.adapter.listKamarAdapter;
+import com.KKDev.kosmat.listener.MainActivityUpdateListener;
 import com.KKDev.kosmat.model.Kamar;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -35,6 +40,13 @@ import java.util.List;
 public class KamarKosongFragment extends Fragment {
 
     private RecyclerView recyclerView;
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == 88){
+            MainActivityUpdateListener listener = ((MainActivity)getContext()).getListener();
+            listener.updateKamarList();
+        }
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -44,6 +56,7 @@ public class KamarKosongFragment extends Fragment {
 
         String url = Api.urlKamarKosong;
         Context context = getContext();
+        Fragment fragment = this;
         RequestQueue queue = Volley.newRequestQueue(getContext());
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override
@@ -62,7 +75,7 @@ public class KamarKosongFragment extends Fragment {
                         recyclerView = view.findViewById(R.id.KamarKosongRecyclerView);
                         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-                        listKamarAdapter adapter = new listKamarAdapter(context, kamarList,false);
+                        listKamarAdapter adapter = new listKamarAdapter(context, fragment, kamarList,false);
                         recyclerView.setAdapter(adapter);
                     }
 

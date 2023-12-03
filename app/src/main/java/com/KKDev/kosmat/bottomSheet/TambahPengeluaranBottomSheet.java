@@ -16,7 +16,9 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 
 import com.KKDev.kosmat.Api;
+import com.KKDev.kosmat.MainActivity;
 import com.KKDev.kosmat.R;
+import com.KKDev.kosmat.listener.MainActivityUpdateListener;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -108,6 +110,8 @@ public class TambahPengeluaranBottomSheet extends BottomSheetDialogFragment {
                                     // Handle the response based on code and status
                                     if (status.equals("ok")) {
                                         bottomSheetDialogFragment.dismiss();
+                                        MainActivityUpdateListener listener = ((MainActivity)getContext()).getListener();
+                                        listener.updateTransaksiList();
                                     } else {
                                         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
                                         builder.setTitle("Error").setMessage(status).setPositiveButton("OK", new DialogInterface.OnClickListener() {

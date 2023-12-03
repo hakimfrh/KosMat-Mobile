@@ -23,11 +23,13 @@ import androidx.viewpager.widget.ViewPager;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.KKDev.kosmat.Api;
+import com.KKDev.kosmat.MainActivity;
 import com.KKDev.kosmat.R;
 import com.KKDev.kosmat.adapter.ViewPagerAdapter;
 import com.KKDev.kosmat.fragment.DummyFragment;
 import com.KKDev.kosmat.fragment.KamarKosongFragment;
 import com.KKDev.kosmat.fragment.KamarTerisiFragment;
+import com.KKDev.kosmat.listener.MainActivityUpdateListener;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -157,6 +159,8 @@ public class EditHargaKamarBottomSheet extends BottomSheetDialogFragment {
                                     // Handle the response based on code and status
                                     if (status.equals("ok")) {
                                        bottomSheetDialogFragment.dismiss();
+                                        MainActivityUpdateListener listener = ((MainActivity)getContext()).getListener();
+                                        listener.updateKamarList();
                                     } else {
                                         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
                                         builder.setTitle("Error").setMessage(status).setPositiveButton("OK", new DialogInterface.OnClickListener() {
