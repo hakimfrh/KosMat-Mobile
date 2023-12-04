@@ -23,6 +23,9 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import android.provider.MediaStore;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.transition.ChangeBounds;
 import android.transition.ChangeImageTransform;
 import android.transition.TransitionSet;
@@ -89,7 +92,7 @@ public class EditProfileFragment extends Fragment {
         User user = (User) bundle.getSerializable("user");
         img_editProfile = view.findViewById(R.id.edit_imgprofile);
 
-        profile_image= user.getImageBitmap();
+        profile_image = user.getImageBitmap();
         img_editProfile.setImageBitmap(profile_image);
 
         List<String> genderList = new ArrayList<>();
@@ -98,14 +101,14 @@ public class EditProfileFragment extends Fragment {
         genderList.add("Perempuan");
 
         LinearLayout tx_editprofile = view.findViewById(R.id.tx_editprofile);
-        TextInputLayout edit_txtx_Nama = view.findViewById(R.id.edit_txt_namaLengkap);
-        TextInputLayout edit_txtx_email = view.findViewById(R.id.edit_txt_nik);
+        TextInputLayout edit_txtx_nama = view.findViewById(R.id.edit_txt_namaLengkap);
+        TextInputLayout edit_txtx_nik = view.findViewById(R.id.edit_txt_nik);
         TextInputLayout edit_txtx_whatsapp = view.findViewById(R.id.edit_txt_whatsapp);
         TextInputLayout edit_txtx_username = view.findViewById(R.id.edit_txt_regUsername);
         TextInputLayout edit_txtx_password = view.findViewById(R.id.edit_txt_regPassword);
         TextInputLayout edit_txtx_tanggal = view.findViewById(R.id.edit_txt_tglLahir);
-        TextInputEditText edit_txt_nama = (TextInputEditText) edit_txtx_Nama.getEditText();
-        TextInputEditText edit_txt_nik = (TextInputEditText) edit_txtx_email.getEditText();
+        TextInputEditText edit_txt_nama = (TextInputEditText) edit_txtx_nama.getEditText();
+        TextInputEditText edit_txt_nik = (TextInputEditText) edit_txtx_nik.getEditText();
         TextInputEditText edit_txt_whatsapp = (TextInputEditText) edit_txtx_whatsapp.getEditText();
         TextInputEditText edit_txt_username = (TextInputEditText) edit_txtx_username.getEditText();
         TextInputEditText edit_txt_password = (TextInputEditText) edit_txtx_password.getEditText();
@@ -127,10 +130,129 @@ public class EditProfileFragment extends Fragment {
         sp_gender.setSelection(user.getGender().equals("Laki Laki") ? 1 : 2);
 
 
+        edit_txt_nama.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                String input = s.toString();
+                if (!input.matches("^[a-zA-Z\\s]*$")) {
+                    edit_txtx_nama.setError("Nama hanya boleh huruf");
+                } else {
+                    edit_txtx_nama.setError(null);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        edit_txt_nik.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                //tidak digunakan
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                String nik = s.toString();
+                if (nik.length() > 16) {
+                    edit_txtx_nik.setError("Masukkan NIK yang valid");
+                } else {
+                    edit_txtx_nik.setError(null);
+                }
+           /*
+                if (!email.contains("@") || !email.contains(".")) {
+                    edit_txt_nik.setError("masukkan email yang valid");
+                }
+            */
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                //tidak digunakan
+            }
+        });
+
+        edit_txt_whatsapp.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (edit_txt_whatsapp.length() > 13) {
+                    edit_txtx_whatsapp.setError("Masukan Nomor yang valid");
+                } else if (edit_txt_whatsapp.length() > 2) {
+                    if (!edit_txt_whatsapp.getText().toString().substring(0, 2).equals("08")) {
+                        edit_txtx_whatsapp.setError("Masukkan nomor yang valid");
+                    } else {
+                        edit_txtx_whatsapp.setError(null);
+                    }
+                } else {
+                    edit_txtx_whatsapp.setError(null);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
         edit_txt_tanggal.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (hasFocus) showDatePickerDialog(edit_txt_tanggal);
+            }
+        });
+
+        edit_txt_username.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (edit_txt_username.getText().length() > 16) {
+                    edit_txtx_username.setError("Username maksimal 16 karakter");
+                } else {
+                    edit_txtx_username.setError(null);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+        edit_txt_password.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                if (edit_txt_password.getText().length() < 8) {
+                    edit_txtx_password.setError("Password minimal 8 karakter");
+                } else if (edit_txt_password.getText().length() > 16) {
+                    edit_txtx_password.setError("Password maksimal 16 karakter");
+                } else {
+                    edit_txtx_password.setError(null);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
             }
         });
 
@@ -161,101 +283,137 @@ public class EditProfileFragment extends Fragment {
                 String privilege = "0";
                 String tglLahir = edit_txt_tanggal.getText().toString();
                 String gender = sp_gender.getSelectedItem().toString();
-
-                User newUser = new User(nik, username, password, nama, noWhatsapp, noWhatsappWali, privilege, tglLahir, gender, image);
-
-                String url = Api.urlUser;
-
-                RequestQueue requestQueue = Volley.newRequestQueue(getContext());
-                // Create JSON object
-                JSONObject jsonObject = new JSONObject();
-                try {
-                    jsonObject.put("method", "update");
-                    jsonObject.put("user_nik", user.getNik());
-                    jsonObject.put("nik", newUser.getNik());
-                    jsonObject.put("username", newUser.getUsername());
-                    jsonObject.put("password", newUser.getPassword());
-                    jsonObject.put("nama", newUser.getNama());
-                    jsonObject.put("no_whatsapp", newUser.getNo_whatsapp());
-                    jsonObject.put("no_whatsapp_wali", newUser.getNo_whatsapp_wali());
-                    jsonObject.put("privilege", newUser.getPrivilege());
-                    jsonObject.put("tgl_lahir", newUser.getTgl_lahir());
-                    jsonObject.put("gender", newUser.getGender());
-
-                    String encodedImage = Base64.encodeToString(newUser.getImageByte(), Base64.DEFAULT);
-                    jsonObject.put("image", encodedImage);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                    android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(getActivity());
-                    builder.setTitle("Error").setMessage(e.toString()).setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                        }
-                    }).show();
-                    return;
+                boolean isValid = true;
+                if (nik.length() != 16) {
+                    edit_txtx_nik.setError("Masukkan NIK yang valid");
+                    isValid = false;
                 }
-                JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, jsonObject,
-                        new Response.Listener<JSONObject>() {
+                if (TextUtils.isEmpty(nama)) {
+                    edit_txtx_nama.setError("Tidak boleh kosong");
+                    isValid = false;
+                }
+                if (TextUtils.isEmpty(nik)) {
+                    edit_txtx_nik.setError("Tidak boleh kosong");
+                    isValid = false;
+                }
+                if (TextUtils.isEmpty(noWhatsapp)) {
+                    edit_txtx_whatsapp.setError("Tidak boleh kosong");
+                    isValid = false;
+                }
+                if (TextUtils.isEmpty(tglLahir)) {
+                    edit_txtx_tanggal.setError("Tidak boleh kosong");
+                    isValid = false;
+                }
+                if (TextUtils.isEmpty(username)) {
+                    edit_txtx_username.setError("Tidak boleh kosong");
+                    isValid = false;
+                }
+                if (TextUtils.isEmpty(password)) {
+                    edit_txtx_password.setError("Tidak boleh kosong");
+                    isValid = false;
+                }
+                if (gender.equals("Jenis Kelamin")) {
+                    isValid = false;
+                }
+                if (!(edit_txtx_nama.getError() == null) || !(edit_txtx_nik.getError() == null) || !(edit_txtx_whatsapp.getError() == null) || !(edit_txtx_tanggal.getError() == null) || !(edit_txtx_username.getError() == null) || !(edit_txtx_password.getError() == null)) {
+                    isValid = false;
+                }
+                if (isValid) {
+                    User newUser = new User(nik, username, password, nama, noWhatsapp, noWhatsappWali, privilege, tglLahir, gender, image);
+
+                    String url = Api.urlUser;
+
+                    RequestQueue requestQueue = Volley.newRequestQueue(getContext());
+                    // Create JSON object
+                    JSONObject jsonObject = new JSONObject();
+                    try {
+                        jsonObject.put("method", "update");
+                        jsonObject.put("user_nik", user.getNik());
+                        jsonObject.put("nik", newUser.getNik());
+                        jsonObject.put("username", newUser.getUsername());
+                        jsonObject.put("password", newUser.getPassword());
+                        jsonObject.put("nama", newUser.getNama());
+                        jsonObject.put("no_whatsapp", newUser.getNo_whatsapp());
+                        jsonObject.put("no_whatsapp_wali", newUser.getNo_whatsapp_wali());
+                        jsonObject.put("privilege", newUser.getPrivilege());
+                        jsonObject.put("tgl_lahir", newUser.getTgl_lahir());
+                        jsonObject.put("gender", newUser.getGender());
+
+                        String encodedImage = Base64.encodeToString(newUser.getImageByte(), Base64.DEFAULT);
+                        jsonObject.put("image", encodedImage);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                        android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(getActivity());
+                        builder.setTitle("Error").setMessage(e.toString()).setPositiveButton("OK", new DialogInterface.OnClickListener() {
                             @Override
-                            public void onResponse(JSONObject response) {
-                                try {
-                                    int code = response.getInt("code");
-                                    String status = response.getString("status");
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        }).show();
+                        return;
+                    }
+                    JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, jsonObject,
+                            new Response.Listener<JSONObject>() {
+                                @Override
+                                public void onResponse(JSONObject response) {
+                                    try {
+                                        int code = response.getInt("code");
+                                        String status = response.getString("status");
 
-                                    // Handle the response based on code and status
-                                    if (status.equals("ok")) {
-                                        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("login", getContext().MODE_PRIVATE);
-                                        SharedPreferences.Editor editor = sharedPreferences.edit();
-                                        editor.putString("username", username);
-                                        editor.putString("password", password);
-                                        editor.putBoolean("editLogin", true);
-                                        editor.apply();
+                                        // Handle the response based on code and status
+                                        if (status.equals("ok")) {
+                                            SharedPreferences sharedPreferences = getActivity().getSharedPreferences("login", getContext().MODE_PRIVATE);
+                                            SharedPreferences.Editor editor = sharedPreferences.edit();
+                                            editor.putString("username", username);
+                                            editor.putString("password", password);
+                                            editor.putBoolean("editLogin", true);
+                                            editor.apply();
 
-                                        Intent intent = new Intent(getActivity(), LogRegActivity.class);
-                                        startActivity(intent);
-                                        getActivity().finish();
+                                            Intent intent = new Intent(getActivity(), LogRegActivity.class);
+                                            startActivity(intent);
+                                            getActivity().finish();
 
 
-                                    } else {
+                                        } else {
+                                            android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(getActivity());
+                                            builder.setTitle("Error").setMessage(status).setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog, int which) {
+                                                    dialog.dismiss();
+                                                }
+                                            }).show();
+                                        }
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
                                         android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(getActivity());
-                                        builder.setTitle("Error").setMessage(status).setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                        builder.setTitle("Error").setMessage(e.toString()).setPositiveButton("OK", new DialogInterface.OnClickListener() {
                                             @Override
                                             public void onClick(DialogInterface dialog, int which) {
                                                 dialog.dismiss();
                                             }
                                         }).show();
                                     }
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
+                                }
+                            },
+                            new Response.ErrorListener() {
+
+                                @Override
+                                public void onErrorResponse(VolleyError error) {
+                                    // Handle error
                                     android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(getActivity());
-                                    builder.setTitle("Error").setMessage(e.toString()).setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                    builder.setTitle("Error").setMessage(error.toString()).setPositiveButton("OK", new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
                                             dialog.dismiss();
                                         }
                                     }).show();
+
                                 }
-                            }
-                        },
-                        new Response.ErrorListener() {
+                            });
 
-                            @Override
-                            public void onErrorResponse(VolleyError error) {
-                                // Handle error
-                                android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(getActivity());
-                                builder.setTitle("Error").setMessage(error.toString()).setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        dialog.dismiss();
-                                    }
-                                }).show();
-
-                            }
-                        });
-
-                // Add the request to the RequestQueue
-                requestQueue.add(jsonObjectRequest);
+                    // Add the request to the RequestQueue
+                    requestQueue.add(jsonObjectRequest);
+                }
             }
         });
 

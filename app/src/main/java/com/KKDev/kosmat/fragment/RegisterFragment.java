@@ -193,9 +193,7 @@ public class RegisterFragment extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (txt_username.getText().length() < 8) {
-                    txtx_username.setError("Username minimal 8 karakter");
-                } else if (txt_username.getText().length() > 16) {
+                if (txt_username.getText().length() > 16) {
                     txtx_username.setError("Username maksimal 16 karakter");
                 } else {
                     txtx_username.setError(null);
@@ -216,10 +214,10 @@ public class RegisterFragment extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-//                if (txt_password.getText().length() < 8) {
-//                    txtx_password.setError("Username minimal 8 karater");
-                if (txt_password.getText().length() > 16) {
-                    txtx_password.setError("Username maksimal 16 karakter");
+                if (txt_password.getText().length() < 8) {
+                    txtx_password.setError("Password minimal 8 karakter");
+                } else if (txt_password.getText().length() > 16) {
+                    txtx_password.setError("Password maksimal 16 karakter");
                 } else {
                     txtx_password.setError(null);
                 }

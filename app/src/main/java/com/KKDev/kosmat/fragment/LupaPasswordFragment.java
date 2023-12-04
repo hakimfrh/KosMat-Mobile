@@ -51,8 +51,10 @@ public class LupaPasswordFragment extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (s.length() < 4) {
-                    txtx_password_1.setError("harus lebih dari 4 karakter");
+                if (txt_password_1.getText().length() < 8) {
+                    txtx_password_1.setError("Password minimal 8 karakter");
+                } else if (txt_password_1.getText().length() > 16) {
+                    txtx_password_1.setError("Password maksimal 16 karakter");
                 } else {
                     txtx_password_1.setError(null);
                 }
@@ -72,8 +74,10 @@ public class LupaPasswordFragment extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (s.length() < 4) {
-                    txtx_password_2.setError("harus lebih dari 4 karakter");
+                if (txt_password_2.getText().length() < 8) {
+                    txtx_password_2.setError("Password minimal 8 karakter");
+                } else if (txt_password_2.getText().length() > 16) {
+                    txtx_password_2.setError("Password maksimal 16 karakter");
                 } else {
                     txtx_password_2.setError(null);
                 }
