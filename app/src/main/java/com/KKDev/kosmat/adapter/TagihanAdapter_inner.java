@@ -1,6 +1,7 @@
 package com.KKDev.kosmat.adapter;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,9 +10,12 @@ import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.DialogFragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.KKDev.kosmat.R;
+import com.KKDev.kosmat.bottomSheet.ImageFragment;
 import com.KKDev.kosmat.listener.TagihanCheckboxListener;
 
 import org.json.JSONArray;
@@ -43,11 +47,18 @@ public class TagihanAdapter_inner extends RecyclerView.Adapter<TagihanAdapter_in
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+
         try {
             JSONObject data = jsonArray.getJSONObject(position);
             tagihan_list.add(false);
             holder.tx_tagihan_jumlah.setText("Rp. " + data.getString("jumlah"));
             holder.tx_tagihan_bulan.setText(nameBulan(data.getString("tenggat")));
+            String bukti = data.getString("bukti_pembayaran");
+            if (bukti.isEmpty() || bukti == "null") {
+                holder.tx_lihatBukti.setVisibility(View.INVISIBLE);
+            } else {
+                holder.tx_lihatBukti.setVisibility(View.VISIBLE);
+            }
         } catch (JSONException e) {
             throw new RuntimeException(e);
         }
@@ -64,12 +75,32 @@ public class TagihanAdapter_inner extends RecyclerView.Adapter<TagihanAdapter_in
                 holder.checkBox.performClick();
             }
         });
+        holder.tx_lihatBukti.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (holder.tx_lihatBukti.getVisibility() == View.VISIBLE) {
+                    try {
+                        JSONObject data = jsonArray.getJSONObject(holder.getAdapterPosition());
+                        String bukti = data.getString("bukti_pembayaran");
+                        DialogFragment imageFragment = new ImageFragment();
+                        Bundle bundle = new Bundle();
+                        bundle.putString("image", bukti);
+                        bundle.putString("image", bukti);
+                        imageFragment.setArguments(bundle);
+                        imageFragment.show(((AppCompatActivity) context).getSupportFragmentManager(), "showBukti");
+                    } catch (JSONException e) {
+                        throw new RuntimeException(e);
+                    }
+
+                }
+            }
+        });
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         CheckBox checkBox;
-        TextView tx_tagihan_bulan, tx_tagihan_jumlah;
+        TextView tx_tagihan_bulan, tx_tagihan_jumlah, tx_lihatBukti;
 
 
         public ViewHolder(@NonNull View itemView) {
@@ -77,6 +108,7 @@ public class TagihanAdapter_inner extends RecyclerView.Adapter<TagihanAdapter_in
             checkBox = itemView.findViewById(R.id.checkBox);
             tx_tagihan_bulan = itemView.findViewById(R.id.tx_tagihan_bulan);
             tx_tagihan_jumlah = itemView.findViewById(R.id.tx_tagihan_jumlah);
+            tx_lihatBukti = itemView.findViewById(R.id.tx_lihat_bukti);
             //itemView.setOnClickListener(this);
         }
 
@@ -136,7 +168,7 @@ public class TagihanAdapter_inner extends RecyclerView.Adapter<TagihanAdapter_in
             result = "Desember";
         }
 
-        return tanggal+" "+result + " " + tahun;
+        return tanggal + " " + result + " " + tahun;
     }
 
 }

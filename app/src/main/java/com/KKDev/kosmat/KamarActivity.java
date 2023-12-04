@@ -159,6 +159,7 @@ public class KamarActivity extends AppCompatActivity {
         } else {
             tx_header.setText("Tambah Kamar");
             btn_hapus.setVisibility(View.GONE);
+            btn_tagih.setVisibility(View.GONE);
         }
 
         cb_disewa.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -246,7 +247,14 @@ public class KamarActivity extends AppCompatActivity {
         btn_simpan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mode.equals("edit")) {
+                String desc = txt_desc_kamar.getText().toString();
+                String id_kamar = txt_no_kamar.getText().toString();
+                String harga = txt_harga_kamar.getText().toString();
+                if(id_kamar.isEmpty() || harga.isEmpty()){
+                    //if(desc.isEmpty())txtx_desc.setError("Tidak Boleh Kosong");
+                    if(id_kamar.isEmpty())txtx_no_kamar.setError("Tidak boleh kosong");
+                    if(harga.isEmpty())txtx_harga_kamar.setError("Tidak boleh kosong");
+                } else if (mode.equals("edit")) {
 
                     // Create JSON object
                     JSONObject jsonObject = new JSONObject();

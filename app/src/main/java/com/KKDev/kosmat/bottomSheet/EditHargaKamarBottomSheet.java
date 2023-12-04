@@ -4,6 +4,8 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -88,6 +90,22 @@ public class EditHargaKamarBottomSheet extends BottomSheetDialogFragment {
                     break;
             }
         }).attach();
+        txt_harga.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                txtx_harga.setError(null);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
 
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
@@ -130,78 +148,81 @@ public class EditHargaKamarBottomSheet extends BottomSheetDialogFragment {
                     case 2:
                         method = "kurangHarga";
                 }
-
-                String url = Api.urlKamar;
-                JSONObject jsonObject = new JSONObject();
-                try {
-                    jsonObject.put("method", method);
-                    jsonObject.put("harga", txt_harga.getText().toString());
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                    AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                    builder.setTitle("Error").setMessage(e.toString()).setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                        }
-                    }).show();
-                    return;
-                }
-                RequestQueue requestQueue = Volley.newRequestQueue(getContext());
-                JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, jsonObject,
-                        new Response.Listener<JSONObject>() {
+                String harga = txt_harga.getText().toString();
+                if(harga.isEmpty()){
+                    txtx_harga.setError("Masukkan jumlah");
+                }else {
+                    String url = Api.urlKamar;
+                    JSONObject jsonObject = new JSONObject();
+                    try {
+                        jsonObject.put("method", method);
+                        jsonObject.put("harga", harga);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                        builder.setTitle("Error").setMessage(e.toString()).setPositiveButton("OK", new DialogInterface.OnClickListener() {
                             @Override
-                            public void onResponse(JSONObject response) {
-                                try {
-                                    int code = response.getInt("code");
-                                    String status = response.getString("status");
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        }).show();
+                        return;
+                    }
+                    RequestQueue requestQueue = Volley.newRequestQueue(getContext());
+                    JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, jsonObject,
+                            new Response.Listener<JSONObject>() {
+                                @Override
+                                public void onResponse(JSONObject response) {
+                                    try {
+                                        int code = response.getInt("code");
+                                        String status = response.getString("status");
 
-                                    // Handle the response based on code and status
-                                    if (status.equals("ok")) {
-                                       bottomSheetDialogFragment.dismiss();
-                                        Toast.makeText(getContext(), "Tarif diperbarui", Toast.LENGTH_SHORT).show();
-                                        MainActivityUpdateListener listener = ((MainActivity)getContext()).getListener();
-                                        listener.updateKamarList();
-                                    } else {
+                                        // Handle the response based on code and status
+                                        if (status.equals("ok")) {
+                                            bottomSheetDialogFragment.dismiss();
+                                            Toast.makeText(getContext(), "Tarif diperbarui", Toast.LENGTH_SHORT).show();
+                                            MainActivityUpdateListener listener = ((MainActivity) getContext()).getListener();
+                                            listener.updateKamarList();
+                                        } else {
+                                            AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                                            builder.setTitle("Error").setMessage(status).setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog, int which) {
+                                                    dialog.dismiss();
+                                                }
+                                            }).show();
+                                        }
+
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
                                         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                                        builder.setTitle("Error").setMessage(status).setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                        builder.setTitle("Error").setMessage(e.toString()).setPositiveButton("OK", new DialogInterface.OnClickListener() {
                                             @Override
                                             public void onClick(DialogInterface dialog, int which) {
                                                 dialog.dismiss();
                                             }
                                         }).show();
                                     }
+                                }
+                            },
+                            new Response.ErrorListener() {
 
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
+                                @Override
+                                public void onErrorResponse(VolleyError error) {
+                                    // Handle error
                                     AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                                    builder.setTitle("Error").setMessage(e.toString()).setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                    builder.setTitle("Error").setMessage(error.toString()).setPositiveButton("OK", new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
                                             dialog.dismiss();
                                         }
                                     }).show();
                                 }
-                            }
-                        },
-                        new Response.ErrorListener() {
+                            });
 
-                            @Override
-                            public void onErrorResponse(VolleyError error) {
-                                // Handle error
-                                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                                builder.setTitle("Error").setMessage(error.toString()).setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        dialog.dismiss();
-                                    }
-                                }).show();
-                            }
-                        });
-
-                // Add the request to the RequestQueue
-                requestQueue.add(jsonObjectRequest);
-
+                    // Add the request to the RequestQueue
+                    requestQueue.add(jsonObjectRequest);
+                }
             }
         });
         return view;

@@ -34,6 +34,9 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.gson.Gson;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class PenggunaBottomSheet extends BottomSheetDialogFragment {
     User user;
     BottomSheetDialogFragment bottomSheetDialogFragment = this;
@@ -64,6 +67,38 @@ public class PenggunaBottomSheet extends BottomSheetDialogFragment {
         tx_whatsapp.setText(user.getNo_whatsapp());
         tx_whatsappWali.setText(user.getNo_whatsapp_wali());
 
+        RequestQueue requestQueue = Volley.newRequestQueue(getContext());
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, Api.urlKamar + "?method=getIdKamar&nik=" + user.getNik(), new Response.Listener() {
+            @Override
+            public void onResponse(Object response) {
+                try {
+                    JSONObject object = new JSONObject(response.toString());
+                    String status = object.getString("status");
+                    if(status.equals("ok")){
+                        String id_kamar = object.getString("id_kamar");
+                        if(!id_kamar.isEmpty()) tx_kamar.setText("Kamar: "+id_kamar);
+                        else tx_kamar.setText("Kamar: ~");
+                    }else tx_kamar.setText("Kamar: ~");
+                } catch (JSONException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                builder.setTitle("Eror").setMessage(error.toString()).setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // Dismiss the dialog
+                        dialog.dismiss();
+                    }
+                }).show();
+            }
+        });
+        requestQueue.add(stringRequest);
+
+
         btn_hapus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -73,7 +108,7 @@ public class PenggunaBottomSheet extends BottomSheetDialogFragment {
                     public void onClick(DialogInterface dialog, int which) {
                         // Dismiss the dialog
                         dialog.dismiss();
-                        RequestQueue requestQueue = Volley.newRequestQueue(getContext());
+//                        RequestQueue requestQueue = Volley.newRequestQueue(getContext());
                         StringRequest stringRequest = new StringRequest(Request.Method.DELETE, Api.urlUser + "?nik=" + user.getNik(), new Response.Listener() {
                             @Override
                             public void onResponse(Object response) {

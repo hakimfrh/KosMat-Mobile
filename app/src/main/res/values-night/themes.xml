@@ -3,6 +3,7 @@
     <style name="Base.Theme.KosMat" parent="Theme.Material3.DayNight.NoActionBar">
 <!--        <item name="colorPrimary">@color/primary</item>-->
         <!-- Customize your dark theme here. -->
-        <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
+        <item name="colorPrimary">@color/primary</item>
+        <item name="android:textViewStyle">@style/PoppinsTextViewStyle</item>
     </style>
 </resources>

@@ -7,6 +7,8 @@ import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -27,6 +29,8 @@ import com.KKDev.kosmat.R;
 import com.KKDev.kosmat.adapter.LaporanAdapter;
 import com.KKDev.kosmat.adapter.TagihanAdapter;
 import com.KKDev.kosmat.adapter.TransaksiAdapter;
+import com.KKDev.kosmat.bottomSheet.ImageFragment;
+import com.KKDev.kosmat.bottomSheet.KeuntunganDescFragment;
 import com.KKDev.kosmat.model.User;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -51,6 +55,7 @@ public class DashboardFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_dashboard, container, false);
 
         ImageView img_profile = view.findViewById(R.id.img_profile);
+        ImageView img_info = view.findViewById(R.id.img_info);
         TextView tx_namaUser = view.findViewById(R.id.tx_dsNama);
         TextView tx_bulanIni = view.findViewById(R.id.tx_bulanIni);
         TextView tx_keuntungan = view.findViewById(R.id.tx_keuntungan);
@@ -70,6 +75,14 @@ public class DashboardFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 openDestinationFragmentWithTransitions(view, new EditProfileFragment(), user);
+            }
+        });
+        img_info.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DialogFragment keuntunganDescFragment = new KeuntunganDescFragment();
+                keuntunganDescFragment.show(((AppCompatActivity) getContext()).getSupportFragmentManager(), "showKeuntungan");
+
             }
         });
         tx_lihatSemua.setOnClickListener(new View.OnClickListener() {

@@ -1,12 +1,16 @@
 package com.KKDev.kosmat;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.media.Image;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -25,8 +29,11 @@ import com.google.gson.Gson;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.Base64;
+
 public class desc_keluhan_Activity extends AppCompatActivity {
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,7 +56,12 @@ public class desc_keluhan_Activity extends AppCompatActivity {
             dateTime = data.getString("tanggal");
             isiKeluhan = data.getString("keterangan");
             image = data.getString("image_data");
-            if (!image.isEmpty()) tx_tidakGambar.setVisibility(View.GONE);
+            if (!image.isEmpty()) {
+                tx_tidakGambar.setVisibility(View.GONE);
+                byte[] byteArray = Base64.getDecoder().decode(image);
+                Bitmap bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
+                img_keluhan.setImageBitmap(bitmap);
+            }
             tanggal = dateTime.split(" ")[0];
             waktu = dateTime.split(" ")[1];
         } catch (JSONException e) {

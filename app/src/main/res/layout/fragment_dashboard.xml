@@ -146,6 +146,16 @@
                     app:layout_constraintStart_toStartOf="@+id/tx_dsDesc"
                     app:layout_constraintTop_toBottomOf="@+id/tx_dsDesc" />
 
+                <ImageView
+                    android:id="@+id/img_info"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="24dp"
+                    android:src="@drawable/icon_info"
+                    app:layout_constraintBottom_toBottomOf="@+id/tx_keuntungan"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/tx_keuntungan" />
+
                 <TextView
                     android:id="@+id/textView5"
                     android:layout_width="wrap_content"

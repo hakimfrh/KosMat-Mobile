@@ -92,7 +92,7 @@
                 android:id="@+id/tx_bs_kamar"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="Kamar: 1"
+                android:text="Kamar: "
                 android:textColor="@color/black"
                 app:layout_constraintEnd_toEndOf="@+id/tx_bs_nik"
                 app:layout_constraintStart_toStartOf="@+id/tx_bs_nik"
